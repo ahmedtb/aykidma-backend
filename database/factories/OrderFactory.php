@@ -62,10 +62,13 @@ class OrderFactory extends Factory
             "cost" => "500 دينار",
             "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
         ];
+
+        // to use the same offer in service factory and offer factory, it needs to be defined sperately
+        // $offer = \App\Models\Offer::factory()->create();
         return [
             //
-            'service_id' => \App\Models\Service::factory()->create(),
-            'offer_id' => \App\Models\Offer::factory()->create(),
+            'service_id' => \App\Models\Service::factory()->create()->id,
+            // 'offer_id' => $offer->id,
             'user_id' => \App\Models\User::factory()->create(),
             'status' => 'done',
             'fields' => json_encode($fields),

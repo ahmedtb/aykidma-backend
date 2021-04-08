@@ -22,8 +22,8 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            "service_provider_id" => \App\Models\ServiceProvider::factory()->create(),
-            'offer_id' => \App\Models\Offer::factory()->create(),
+            "service_provider_id" => \App\Models\ServiceProvider::factory()->create()->id,
+            'offer_id' => \App\Models\Offer::factory()->create()->id,
             "meta_data" => json_encode([
                 "cost" => "500 دينار",
                 "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
