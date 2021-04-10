@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('status');
             $table->json('fields');
             // meta_data should include informations like (location, review, cost, )
-            $table->json('meta_data');
+            $table->json('meta_data')->nullable();
             $table->timestamps();
         });
     }

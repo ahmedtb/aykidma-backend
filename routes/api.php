@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Http\Controllers\OffersController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ServicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('offers', [OffersController::class,'allOffers']);
+Route::get('service/{offer_id}', [ServicesController::class,'getOfferServices']);
+Route::get('orders/{service_id}', [OrdersController::class,'getServiceOrders']);
+
+Route::post('order', [OrdersController::class,'create']);
+
