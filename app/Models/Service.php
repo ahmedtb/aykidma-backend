@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\ServicesController;
+use App\casts\Json;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +11,7 @@ class Service extends Model
     use HasFactory;
 
     protected $casts = [
-        'meta_data' => 'object',
+        'meta_data' => Json::class,
     ];
 
     public function ServiceProvider() {

@@ -71,8 +71,8 @@ class OrderFactory extends Factory
             // 'offer_id' => $offer->id,
             'user_id' => \App\Models\User::factory()->create(),
             'status' => 'done',
-            'fields' => json_encode($fields),
-            'meta_data' => json_encode($meta_data)
+            'fields' => ($fields),
+            'meta_data' => ($meta_data)
         ];
     }
 }

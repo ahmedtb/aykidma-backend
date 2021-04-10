@@ -26,7 +26,7 @@ class AdminFactory extends Factory
         ];
         return [
             "name" => $this->faker->name(),
-            "meta_data" => json_encode([
+            "meta_data" => ([
                 "description" => $this->faker->sentence(),
                 "policy" => "admin"
             ])

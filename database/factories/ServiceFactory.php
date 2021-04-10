@@ -24,10 +24,10 @@ class ServiceFactory extends Factory
         return [
             "service_provider_id" => \App\Models\ServiceProvider::factory()->create()->id,
             'offer_id' => \App\Models\Offer::factory()->create()->id,
-            "meta_data" => json_encode([
+            "meta_data" => [
                 "cost" => "500 دينار",
                 "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
-            ]),
+            ],
             "rating" => $this->faker->numberBetween(0,5)
         ];
     }

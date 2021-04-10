@@ -12,7 +12,7 @@ class Offer extends Model
 
     protected $casts = [
         'meta_data' => Json::class,
-        'fields' => 'object'
+        'fields' =>  Json::class
     ];
 
     
