@@ -60,7 +60,10 @@ class OrderFactory extends Factory
         $meta_data = [
             "review" => ["comment" => "هذا تعليق مزور", "rating" => 3.5],
             "cost" => "500 دينار",
-            "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
+            "location" => [
+                "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
+                "name" => "طرابلس"
+            ]
         ];
 
         // to use the same offer in service factory and offer factory, it needs to be defined sperately

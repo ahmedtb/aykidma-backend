@@ -18,9 +18,9 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    public function index()
     {
-        
+        return Order::with(['service.offer','service.ServiceProvider'])->get();
     }
 
     /**

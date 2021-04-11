@@ -16,4 +16,8 @@ class Order extends Model
         'meta_data' => Json::class,
         'fields' =>  Json::class
     ];
+
+    public function service() {
+        return $this->belongsTo(Service::class);
+    }
 }

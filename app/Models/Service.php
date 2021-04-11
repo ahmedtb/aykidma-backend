@@ -17,4 +17,8 @@ class Service extends Model
     public function ServiceProvider() {
         return $this->belongsTo(ServiceProvider::class);
     }
+
+    public function offer() {
+        return $this->belongsTo(Offer::class);
+    }
 }
