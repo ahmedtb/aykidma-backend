@@ -2,31 +2,35 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class offersTests extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    
+    public function test_retriveAllOffers()
     {
-        $response = $this->get('/');
+        $response = $this->getJson('api/offers');
 
-        $response->assertStatus(200);
-    }
+        // get random sample from response array to assert on
+        $sample_index = random_int(0,sizeof($response->json()) - 1);
 
-    /**
-     * @return void
-     */
-    public function retriveAllOffers()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $response
+            ->assertJson(
+                fn (AssertableJson $json) =>
+                $json->has(
+                    $sample_index,
+                    fn (AssertableJson $sample) =>
+                    $sample->has('id')
+                        ->whereType('id','integer')
+                        ->has('title')
+                        ->has('description')
+                        ->whereType('fields','array')
+                        ->has('meta_data.image')
+                        ->etc()
+                )
+            );
     }
 }
