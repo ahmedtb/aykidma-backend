@@ -2,15 +2,27 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
+use App\Models\Order;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 
 class servicesTest extends TestCase
 {
+    use DatabaseMigrations;
 
+
+    protected function setUp(): void
+    {
+
+        parent::setup();
+
+        Order::factory()->count(10)->create();
+
+    }
     public function test_check_services_retrieved_by_offer_id()
     {
         $response = $this->getJson('api/service/1');

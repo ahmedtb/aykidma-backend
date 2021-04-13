@@ -12,6 +12,9 @@ class Service extends Model
 
     protected $casts = [
         'meta_data' => Json::class,
+        'service_provider_id' => 'integer',
+        'offer_id' => 'integer',
+
     ];
 
     public function ServiceProvider() {

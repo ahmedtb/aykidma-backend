@@ -2,14 +2,27 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
+use App\Models\Order;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class offersTests extends TestCase
 {
-    
+    use DatabaseMigrations;
+
+
+    protected function setUp(): void
+    {
+
+        parent::setup();
+
+        Order::factory()->count(10)->create();
+
+    }
+
     public function test_retriveAllOffers()
     {
         $response = $this->getJson('api/offers');

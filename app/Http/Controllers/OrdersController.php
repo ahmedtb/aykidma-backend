@@ -31,10 +31,14 @@ class OrdersController extends Controller
     public function create(Request $request)
     {
         $validated = $request->validate([
-            'service_id' => 'required',
-            'user_id' => 'required',
-            'fields' => 'required',
+            'service_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'fields' => ['required', 'array'],
+            'fields.*.type' => 'string|required',
+            'fields.*.label' => 'string|required',
+            'fields.*.value' => 'string|required',
         ]);
+
         Order::create([
             'service_id' => $request->service_id,
             'user_id' => $request->user_id,

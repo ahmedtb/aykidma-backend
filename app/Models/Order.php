@@ -14,10 +14,13 @@ class Order extends Model
 
     protected $casts = [
         'meta_data' => Json::class,
-        'fields' =>  Json::class
+        'fields' =>  Json::class,
+        'service_id' => 'integer',
+        'user_id' => 'integer',
     ];
 
-    public function service() {
+    public function service()
+    {
         return $this->belongsTo(Service::class);
     }
 }
