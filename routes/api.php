@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ServicesController;
@@ -18,9 +19,10 @@ use App\Http\Controllers\ServicesController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/login', [AuthController::class,'login']);
+Route::delete('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum'); 
+
+Route::get('user', [AuthController::class,'user'])->middleware('auth:sanctum');
 
 Route::get('offers', [OffersController::class,'allOffers']);
 
@@ -28,5 +30,5 @@ Route::get('service/{offer_id}', [ServicesController::class,'getOfferServices'])
 
 Route::get('orders', [OrdersController::class,'index']);
 Route::get('orders/{service_id}', [OrdersController::class,'getServiceOrders']);
-Route::post('orders', [OrdersController::class,'create']);
+Route::post('orders', [OrdersController::class,'create'])->middleware('auth:sanctum');
 

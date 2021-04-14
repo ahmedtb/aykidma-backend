@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Order;
+use App\Models\Service;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,7 +22,6 @@ class ordersTest extends TestCase
         parent::setup();
 
         Order::factory()->count(10)->create();
-
     }
 
     public function test_check_all_orders_in_database()
@@ -82,6 +83,10 @@ class ordersTest extends TestCase
 
     public function test_validating_a_valid_creating_order_request()
     {
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // testing valid request
         $fields = [
             [
@@ -95,19 +100,23 @@ class ordersTest extends TestCase
                 "value" => "مفروشات"
             ],
         ];
-        $response = $this->postJson('api/orders',[
+        $response = $this->postJson('api/orders', [
             'service_id' => 1,
-            'user_id' => 1,
+
             'fields' => $fields
         ]);
 
 
         $response->assertStatus(200);
-
     }
 
     public function test_validating_a_invalid_creating_order_request_without_requeird_field_properties()
     {
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+
         $fields = [
             [
                 "label" => "اختر المنطقة",
@@ -120,9 +129,9 @@ class ordersTest extends TestCase
                 "value" => "مفروشات"
             ],
         ];
-        $response = $this->postJson('api/orders',[
+        $response = $this->postJson('api/orders', [
             'service_id' => 1,
-            'user_id' => 1,
+
             'fields' => $fields
         ]);
 
@@ -140,14 +149,32 @@ class ordersTest extends TestCase
                 "value" => "مفروشات"
             ],
         ];
-        $response = $this->postJson('api/orders',[
+        $response = $this->postJson('api/orders', [
             'service_id' => 1,
-            'user_id' => 1,
+
             'fields' => $fields
         ]);
 
         $response->assertStatus(422);
 
+        $fields = [
+            [
+                "label" => "اختر المنطقة",
+                "type" => "options",
+                "value" => null
+            ],
+            [
+                "label" => "اختر نوع الغسيل",
+                "type" => "options",
+                "value" => null
+            ],
+        ];
+        $response = $this->postJson('api/orders', [
+            'service_id' => 1,
+            'fields' => $fields
+        ]);
+
+        $response->assertStatus(422);
     }
 
     public function test_validating_a_invalid_creating_order_request_without__valid_service_id_or_user_id()
@@ -164,28 +191,68 @@ class ordersTest extends TestCase
                 "value" => "مفروشات"
             ],
         ];
-        $response = $this->postJson('api/orders',[
-            // 'service_id' => 1,
-            'user_id' => 1,
-            'fields' => $fields
-        ]);
-
-        $response->assertStatus(422);
-
-        $response = $this->postJson('api/orders',[
-            'service_id' => 'string',
-            'user_id' => 1,
-            'fields' => $fields
-        ]);
-
-        $response->assertStatus(422);
-
-        $response = $this->postJson('api/orders',[
+        $response = $this->postJson('api/orders', [
             'service_id' => 1,
-            'user_id' => 'invalid',
+            'fields' => $fields
+        ]);
+        $response->assertUnauthorized();
+
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $response = $this->postJson('api/orders', [
+            // 'service_id' => 1,
+            'fields' => $fields
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->postJson('api/orders', [
+            'service_id' => 'string',
+            'fields' => $fields
+        ]);
+        $response->assertStatus(422);
+    }
+
+    public function test_order_fields_should_match_service_offer_fields()
+    {
+        $service = Service::factory()->create();
+        $offer = $service->offer;
+        $fields = $offer->fields;
+
+        // with values set to string
+        foreach ($fields as $key => $field) {
+            $fields[$key]['value'] = "Some value";
+        }
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('api/orders', [
+            'service_id' => 1,
             'fields' => $fields
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(200);
+
+
+        // when fields does not match offer fields
+        $fields = [
+            [
+                "label" => "اختر المنطقة",
+                "type" => "options",
+                "value" => "حي السلام"
+            ],
+            [
+                "label" => "اختر نوع الغسيل",
+                "type" => "options",
+                "value" => "مفروشات"
+            ],
+        ];
+
+        $response = $this->postJson('api/orders', [
+            'service_id' => 1,
+            'fields' => $fields
+        ]);
+
+        $response->assertStatus(400);
     }
 }

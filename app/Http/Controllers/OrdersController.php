@@ -32,7 +32,6 @@ class OrdersController extends Controller
     {
         $validated = $request->validate([
             'service_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'fields' => ['required', 'array'],
             'fields.*.type' => 'string|required',
             'fields.*.label' => 'string|required',
@@ -41,7 +40,7 @@ class OrdersController extends Controller
 
         Order::create([
             'service_id' => $request->service_id,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'fields' => $request->fields,
             'status' => 'pending'
         ]);
