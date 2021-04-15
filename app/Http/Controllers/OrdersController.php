@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class OrdersController extends Controller
 {
@@ -30,13 +32,25 @@ class OrdersController extends Controller
      */
     public function create(Request $request)
     {
-        $validated = $request->validate([
-            'service_id' => 'required|integer',
+        
+        $request->validate([
+            'service_id' => 'required|exists:services,id',
             'fields' => ['required', 'array'],
             'fields.*.type' => 'string|required',
             'fields.*.label' => 'string|required',
             'fields.*.value' => 'string|required',
         ]);
+
+        // check the matching of offer fields and request fields size
+        // $offer = Service::where('id',$request->service_id)->first()->offer;
+        // $offer_fields = $offer->fields;
+        // if(sizeof($offer_fields) != sizeOf($request->fields) )
+        //     throw new ValidationException(
+        //         "fields structure is not valid",
+        //         response(['message' => 'fields structure is not valid'],422)
+        //     );
+
+
 
         Order::create([
             'service_id' => $request->service_id,
