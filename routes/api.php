@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\Auth\ProviderAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrdersController;
@@ -20,21 +21,23 @@ use App\Models\ServiceProvider;
 |
 */
 
-Route::post('/login', [AuthController::class,'login']);
-Route::delete('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum'); 
-Route::post('signup',[AuthController::class, 'signup']);
-Route::post('enrollProvider',[AuthController::class, 'enrollProvider']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('signup', [AuthController::class, 'signup']);
+Route::post('enrollProvider', [AuthController::class, 'enrollProvider']);
+Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
+
+Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
+Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum','type.provider']);
 
 
+Route::get('offers', [OffersController::class, 'allOffers']);
 
-Route::get('user', [AuthController::class,'user'])->middleware('auth:sanctum');
+Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
+Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum','type.provider']);
+Route::get('myServices', [ServicesController::class,'myServices'])->middleware(['auth:sanctum','type.provider']);
 
-Route::get('offers', [OffersController::class,'allOffers']);
-
-Route::get('service/{offer_id}', [ServicesController::class,'getOfferServices']);
-Route::post('services', [ServicesController::class,'create']);
-
-Route::get('orders', [OrdersController::class,'index']);
-Route::get('orders/{service_id}', [OrdersController::class,'getServiceOrders']);
-Route::post('orders', [OrdersController::class,'create'])->middleware('auth:sanctum');
+Route::get('orders', [OrdersController::class, 'index']);
+Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders']);
+Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
 

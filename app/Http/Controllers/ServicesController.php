@@ -31,4 +31,10 @@ class ServicesController extends Controller
 
         return response(['message' => 'service successfully created'], 201);
     }
+
+    public function myServices(Request $request)
+    {
+        $services = Service::where('service_provider_id',$request->service_provider_id)->get();
+        return $services;
+    }
 }

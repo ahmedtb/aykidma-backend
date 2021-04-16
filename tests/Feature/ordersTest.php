@@ -22,6 +22,8 @@ class ordersTest extends TestCase
         parent::setup();
     }
 
+
+    
     public function test_check_all_orders_in_database()
     {
         Order::factory()->count(10)->create();
@@ -82,6 +84,44 @@ class ordersTest extends TestCase
             );
     }
 
+    public function test_only_auth_users_can_submit_orders()
+    {
+        $user = User::factory()->create();
+        $service = Service::factory()->create();
+
+        // testing valid request
+        $fields = [
+            [
+                "label" => "اختر المنطقة",
+                "type" => "options",
+                "value" => "حي السلام"
+            ],
+            [
+                "label" => "اختر نوع الغسيل",
+                "type" => "options",
+                "value" => "مفروشات"
+            ],
+        ];
+
+        $response = $this->postJson('api/orders', [
+            'service_id' => $service->id,
+            'user_id' => 1,
+            'fields' => $fields
+        ]);
+
+
+        $response->assertUnauthorized();
+
+        $response = $this->actingAs($user)->postJson('api/orders', [
+            'service_id' => $service->id,
+            'user_id' => 1,
+            'fields' => $fields
+        ]);
+
+
+        $response->assertStatus(200);
+    }
+    
     public function test_validating_a_valid_creating_order_request()
     {
 
