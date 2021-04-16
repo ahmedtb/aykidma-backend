@@ -6,12 +6,14 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class OrdersController extends Controller
 {
 
-    public function getServiceOrders($service_id){
+    public function getServiceOrders($service_id)
+    {
         return Order::where('service_id', $service_id)->get();
     }
 
@@ -22,7 +24,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        return Order::with(['service.offer','service.ServiceProvider'])->get();
+        return Order::with(['service.offer', 'service.ServiceProvider'])->get();
     }
 
     /**
@@ -32,13 +34,31 @@ class OrdersController extends Controller
      */
     public function create(Request $request)
     {
-        
+
         $request->validate([
             'service_id' => 'required|exists:services,id',
             'fields' => ['required', 'array'],
             'fields.*.type' => 'string|required',
             'fields.*.label' => 'string|required',
-            'fields.*.value' => 'string|required',
+            'fields.*.value' => 'required',
+        ]);
+
+        $service = Service::where('id', $request->service_id)->first();
+        $offer = $service->offer;
+        if (!$offer)
+            return response()->json('offer not found', 404);
+
+        $offer_fields = $offer->fields;
+
+        Validator::make($request->all(), [
+            'fields' => [
+                function ($attribute, $fields, $fail) use($offer_fields) {
+                    dd( sizeof($fields) != sizeof($offer_fields) );
+                    if (sizeof($fields) != sizeof($offer_fields) ) {
+                        $fail('The ' . $attribute . ' is invalid.');
+                    }
+                }
+            ]
         ]);
 
         // check the matching of offer fields and request fields size
