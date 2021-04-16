@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->foreignId("service_provider_id");
             $table->foreignId("offer_id");
             $table->json("meta_data");
-            $table->unsignedDecimal("rating");
+            $table->unsignedDecimal("rating")->nullable();
             $table->timestamps();
         });
     }

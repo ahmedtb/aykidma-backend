@@ -24,8 +24,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'number' => $this->faker->unique()->phoneNumber(),
-            'number_verified_at' => now(),
+            'phone_number' => $this->faker->unique()->phoneNumber(),
+            'phone_number_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
@@ -40,7 +40,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'number_verified_at' => null,
+                'phone_number_verified_at' => null,
             ];
         });
     }

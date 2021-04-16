@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ServicesController;
+use App\Models\ServiceProvider;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +22,17 @@ use App\Http\Controllers\ServicesController;
 
 Route::post('/login', [AuthController::class,'login']);
 Route::delete('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum'); 
+Route::post('signup',[AuthController::class, 'signup']);
+Route::post('enrollProvider',[AuthController::class, 'enrollProvider']);
+
+
 
 Route::get('user', [AuthController::class,'user'])->middleware('auth:sanctum');
 
 Route::get('offers', [OffersController::class,'allOffers']);
 
 Route::get('service/{offer_id}', [ServicesController::class,'getOfferServices']);
+Route::post('services', [ServicesController::class,'create']);
 
 Route::get('orders', [OrdersController::class,'index']);
 Route::get('orders/{service_id}', [OrdersController::class,'getServiceOrders']);

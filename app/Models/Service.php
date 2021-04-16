@@ -17,6 +17,8 @@ class Service extends Model
 
     ];
 
+    protected $guarded = [];
+
     public function ServiceProvider() {
         return $this->belongsTo(ServiceProvider::class);
     }

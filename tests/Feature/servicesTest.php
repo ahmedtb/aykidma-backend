@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Offer;
 use Tests\TestCase;
 use App\Models\Order;
+use App\Models\ServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -46,5 +48,17 @@ class servicesTest extends TestCase
                 }
 
             );
+    }
+
+    public function test_service_provider_can_create_services()
+    {   
+        $this->withoutExceptionHandling();
+        $provider = ServiceProvider::factory()->create();
+        $offer = Offer::factory()->create();
+        $this->postJson('api/services',[
+            'service_provider_id' => $provider->id,
+            'offer_id' => $offer->id,
+            'meta_data' => [ 'details' => 'details about the services' ],
+        ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
     }
 }

@@ -28,6 +28,8 @@ class ServiceProviderFactory extends Factory
         return [
             //
             "name" => $this->faker->name(),
+            'phone_number' => $this->faker->phoneNumber,
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             "image" => 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg',
             "meta_data" => $meta_data
         ];

@@ -14,6 +14,8 @@ class ServiceProvider extends Model
         'meta_data' => Json::class,
     ];
     
+    protected $guarded = [];
+
     public function Services()
     {
         return $this->hasMany(Service::class);
