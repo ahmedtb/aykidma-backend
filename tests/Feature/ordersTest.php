@@ -263,13 +263,11 @@ class ordersTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function test_order_fields_should_match_service_offer_fields()
+    public function test_order_fields_structure_should_match_offer_fields_structure()
     {
-        // $this->withoutExceptionHandling();
         $service = Service::factory()->create();
         $offer = $service->offer;
         $fields = $offer->fields;
-
         // with values set to string
         foreach ($fields as $key => $field) {
             $fields[$key]['value'] = "Some value";
@@ -297,18 +295,6 @@ class ordersTest extends TestCase
                 "label" => "اختر نوع الغسيل",
                 "type" => "options",
                 "value" => "مفروشات"
-            ],
-            [
-                "titles" => [
-                  0 => "اليوم",
-                  1 => "غدا",
-                  2 => "خلال اسبوع",
-                  3 => "الاسبوع القادم"
-                ],
-                "label" => "اختار الوقت المفضل للتنفيذ",
-                "name" => "testingOptions3",
-                "type" => "options",
-                "value" => "null"
             ]
         ];
 
@@ -318,41 +304,5 @@ class ordersTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-    }
-
-    public function test_order_fields_structure_should_match_offer_fields_structure()
-    {
-        $this->withoutExceptionHandling();
-        $user = User::factory()->create();
-        $service = Service::factory()->create();
-        // fields thats does not match offer fields
-        $fields = [
-            [
-                "label" => "اختر المنطقة",
-                "type" => "options",
-                "value" => "حي السلام"
-            ],
-            [
-                "label" => "اختر نوع الغسيل",
-                "type" => "options",
-                "value" => "مفروشات"
-            ],
-            [
-                "titles" => [
-                  0 => "اليوم",
-                  1 => "غدا",
-                  2 => "خلال اسبوع",
-                  3 => "الاسبوع القادم"
-                ],
-                "label" => "اختار الوقت المفضل للتنفيذ",
-                "name" => "testingOptions3",
-                "type" => "options",
-                "value" => "null"
-            ]
-        ];
-        $this->actingAs($user)->postJson('api/orders', [
-            'service_id' =>  $service->id,
-            'fields' => $fields
-        ])->assertOk();
     }
 }

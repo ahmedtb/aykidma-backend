@@ -32,6 +32,7 @@ Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->mid
 
 
 Route::get('offers', [OffersController::class, 'allOffers']);
+Route::post('offers', [OffersController::class, 'create'])->middleware(['auth:sanctum','type.provider']);
 
 Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum','type.provider']);

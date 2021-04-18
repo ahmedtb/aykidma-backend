@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
+use App\Rules\FieldsMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -44,32 +45,10 @@ class OrdersController extends Controller
         ]);
 
         $service = Service::where('id', $request->service_id)->first();
-        $offer = $service->offer;
-        if (!$offer)
-            return response()->json('offer not found', 404);
 
-        $offer_fields = $offer->fields;
-
-        Validator::make($request->all(), [
-            'fields' => [
-                function ($attribute, $fields, $fail) use($offer_fields) {
-                    dd( sizeof($fields) != sizeof($offer_fields) );
-                    if (sizeof($fields) != sizeof($offer_fields) ) {
-                        $fail('The ' . $attribute . ' is invalid.');
-                    }
-                }
-            ]
+        $request->validate([
+            'fields' => [new fieldsMatch($service)],
         ]);
-
-        // check the matching of offer fields and request fields size
-        // $offer = Service::where('id',$request->service_id)->first()->offer;
-        // $offer_fields = $offer->fields;
-        // if(sizeof($offer_fields) != sizeOf($request->fields) )
-        //     throw new ValidationException(
-        //         "fields structure is not valid",
-        //         response(['message' => 'fields structure is not valid'],422)
-        //     );
-
 
 
         Order::create([

@@ -15,5 +15,5 @@ class Offer extends Model
         'fields' =>  Json::class
     ];
 
-    
+    protected $guarded = [];
 }
