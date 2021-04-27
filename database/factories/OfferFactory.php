@@ -79,15 +79,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -156,15 +156,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -233,15 +233,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -310,15 +310,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -387,15 +387,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -464,15 +464,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [
@@ -541,15 +541,15 @@ class OfferFactory extends Factory
                         "type" => "image",
                         "value" => null
                     ],
-                    [
-                        "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                        "name" => "testingLocation",
-                        "type" => "location",
-                        "value" => [
-                            "latitude" => null,
-                            "longitude" => null
-                        ]
-                    ]
+                    // [
+                    //     "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+                    //     "name" => "testingLocation",
+                    //     "type" => "location",
+                    //     "value" => [
+                    //         "latitude" => null,
+                    //         "longitude" => null
+                    //     ]
+                    // ]
                 ];
 
                 $meta_data = [

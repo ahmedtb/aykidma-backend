@@ -55,7 +55,7 @@ class OrdersController extends Controller
             'service_id' => $request->service_id,
             'user_id' => $request->user()->id,
             'fields' => $request->fields,
-            'status' => 'pending'
+            'status' => 'new'
         ]);
         return ['success' => 'تم تقديم الطلب'];
     }
