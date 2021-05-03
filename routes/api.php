@@ -8,7 +8,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ServicesController;
-use App\Models\ServiceProvider;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +37,7 @@ Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum','type.provider']);
 Route::get('myServices', [ServicesController::class,'myServices'])->middleware(['auth:sanctum','type.provider']);
 
-Route::get('orders', [OrdersController::class, 'index']);
-Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders']);
+Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:sanctum');
+Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:sanctum');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
-
+Route::patch('order/resume', [OrdersController::class, 'resume'] )->middleware(['auth:sanctum','type.provider']);

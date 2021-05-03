@@ -23,13 +23,13 @@ class ordersTest extends TestCase
     }
 
 
-    
-    public function test_check_all_orders_in_database()
+
+    public function test_all_orders_retrieved_from_database_in_correct_formate_json()
     {
-        Order::factory()->count(10)->create();
+        $user = User::factory()->create();
+        Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-
-        $response = $this->getJson('api/orders');
+        $response = $this->actingAs($user)->getJson('api/orders');
 
         $size = sizeof($response->json());
 
@@ -58,9 +58,10 @@ class ordersTest extends TestCase
     public function test_check_orders_retrived_by_service_id()
     {
 
-        Order::factory()->count(10)->create();
+        $user = User::factory()->create();
+        Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->getJson('api/orders/1');
+        $response = $this->actingAs($user)->getJson('api/orders/1');
 
         $size = sizeof($response->json());
         $response
@@ -84,24 +85,37 @@ class ordersTest extends TestCase
             );
     }
 
-    public function test_only_auth_users_can_submit_orders()
+    public function test_only_authenticated_user_can_retrive_orders()
+    {
+        $user = User::factory()->create();
+        Order::factory()->count(10)->create(['user_id' => $user->id]);
+
+
+        $response = $this->getJson('api/orders');
+        $response->assertUnauthorized();
+
+        $response = $this->getJson('api/orders/1');
+        $response->assertUnauthorized();
+
+        $this->actingAs($user);
+
+        $response = $this->getJson('api/orders');
+        $response->assertOk();
+
+        $response = $this->getJson('api/orders/1');
+        $response->assertOk();
+    }
+
+    public function test_only_authenticated_users_can_submit_orders()
     {
         $user = User::factory()->create();
         $service = Service::factory()->create();
+        $fields = $service->offer->fields;
 
-        // testing valid request
-        $fields = [
-            [
-                "label" => "اختر المنطقة",
-                "type" => "options",
-                "value" => "حي السلام"
-            ],
-            [
-                "label" => "اختر نوع الغسيل",
-                "type" => "options",
-                "value" => "مفروشات"
-            ],
-        ];
+        // with values set to string
+        foreach ($fields as $key => $field) {
+            $fields[$key]['value'] = "Some value";
+        }
 
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
@@ -121,28 +135,21 @@ class ordersTest extends TestCase
 
         $response->assertStatus(200);
     }
-    
+
     public function test_validating_a_valid_creating_order_request()
     {
 
         $service = Service::factory()->create();
+        $fields = $service->offer->fields;
 
+        // with values set to string
+        foreach ($fields as $key => $field) {
+            $fields[$key]['value'] = "Some value";
+        }
+        
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        // testing valid request
-        $fields = [
-            [
-                "label" => "اختر المنطقة",
-                "type" => "options",
-                "value" => "حي السلام"
-            ],
-            [
-                "label" => "اختر نوع الغسيل",
-                "type" => "options",
-                "value" => "مفروشات"
-            ],
-        ];
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
 

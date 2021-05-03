@@ -60,6 +60,29 @@ class OrdersController extends Controller
         return ['success' => 'تم تقديم الطلب'];
     }
 
+    public function resume(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+        ]);
+        $order = Order::where('id', $request->order_id)->first();
+
+        if (!$order)
+            return response(['failure' => 'order does not exist'], 404);
+
+        $service_provider_id = $order->service->ServiceProvider->id;
+
+        if ($service_provider_id != $request->user()->id)
+            return response(['failure' => 'you dont have permission to change this order'], 422);
+
+        $order->status = 'resume';
+        $order->save();
+
+        // $order->user->notify();
+
+        return response(['success' => 'order is resumed'],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
