@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'phone_number',
         'password',
+        'phone_number_verified_at'
     ];
 
     /**
@@ -39,6 +40,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'phone_number_verified_at' => 'datetime',
     ];
+
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
 }

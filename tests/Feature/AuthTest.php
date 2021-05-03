@@ -77,6 +77,7 @@ class AuthTest extends TestCase
             'activationNumber' => 1111
         ])->assertStatus(422)->assertJson(['message' => 'the activation number is wrong']);
 
+        // right activation number
         $this->post('api/signup', [
             'name' => 'random name',
             'phone_number' => $phone_number,

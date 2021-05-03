@@ -83,7 +83,7 @@ class AuthController extends Controller
                     'name' => $request->name,
                     'phone_number' => $request->phone_number,
                     'phone_number_verified_at' => now(),
-                    'password' => Hash::make($request->password)
+                    'password' => Hash::make($request->password),
                 ]);
                 $activationNumber->delete();
 

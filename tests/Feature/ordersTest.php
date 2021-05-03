@@ -36,13 +36,13 @@ class ordersTest extends TestCase
         // $response->dump();
         $response
             ->assertJson(
-                function (AssertableJson $json) use ($size) {
+                function (AssertableJson $json) use ($size,$user) {
                     for ($x = 0; $x < $size; $x++) {
                         $json->has(
                             $x,
                             fn (AssertableJson $sample) =>
                             $sample->whereType('id', 'integer')
-                                ->whereType('user_id', 'integer')
+                                ->where('user_id', $user->id)
                                 ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
@@ -66,14 +66,14 @@ class ordersTest extends TestCase
         $size = sizeof($response->json());
         $response
             ->assertJson(
-                function (AssertableJson $json) use ($size) {
+                function (AssertableJson $json) use ($size,$user) {
                     for ($x = 0; $x < $size; $x++) {
                         $json->has(
                             $x,
                             fn (AssertableJson $sample) =>
                             $sample->whereType('id', 'integer')
                                 ->whereType('service_id', 'integer')
-                                ->whereType('user_id', 'integer')
+                                ->where('user_id', $user->id)
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
                                 ->whereType('meta_data.location.name', 'string')

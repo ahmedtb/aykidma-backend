@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Service;
 use App\Rules\FieldsMatch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -15,7 +16,8 @@ class OrdersController extends Controller
 
     public function getServiceOrders($service_id)
     {
-        return Order::where('service_id', $service_id)->get();
+        return Auth::user()->orders()->where('service_id', $service_id)->get();
+        // return Order::where('service_id', $service_id)->get();
     }
 
     /**
@@ -25,7 +27,8 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        return Order::with(['service.offer', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders()->with(['service.offer', 'service.ServiceProvider'])->get();
+        // return Order::with(['service.offer', 'service.ServiceProvider'])->get();
     }
 
     /**
@@ -58,29 +61,6 @@ class OrdersController extends Controller
             'status' => 'new'
         ]);
         return ['success' => 'تم تقديم الطلب'];
-    }
-
-    public function resume(Request $request)
-    {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-        ]);
-        $order = Order::where('id', $request->order_id)->first();
-
-        if (!$order)
-            return response(['failure' => 'order does not exist'], 404);
-
-        $service_provider_id = $order->service->ServiceProvider->id;
-
-        if ($service_provider_id != $request->user()->id)
-            return response(['failure' => 'you dont have permission to change this order'], 422);
-
-        $order->status = 'resume';
-        $order->save();
-
-        // $order->user->notify();
-
-        return response(['success' => 'order is resumed'],200);
     }
 
     /**
