@@ -31,6 +31,7 @@ class ServiceProviderTest extends TestCase
             'order_id' => $order->id
         ])->assertUnauthorized();
 
+        $this->withoutExceptionHandling();
         $this->actingAs($service_provider)->patchJson('api/order/resume/',[
             'order_id' => $order->id
         ])->assertOk();

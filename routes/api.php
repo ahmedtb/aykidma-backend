@@ -22,6 +22,7 @@ use App\Http\Controllers\ServicesController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::post('signup', [AuthController::class, 'signup']);
 Route::post('enrollProvider', [AuthController::class, 'enrollProvider']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');

@@ -34,7 +34,7 @@ class ServicesController extends Controller
 
     public function myServices(Request $request)
     {
-        $services = Service::where('service_provider_id',$request->service_provider_id)->get();
-        return $services;
+        // $services = Service::where('service_provider_id',$request->service_provider_id)->get();
+        return Auth()->user()->Services()->get();
     }
 }
