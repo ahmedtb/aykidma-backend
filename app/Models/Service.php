@@ -14,7 +14,7 @@ class Service extends Model
         'meta_data' => Json::class,
         'service_provider_id' => 'integer',
         'offer_id' => 'integer',
-
+        'rating' => 'float'
     ];
 
     protected $guarded = [];

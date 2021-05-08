@@ -22,4 +22,9 @@ class ServiceProvider extends Authenticatable
     {
         return $this->hasMany(Service::class);
     }
+
+    public function Orders()
+    {
+        return $this->hasManyThrough(Order::class, Service::class);
+    }
 }

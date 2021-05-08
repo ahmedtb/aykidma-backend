@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\ServiceProvider;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceProviderFactory extends Factory
@@ -28,8 +29,8 @@ class ServiceProviderFactory extends Factory
         return [
             //
             "name" => $this->faker->name(),
-            'phone_number' => $this->faker->phoneNumber,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'phone_number' => $this->faker->phoneNumber(),
+            'password' => Hash::make('password'),
             "image" => 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg',
             "meta_data" => $meta_data
         ];

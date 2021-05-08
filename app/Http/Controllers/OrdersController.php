@@ -63,6 +63,27 @@ class OrdersController extends Controller
         return ['success' => 'تم تقديم الطلب'];
     }
 
+    public function getProviderOrders(Request $request)
+    {
+        return $request->user()->Orders()->with(['service.offer'])->get();
+    }
+
+    public function resume(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer'
+        ]);
+        // $order = Order::find(1)->where(['id'=>$request->order_id,'status'=>'new'])->first();
+        $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'new'])->first();
+
+        if ($order) {
+            $order->status = 'resumed';
+            $order->save();
+            return response(['success' => 'order successfully resumed']);
+        }else
+            return response(['failed' => 'there is no a new order that belongs to you with this id'],400);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -41,4 +41,5 @@ Route::get('myServices', [ServicesController::class,'myServices'])->middleware([
 Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:sanctum');
 Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:sanctum');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
-Route::patch('order/resume', [OrdersController::class, 'resume'] )->middleware(['auth:sanctum','type.provider']);
+Route::put('order/resume', [OrdersController::class, 'resume'] )->middleware(['auth:sanctum','type.provider']);
+Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum','type.provider']);
