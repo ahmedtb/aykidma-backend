@@ -61,4 +61,9 @@ class servicesTest extends TestCase
             'meta_data' => [ 'details' => 'details about the services' ],
         ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
     }
+
+    public function test_user_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
+    {
+        # code...
+    }
 }
