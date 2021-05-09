@@ -14,27 +14,27 @@ class OffersController extends Controller
         return $offers;
     }
 
-    public function create(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'fields' => 'required|array',
-            'meta_data' => 'required|array',
-            'details' => 'sometimes|required|string'
-        ]);
-        $offer = Offer::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'fields' => $request->fields,
-            'meta_data' => $request->meta_data,
-        ]);
-        Service::create([
-            'service_provider_id' => $request->user()->id,
-            'offer_id' => $offer->id,
-            'meta_data' => ['details'=>$request->details]
-        ]);
+    // public function create(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string',
+    //         'description' => 'required|string',
+    //         'fields' => 'required|array',
+    //         'meta_data' => 'required|array',
+    //         'details' => 'sometimes|required|string'
+    //     ]);
+    //     $offer = Offer::create([
+    //         'title' => $request->title,
+    //         'description' => $request->description,
+    //         'fields' => $request->fields,
+    //         'meta_data' => $request->meta_data,
+    //     ]);
+    //     Service::create([
+    //         'service_provider_id' => $request->user()->id,
+    //         'offer_id' => $offer->id,
+    //         'meta_data' => ['details'=>$request->details]
+    //     ]);
 
-        return response(['message' => 'offer and service successfully created'], 201);
-    }
+    //     return response(['message' => 'offer and service successfully created'], 201);
+    // }
 }
