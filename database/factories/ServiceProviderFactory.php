@@ -22,16 +22,40 @@ class ServiceProviderFactory extends Factory
      */
     public function definition()
     {
+        $address = [
+            'city' => 'tripoli',
+            'area' => 'area1',
+            'subArea' => 'subArea1'
+        ];
+        $coverage = [
+            [
+                'city' => 'tripoli',
+                'area' => 'area1',
+            ],
+            [
+                'city' => 'benghazi',
+                'area' => 'area2',
+            ],
+            [
+                'city' => 'misrata',
+                'area' => 'area1',
+            ]
+        ];
+        $image = 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
         $meta_data = [
             "description" => "هذا وصف اختباري",
             "location" => ["GPS" => ["latitude"=> 13.1, "longtitude"=> 32.5]]
         ];
+
         return [
             //
             "name" => $this->faker->name(),
             'phone_number' => $this->faker->phoneNumber(),
+            'email' => $this->faker->email(),
             'password' => Hash::make('password'),
-            "image" => 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg',
+            'address' =>  $address,
+            'coverage' => $coverage,
+            "image" => $image,
             "meta_data" => $meta_data
         ];
     }

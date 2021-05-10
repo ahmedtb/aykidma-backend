@@ -49,25 +49,6 @@ class offersTests extends TestCase
             );
     }
 
-    public function test_provider_will_create_offer_when_creating_a_service()
-    {
-        $provider = ServiceProvider::factory()->create();
-        $offer = Offer::factory()->make();
 
-        $this->postJson('api/createServiceWithOffer',[
-            'title' => $offer->title,
-            'description' => $offer->description,
-            'fields' => $offer->fields,
-            'meta_data' => $offer->meta_data,
-            'details' => 'details about the services'
-        ])->assertUnauthorized();
-
-        $this->actingAs($provider)->postJson('api/createServiceWithOffer',[
-            'title' => $offer->title,
-            'description' => $offer->description,
-            'fields' => $offer->fields,
-            'meta_data' => $offer->meta_data,
-            'details' => 'details about the services'
-        ])->assertStatus(201);
     }
 }

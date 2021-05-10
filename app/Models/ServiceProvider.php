@@ -13,6 +13,8 @@ class ServiceProvider extends Authenticatable
     use HasApiTokens, HasFactory;
 
     protected $casts = [
+        'address' => Json::class,
+        'coverage' => Json::class,
         'meta_data' => Json::class,
     ];
     

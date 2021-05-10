@@ -16,7 +16,16 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('meta_data');
+
+            $table->string('phone_number')->unique();
+            $table->timestamp('phone_number_verified_at')->nullable();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->json('address');
+
+            $table->string('image')->nullable();
+            $table->json('meta_data')->nullable();
             $table->timestamps();
         });
     }

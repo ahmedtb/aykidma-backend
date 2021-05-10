@@ -94,47 +94,4 @@ class AuthController extends Controller
         }
     }
 
-    public function enrollProvider(Request $request)
-    {
-
-        $request->validate([
-            'name' => 'required|string',
-            'password' => 'required|string',
-            'phone_number' => 'required|string'
-        ]);
-
-        $activationNumber = activationNumber::where('phone_number', $request->phone_number)->first();
-
-        if (!$activationNumber) {
-            $randomNumber = random_int(1, 65535);
-            activationNumber::create([
-                'activationNumber' => $randomNumber,
-                'phone_number' => $request->phone_number
-            ]);
-            // where will be code to send the number through whatsapp message
-
-            return response(['message' => 'activation number is created'], 201);
-        } else {
-            if ($activationNumber->activationNumber == $request->activationNumber) {
-
-                ServiceProvider::create([
-                    'name' => $request->name,
-                    'phone_number' => $request->phone_number,
-                    'phone_number_verified_at' => now(),
-                    "image" => null,
-                    "meta_data" => [
-                        // "description" => "هذا وصف اختباري",
-                        // "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
-                    ],
-                    'password' => Hash::make($request->password)
-                ]);
-
-                $activationNumber->delete();
-
-                return response(['message' => 'provider is successfully created'], 201);
-            } else {
-                return response(['message' => 'the activation number is wrong'], 422);
-            }
-        }
-    }
 }

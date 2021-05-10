@@ -28,12 +28,12 @@ class ServiceProviderTest extends TestCase
         $order = Order::factory()->create([
             'service_id' => $service->id,
             'status' => 'new'
-            ]);
+        ]);
 
         $this->putJson('api/order/resume/', [
             'order_id' => $order->id
         ])->assertUnauthorized();
-        
+
         $this->actingAs($service_provider)->putJson('api/order/resume/', [
             'order_id' => 111
         ])->assertStatus(400);
@@ -48,7 +48,10 @@ class ServiceProviderTest extends TestCase
     public function test_service_provider_can_retrive_his_services()
     {
         $service_provider = ServiceProvider::factory()->create();
-        $services = Service::factory()->count(10)->create(['service_provider_id' => $service_provider->id]);
+        $services = Service::factory()->count(10)->create([
+            'service_provider_id' => $service_provider->id,
+            'meta_data' => []
+        ]);
 
         $response = $this->actingAs($service_provider)->getJson('api/myServices')->assertOk();
 
@@ -66,14 +69,7 @@ class ServiceProviderTest extends TestCase
                         ->whereType('id', 'integer')
                         ->whereType('service_provider_id', 'integer')
                         ->whereType('offer_id', 'integer')
-                        ->has(
-                            'meta_data',
-                            fn ($json) =>
-                            $json->whereType('cost', 'string')
-                                ->whereType('details', 'string')
-                                ->whereType('location.GPS', 'array')
-                                ->etc()
-                        )
+                        ->has('meta_data')
                         ->whereType('rating', 'integer')
                         ->etc()
                 )

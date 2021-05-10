@@ -63,33 +63,67 @@ class ProviderAuthTest extends TestCase
 
     public function test_user_can_enroll_to_be_a_service_provider()
     {
-        $this->withoutExceptionHandling();
 
         $fake_name = 'random name';
         $fake_phone_number = '0914354173';
+        $fake_email = 'email@email.com';
         $fake_password = 'password';
-        $this->post('api/enrollProvider', [
+        $address = [
+            'city' => 'tripoli',
+            'area' => 'area1',
+            'subArea' => 'subArea1'
+        ];
+        $coverage = [
+            [
+                'city' => 'tripoli',
+                'area' => 'area1',
+            ],
+            [
+                'city' => 'benghazi',
+                'area' => 'area2',
+            ],
+            [
+                'city' => 'misrata',
+                'area' => 'area1',
+            ]
+        ];
+        $this->withoutExceptionHandling();
+        $response=$this->postJson('api/enrollProvider', [
             'name' => $fake_name,
             'phone_number' => $fake_phone_number,
-            'password' => $fake_password
-        ])->assertStatus(201);
+            'email' => $fake_email,
+            'password' => $fake_password,
+            'address' => $address,
+            'coverage' => $coverage,
+        ]);
+        // dd($response->json());
+        $response->assertStatus(201);
 
         $activationNumber = activationNumber::where('phone_number',$fake_phone_number)->first();
 
         // wrong activation number
-        $this->post('api/enrollProvider', [
+        $this->postJson('api/enrollProvider', [
             'name' => $fake_name,
             'phone_number' => $fake_phone_number,
+            'email' => $fake_email,
             'password' => $fake_password,
+            'address' => $address,
+            'coverage' => $coverage,
             'activationNumber' => 1111
         ])->assertStatus(422)->assertJson(['message' => 'the activation number is wrong']);
 
-        $this->post('api/enrollProvider', [
+
+        $response = $this->postJson('api/enrollProvider', [
             'name' => $fake_name,
             'phone_number' => $fake_phone_number,
+            'email' => $fake_email,
             'password' => $fake_password,
+            'address' => $address,
+            'coverage' => $coverage,
             'activationNumber' => $activationNumber->activationNumber
-        ])->assertStatus(201)->assertJson(['message' => 'provider is successfully created']);
+        ]);
+        // dd($response->json());
+        $response->assertStatus(201)->assertJson(['message' => 'provider is successfully created']);
     }
 
     public function test_users_can_not_access_providers_routes()

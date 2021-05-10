@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\ProviderAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
@@ -22,13 +23,14 @@ use App\Http\Controllers\ServicesController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
 Route::post('signup', [AuthController::class, 'signup']);
-Route::post('enrollProvider', [AuthController::class, 'enrollProvider']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 
 Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum','type.provider']);
+Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
+
+Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum','type.admin']);
 
 
 Route::get('offers', [OffersController::class, 'allOffers']);
