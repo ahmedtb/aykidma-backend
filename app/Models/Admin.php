@@ -15,4 +15,15 @@ class Admin extends Authenticatable
         'address' => Json::class,
         'meta_data' => Json::class,
     ];
+
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password'
+    ];
+
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 }

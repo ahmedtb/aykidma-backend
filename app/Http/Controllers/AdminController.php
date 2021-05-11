@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    //
+
     public function approveService(Request $request){
         $request->validate([
             'service_id' => 'required|integer'

@@ -21,6 +21,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard',function () {
-    return view('dashboard');
+Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices']);
+Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService']);
+Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService']);
+
+Route::get('adminLogin',function () {
+    return view('adminLogin');
 });
+Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('admin.auth');
+Route::get('adminOnly',function () {
+    return 'admins only';
+})->middleware('auth:web');
