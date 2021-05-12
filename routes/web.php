@@ -28,7 +28,9 @@ Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController:
 Route::get('adminLogin',function () {
     return view('adminLogin');
 });
-Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('admin.auth');
+Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('adminLogin');
+Route::post('adminLogout',[App\Http\Controllers\Dashboard\LoginController::class,'logout']);
+
 Route::get('adminOnly',function () {
     return 'admins only';
-})->middleware('auth:web');
+})->middleware('auth:admin');

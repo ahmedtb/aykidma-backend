@@ -26,7 +26,7 @@ class LoginController extends Controller
                   'password' => 'required',
               ]);
               if (auth()->guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-                  return redirect('*your route*');
+                  return redirect('adminOnly');
               } else {
                   dd('your username and password are wrong.');
               }

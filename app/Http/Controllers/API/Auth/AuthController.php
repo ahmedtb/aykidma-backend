@@ -1,39 +1,46 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\Auth;
 
-use Illuminate\Http\Request;
-use App\Models\ServiceProvider;
-use App\Models\activationNumber;
 use App\Http\Controllers\Controller;
+use App\Models\activationNumber;
+use App\Models\User;
+use App\Models\ServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class ProviderAuthController extends Controller
+class AuthController extends Controller
 {
     //
+
     public function login(Request $request)
     {
+
         $request->validate([
             'phone_number' => 'required|string',
             'password' => 'required',
+            'device_name' => 'required',
         ]);
 
-        $provider = ServiceProvider::where('phone_number', $request->phone_number)->first();
+        $user = User::where('phone_number', $request->phone_number)->first();
 
-        if (!$provider || !Hash::check($request->password, $provider->password)) {
+        // dd($request->password . " " .  $user->password);
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone_number' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        return response()->json([
-            'provider' => $provider,
-            'token' => $provider->createToken(
-                'mobile'
-                // , ['role:provider']
-            )->plainTextToken
-        ]);
+        $token = $user->createToken($request->device_name)->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
     }
 
     public function logout(Request $request)
@@ -41,24 +48,21 @@ class ProviderAuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         // return 'tokens deleted';
         return response()->json([
-            'success' => 'provider is logged out',
+            'success' => 'user is logged out',
         ]);
     }
-    public function enrollProvider(Request $request)
-    {
 
+    public function user(Request $request)
+    {
+        return $request->user();
+    }
+
+    public function signup(Request $request)
+    {
         $request->validate([
             'name' => 'required|string',
-            'phone_number' => 'required|string',
-            'email' => 'required|email',
-            'address' => 'required|array',
-            'address.city' => 'required|string',
-            'address.area' => 'required|string',
-            'address.subArea' => 'required|string',
-            'coverage' => 'required|array',
-            'coverage.*.city' => 'required|string',
-            'coverage.*.area' => 'required|string',
             'password' => 'required|string',
+            'phone_number' => 'required|string'
         ]);
 
         $activationNumber = activationNumber::where('phone_number', $request->phone_number)->first();
@@ -75,28 +79,20 @@ class ProviderAuthController extends Controller
         } else {
             if ($activationNumber->activationNumber == $request->activationNumber) {
 
-                // dd($request->email);
-                ServiceProvider::create([
+                // dd($request->phone_number);
+                User::create([
                     'name' => $request->name,
                     'phone_number' => $request->phone_number,
                     'phone_number_verified_at' => now(),
-                    'email' => $request->email,
-                    'address' => $request->address,
-                    'coverage' => $request->coverage,
-                    "image" => null,
-                    // "meta_data" => [
-                    //     // "description" => "هذا وصف اختباري",
-                    //     // "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]
-                    // ],
-                    'password' => Hash::make($request->password)
+                    'password' => Hash::make($request->password),
                 ]);
-
                 $activationNumber->delete();
 
-                return response(['message' => 'provider is successfully created'], 201);
+                return response(['message' => 'user is successfully created'], 201);
             } else {
                 return response(['message' => 'the activation number is wrong'], 422);
             }
         }
     }
+
 }

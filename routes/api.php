@@ -1,14 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\ProviderAuthController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OffersController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\OffersController;
+use App\Http\Controllers\API\OrdersController;
+use App\Http\Controllers\API\ServicesController;
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Auth\ProviderAuthController;
 
 /*
 |--------------------------------------------------------------------------
