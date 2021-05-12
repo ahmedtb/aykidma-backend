@@ -56,7 +56,7 @@ class servicesTest extends TestCase
         $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $offer = Offer::factory()->create();
-        $this->actingAs($provider)->postJson('api/services', [
+        $this->actingAs($provider,'web')->postJson('api/services', [
             'service_provider_id' => $provider->id,
             'offer_id' => $offer->id,
             'meta_data' => ['details' => 'details about the services'],
@@ -76,7 +76,7 @@ class servicesTest extends TestCase
             'details' => 'details about the services'
         ])->assertUnauthorized();
 
-        $this->actingAs($provider)->postJson('api/createServiceWithOffer', [
+        $this->actingAs($provider,'web')->postJson('api/createServiceWithOffer', [
             'title' => $offer->title,
             'description' => $offer->description,
             'fields' => $offer->fields,
@@ -94,11 +94,11 @@ class servicesTest extends TestCase
         ])->assertUnauthorized();
 
         // $this->withoutExceptionHandling();
-        $this->actingAs($admin)->putJson('api/approve/service', [
+        $this->actingAs($admin,'web')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertOK()->assertJson(['success' => 'the service has been approved']);
 
-        $response = $this->actingAs($admin)->putJson('api/approve/service', [
+        $response = $this->actingAs($admin,'web')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertStatus(404);
         // dd($response->json());

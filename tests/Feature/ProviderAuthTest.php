@@ -129,6 +129,6 @@ class ProviderAuthTest extends TestCase
     public function test_users_can_not_access_providers_routes()
     {
         $user = User::factory()->create();
-        $this->actingAs($user)->getJson('api/myServices')->assertUnauthorized();
+        $this->actingAs($user,'web')->getJson('api/myServices')->assertUnauthorized();
     }
 }
