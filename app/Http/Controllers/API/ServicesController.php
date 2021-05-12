@@ -41,6 +41,7 @@ class ServicesController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'fields' => 'required|array',
+            'category_id' => 'required|exists:categories,id',
             'meta_data' => 'present|array',
             'details' => 'sometimes|required|string'
         ]);
@@ -48,6 +49,7 @@ class ServicesController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'fields' => $request->fields,
+            'category_id' => $request->category_id,
             'meta_data' => $request->meta_data,
         ]);
         Service::create([

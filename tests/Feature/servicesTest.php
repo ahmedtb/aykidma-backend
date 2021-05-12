@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Admin;
+use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
@@ -65,21 +66,18 @@ class servicesTest extends TestCase
 
     public function test_provider_will_create_offer_when_submit_request_to_create_service()
     {
+        
+        $this->postJson('api/createServiceWithOffer', [])->assertUnauthorized();
+
         $provider = ServiceProvider::factory()->create();
-        $offer = Offer::factory()->make();
-
-        $this->postJson('api/createServiceWithOffer', [
-            'title' => $offer->title,
-            'description' => $offer->description,
-            'fields' => $offer->fields,
-            'meta_data' => $offer->meta_data,
-            'details' => 'details about the services'
-        ])->assertUnauthorized();
-
+        $category = Category::factory()->create();
+        $offer = Offer::factory()->make(['category_id' => $category->id]);
+        
         $this->actingAs($provider,'web')->postJson('api/createServiceWithOffer', [
             'title' => $offer->title,
             'description' => $offer->description,
             'fields' => $offer->fields,
+            'category_id' => $offer->category_id,
             'meta_data' => $offer->meta_data,
             'details' => 'details about the services'
         ])->assertStatus(201);

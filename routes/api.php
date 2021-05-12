@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\OffersController;
 use App\Http\Controllers\API\OrdersController;
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\ProviderAuthController;
@@ -46,3 +47,5 @@ Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
 Route::put('order/resume', [OrdersController::class, 'resume'] )->middleware(['auth:sanctum','type.provider']);
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum','type.provider']);
+
+Route::resource('category', CategoryController::class);

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices'])->middleware('auth:admin');
 Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService'])->middleware('auth:admin');
 Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService'])->middleware('auth:admin');
+
+Route::resource('category', CategoryController::class);
 
 // Route::get('adminLogin',function () {
 //     return view('adminLogin');
