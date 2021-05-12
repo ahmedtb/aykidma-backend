@@ -21,16 +21,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices']);
-Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService']);
-Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService']);
+Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices'])->middleware('auth:admin');
+Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService'])->middleware('auth:admin');
+Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService'])->middleware('auth:admin');
 
-Route::get('adminLogin',function () {
-    return view('adminLogin');
-});
-Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('adminLogin');
-Route::post('adminLogout',[App\Http\Controllers\Dashboard\LoginController::class,'logout']);
+// Route::get('adminLogin',function () {
+//     return view('adminLogin');
+// });
+// Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('adminLogin');
+// Route::post('adminLogout',[App\Http\Controllers\Dashboard\LoginController::class,'logout']);
 
-Route::get('adminOnly',function () {
-    return 'admins only';
-})->middleware('auth:admin');
+// Route::get('adminOnly',function () {
+//     return 'admins only';
+// })->middleware('auth:admin');
