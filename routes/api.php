@@ -27,6 +27,7 @@ Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum','type.provider']);
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
+Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:sanctum','type.provider']);
 
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum','type.admin']);
 

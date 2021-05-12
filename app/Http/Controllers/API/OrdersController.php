@@ -16,10 +16,9 @@ use Illuminate\Validation\ValidationException;
 class OrdersController extends Controller
 {
 
-    public function getServiceOrders($service_id)
+    public function getServiceOrders(Request $request)
     {
-        return Auth::user()->orders()->where('service_id', $service_id)->get();
-        // return Order::where('service_id', $service_id)->get();
+        return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service.offer', 'service.ServiceProvider'])->get();
     }
 
     /**
@@ -30,7 +29,6 @@ class OrdersController extends Controller
     public function index()
     {
         return Auth::user()->orders()->with(['service.offer', 'service.ServiceProvider'])->get();
-        // return Order::with(['service.offer', 'service.ServiceProvider'])->get();
     }
 
     /**

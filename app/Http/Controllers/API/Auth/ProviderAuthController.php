@@ -99,4 +99,9 @@ class ProviderAuthController extends Controller
             }
         }
     }
+
+    public function provider(Request $request)
+    {
+        return $request->user();
+    }
 }
