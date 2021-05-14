@@ -34,7 +34,7 @@ Route::put('/approve/service', [AdminController::class, 'approveService'])->midd
 
 
 Route::get('offers', [OffersController::class, 'allOffers']);
-// Route::post('offers', [OffersController::class, 'create'])->middleware(['auth:sanctum','type.provider']);
+Route::get('offers/{category_id}', [OffersController::class, 'byCategory']);
 
 Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum','type.provider']);
