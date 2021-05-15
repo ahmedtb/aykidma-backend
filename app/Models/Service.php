@@ -15,6 +15,7 @@ class Service extends Model
         'service_provider_id' => 'integer',
         'offer_id' => 'integer',
         'rating' => 'float',
+        'approved' => 'boolean'
     ];
 
     protected $guarded = [];

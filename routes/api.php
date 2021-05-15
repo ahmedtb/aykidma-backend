@@ -32,8 +32,9 @@ Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(
 
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum','type.admin']);
 
+Route::resource('category', CategoryController::class);
 
-Route::get('offers', [OffersController::class, 'allOffers']);
+Route::get('offers', [OffersController::class, 'allOffersWithApprovedServices']);
 Route::get('offers/{category_id}', [OffersController::class, 'byCategory']);
 
 Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
@@ -46,6 +47,6 @@ Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:sanct
 Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:sanctum');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
 Route::put('order/resume', [OrdersController::class, 'resume'] )->middleware(['auth:sanctum','type.provider']);
+Route::put('order/done', [OrdersController::class, 'done'] )->middleware(['auth:sanctum']);
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum','type.provider']);
 
-Route::resource('category', CategoryController::class);

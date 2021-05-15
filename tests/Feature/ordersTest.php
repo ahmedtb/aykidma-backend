@@ -312,4 +312,14 @@ class ordersTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_auth_user_can_mark_his_resumed_orders_as_done()
+    {
+        $user = User::factory()->create();
+        $order = Order::factory()->create(['user_id' => $user->id, 'status' => 'resumed']);
+
+        $this->actingAs($user,'web')->put('api/order/done',[
+            'order_id' => $order->id
+        ])->assertOk();
+    }
 }

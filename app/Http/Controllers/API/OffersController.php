@@ -12,22 +12,22 @@ class OffersController extends Controller
 {
     public function allOffers()
     {
-        $offers = Offer::all();
-        return $offers;
+        return Offer::all();
     }
 
-    public function byCategory(Request $request,$category_id)
+    public function allOffersWithApprovedServices()
     {
-        // return $request->category_id;
-        // $request->validate([
-        //     'category_id' => 'required|integer'
-        // ]);
+        return Offer::has('approvedServices')->get(); 
+    }
+
+
+    public function byCategory(Request $request, $category_id)
+    {
         validator($request->route()->parameters(), [
-            'category_id' => 'required|integer'  
+            'category_id' => 'required|integer'
         ])->validate();
-        
-        return Offer::where('category_id', $category_id)->get();
-        // return $category->offers()->get();
+
+        return Offer::has('approvedServices')->where('category_id', $category_id)->get();
     }
 
     // public function create(Request $request)
