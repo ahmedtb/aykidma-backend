@@ -51,12 +51,6 @@
             </div>
         @elseif ($field['type'] == 'textarea')
             <p class="text-center mb-0">{{ $field['label'] }}</p>
-            <p class="text-center mb-0">{{ $field['subLabel'] }}</p>
-            <div class="border border-dark rounded d-flex flex-row justify-content-around p-4">
-            </div>
-        @elseif ($field['type'] == 'textarea')
-            <p class="text-center mb-0">{{ $field['label'] }}</p>
-            <p class="text-center mb-0">{{ $field['subLabel'] }}</p>
             <div class="border border-dark rounded d-flex flex-row justify-content-around p-4">
             </div>
         @endif

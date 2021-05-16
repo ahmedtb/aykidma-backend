@@ -8,6 +8,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\ProviderAuthController;
+use App\Http\Controllers\API\UserNotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('signup', [AuthController::class, 'signup']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
+Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:sanctum');
+
 
 Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum','type.provider']);
