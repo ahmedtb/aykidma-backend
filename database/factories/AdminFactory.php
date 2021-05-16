@@ -30,7 +30,7 @@ class AdminFactory extends Factory
         $image = 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
         $meta_data = [
             "description" => $this->faker->sentence(),
-            "policy" => "admin"
+            // "policy" => "admin"
         ];
         return [
             "name" => $this->faker->name(),

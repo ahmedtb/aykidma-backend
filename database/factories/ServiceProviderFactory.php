@@ -44,7 +44,7 @@ class ServiceProviderFactory extends Factory
         $image = 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
         $meta_data = [
             "description" => "هذا وصف اختباري",
-            "location" => ["GPS" => ["latitude"=> 13.1, "longtitude"=> 32.5]]
+            "GPS" => ["latitude"=> 13.1, "longtitude"=> 32.5]
         ];
 
         return [

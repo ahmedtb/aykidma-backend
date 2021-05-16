@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->foreignId("service_provider_id");
             $table->foreignId("offer_id");
             $table->json("meta_data")->nullable();
-            $table->unsignedDecimal("rating")->nullable();
+            // $table->unsignedDecimal("rating")->nullable(); this field should be in meta_data
             $table->boolean("approved")->default(false);
             $table->timestamps();
         });
