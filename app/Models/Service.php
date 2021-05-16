@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\casts\Json;
+use App\Casts\Json;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
