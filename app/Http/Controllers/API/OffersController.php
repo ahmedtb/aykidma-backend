@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -12,8 +12,22 @@ class OffersController extends Controller
 {
     public function allOffers()
     {
-        $offers = Offer::all();
-        return $offers;
+        return Offer::all();
+    }
+
+    public function allOffersWithApprovedServices()
+    {
+        return Offer::has('approvedServices')->get(); 
+    }
+
+
+    public function byCategory(Request $request, $category_id)
+    {
+        validator($request->route()->parameters(), [
+            'category_id' => 'required|integer'
+        ])->validate();
+
+        return Offer::has('approvedServices')->where('category_id', $category_id)->get();
     }
 
     // public function create(Request $request)

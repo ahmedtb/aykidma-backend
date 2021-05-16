@@ -16,4 +16,19 @@ class Offer extends Model
     ];
 
     protected $guarded = [];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function approvedServices()
+    {
+        return $this->hasMany(Service::class)->where('approved',true);
+    }
 }

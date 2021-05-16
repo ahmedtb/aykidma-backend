@@ -29,7 +29,7 @@ class ordersTest extends TestCase
         $user = User::factory()->create();
         Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->getJson('api/orders');
+        $response = $this->actingAs($user,'web')->getJson('api/orders');
 
         $size = sizeof($response->json());
 
@@ -61,7 +61,7 @@ class ordersTest extends TestCase
         $user = User::factory()->create();
         Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->getJson('api/orders/1');
+        $response = $this->actingAs($user,'web')->getJson('api/orders/1');
 
         $size = sizeof($response->json());
         $response
@@ -97,7 +97,7 @@ class ordersTest extends TestCase
         $response = $this->getJson('api/orders/1');
         $response->assertUnauthorized();
 
-        $this->actingAs($user);
+        $this->actingAs($user,'web');
 
         $response = $this->getJson('api/orders');
         $response->assertOk();
@@ -126,7 +126,7 @@ class ordersTest extends TestCase
 
         $response->assertUnauthorized();
 
-        $response = $this->actingAs($user)->postJson('api/orders', [
+        $response = $this->actingAs($user,'web')->postJson('api/orders', [
             'service_id' => $service->id,
             'user_id' => 1,
             'fields' => $fields
@@ -148,7 +148,7 @@ class ordersTest extends TestCase
         }
         
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'web');
 
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
@@ -165,7 +165,7 @@ class ordersTest extends TestCase
         $service = Service::factory()->create();
 
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'web');
 
 
         $fields = [
@@ -249,7 +249,7 @@ class ordersTest extends TestCase
         $response->assertUnauthorized();
 
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'web');
 
         $response = $this->postJson('api/orders', [
             // 'service_id' => 1,
@@ -281,7 +281,7 @@ class ordersTest extends TestCase
         }
 
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->actingAs($user,'web');
 
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
@@ -311,5 +311,15 @@ class ordersTest extends TestCase
         ]);
 
         $response->assertStatus(422);
+    }
+
+    public function test_auth_user_can_mark_his_resumed_orders_as_done()
+    {
+        $user = User::factory()->create();
+        $order = Order::factory()->create(['user_id' => $user->id, 'status' => 'resumed']);
+
+        $this->actingAs($user,'web')->put('api/order/done',[
+            'order_id' => $order->id
+        ])->assertOk();
     }
 }
