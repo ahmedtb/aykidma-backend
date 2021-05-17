@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function expoTokens()
     {
-        return $this->hasManyThrough(ExpoToken::class, PersonalAccessToken::class, 'tokenable_id')
+        return $this->hasManyThrough(ExpoToken::class, PersonalAccessToken::class, 'tokenable_id','personal_access_tokens_id','id')
             ->where('tokenable_type',User::class );
     }
 }

@@ -114,26 +114,38 @@ class UserNotificationsTest extends TestCase
     }
 
     public function test_user_can_retrive_all_his_tokens() {
-        // $user = User::factory()->create(['password' => Hash::make('password')]);
+        $user = User::factory()->create(['password' => Hash::make('password')]);
         
-        // $personal_access_tokens = $user->createToken('mobile');
-        // $expo_token = ExpoToken::create([
-        //     'personal_access_tokens_id' => $personal_access_tokens->accessToken->id,
-        //     'expo_token' => '11111'
-        // ]);
+        $personal_access_tokens = $user->createToken('mobile');
+        $expo_token = ExpoToken::create([
+            'personal_access_tokens_id' => $personal_access_tokens->accessToken->id,
+            'expo_token' => '11111'
+        ]);
+        $personal_access_tokens = $user->createToken('mobile');
+        $expo_token = ExpoToken::create([
+            'personal_access_tokens_id' => $personal_access_tokens->accessToken->id,
+            'expo_token' => '22222'
+        ]);
         // dd($expo_token->personalAccessToken()->get());
 
-        $user = User::factory()->create(['password' => Hash::make('password')]);
-        $expo_token = '11111';
+        // $user = User::factory()->create(['password' => Hash::make('password')]);
+        // $expo_token = '11111';
 
-        $response = $this->postJson('api/login', [
-            'phone_number' => $user->phone_number,
-            'password' => 'password',
-            'device_name' => 'mobile',
-            'expo_token' => $expo_token
-        ]);
-        $this->withoutExceptionHandling();
-       
+        // $response = $this->postJson('api/login', [
+        //     'phone_number' => $user->phone_number,
+        //     'password' => 'password',
+        //     'device_name' => 'mobile',
+        //     'expo_token' => $expo_token
+        // ]);
+
+        // $response = $this->postJson('api/login', [
+        //     'phone_number' => $user->phone_number,
+        //     'password' => 'password',
+        //     'device_name' => 'mobile',
+        //     'expo_token' => '22222'
+        // ]);
+        // $this->withoutExceptionHandling();
+    //    dd(ExpoToken::all());
         dd($user->expoTokens()->get() );
     }
 }
