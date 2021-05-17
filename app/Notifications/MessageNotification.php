@@ -40,7 +40,7 @@ class MessageNotification extends Notification
      */
     public function toExpoApp($notifiable)
     {
-        return 'message'
+        return 'message';
     }
 
     /**

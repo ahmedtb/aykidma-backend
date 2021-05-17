@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\User;
+use App\Models\ExpoToken;
 use Illuminate\Http\Request;
 use App\Models\UserNotification;
 use App\Http\Controllers\Controller;
@@ -21,12 +23,12 @@ class UserNotificationsController extends Controller
 
     public function subscribe(Request $request)
     {
-        // $validatedData = 
         $request->validate([
             'token' => 'required|unique:expo_tokens',
         ]);
         ExpoToken::create([
-            'user_id' => Auth::user()->id,
+            'notifiable_id' => Auth::user()->id,
+            'notifiable_type' => User::class,
             'token' => $request->token
         ]);
 
@@ -36,11 +38,11 @@ class UserNotificationsController extends Controller
     public function unsubscribe(Request $request)
     {
         $validatedData = $request->validate([
-            'token' => 'required|exists:expo_tokens',
+            'token' => 'required|exists:expo_tokens,token',
         ]);
 
         ExpoToken::where([
-            'user_id' => Auth::user()->id,
+            'notifiable_id' => Auth::user()->id,
             'token' => $request->token
         ])->first()->delete();
 

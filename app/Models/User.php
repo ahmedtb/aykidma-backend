@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, Notifiable ;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +45,27 @@ class User extends Authenticatable
         'phone_number_verified_at' => 'datetime',
     ];
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
+    }
+
+
+    // public function tokens()
+    // {
+    //     return $this->morphMany(ExpoToken::class, 'notifiable');
+    // }
+
+    // public function routeNotificationForExpoApp()
+    // {
+    //     return $this->morphMany(ExpoToken::class, 'notifiable');
+
+    //     // return $this->hasMany(ExpoToken::class);
+    // }
+
+    public function expoTokens()
+    {
+        return $this->hasManyThrough(ExpoToken::class, PersonalAccessToken::class, 'tokenable_id')
+            ->where('tokenable_type',User::class );
     }
 }
