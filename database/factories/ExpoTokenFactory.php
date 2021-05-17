@@ -23,9 +23,8 @@ class ExpoTokenFactory extends Factory
     public function definition()
     {
         return [
-            'notifiable_id' => User::factory()->create(),
-            'notifiable_type' => User::class,
-            'token' => $this->faker->password()
+            'expo_token' => $this->faker->password(),
+            'personal_access_token_id' => User::factory()->create()->createToken('mobile')->accessToken->id
         ];
     }
 }

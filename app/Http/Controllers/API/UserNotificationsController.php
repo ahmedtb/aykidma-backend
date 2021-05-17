@@ -21,33 +21,33 @@ class UserNotificationsController extends Controller
         return UserNotification::where('user_id', Auth::user()->id)->get();
     }
 
-    public function subscribe(Request $request)
-    {
-        $request->validate([
-            'token' => 'required|unique:expo_tokens',
-        ]);
-        ExpoToken::create([
-            'notifiable_id' => Auth::user()->id,
-            'notifiable_type' => User::class,
-            'token' => $request->token
-        ]);
+    // public function subscribe(Request $request)
+    // {
+    //     $request->validate([
+    //         'token' => 'required|unique:expo_tokens',
+    //     ]);
+    //     ExpoToken::create([
+    //         'notifiable_id' => Auth::user()->id,
+    //         'notifiable_type' => User::class,
+    //         'token' => $request->token
+    //     ]);
 
-        return response()->json(['success' => 'token is successfully registered']);
-    }
+    //     return response()->json(['success' => 'token is successfully registered']);
+    // }
 
-    public function unsubscribe(Request $request)
-    {
-        $validatedData = $request->validate([
-            'token' => 'required|exists:expo_tokens,token',
-        ]);
+    // public function unsubscribe(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'token' => 'required|exists:expo_tokens,token',
+    //     ]);
 
-        ExpoToken::where([
-            'notifiable_id' => Auth::user()->id,
-            'token' => $request->token
-        ])->first()->delete();
+    //     ExpoToken::where([
+    //         'notifiable_id' => Auth::user()->id,
+    //         'token' => $request->token
+    //     ])->first()->delete();
 
-        return response()->json(['success' => 'token is successfully omitted']);
-    }
+    //     return response()->json(['success' => 'token is successfully omitted']);
+    // }
 
     /**
      * Show the form for creating a new resource.

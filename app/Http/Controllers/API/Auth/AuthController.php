@@ -34,17 +34,17 @@ class AuthController extends Controller
                 'phone_number' => ['The provided credentials are incorrect.'],
             ]);
         }
-        $personal_access_tokens = $user->createToken($request->device_name);
-        // $token = $personal_access_tokens->plainTextToken;
+        $personal_access_token = $user->createToken($request->device_name);
+        // $token = $personal_access_token->plainTextToken;
 
         ExpoToken::create([
-            'personal_access_tokens_id' => $personal_access_tokens->accessToken->id,
+            'personal_access_token_id' => $personal_access_token->accessToken->id,
             'expo_token' => $request->expo_token
         ]);
 
         $response = [
             'user' => $user,
-            'token' => $personal_access_tokens->plainTextToken
+            'token' => $personal_access_token->plainTextToken
         ];
 
         return response($response, 201);

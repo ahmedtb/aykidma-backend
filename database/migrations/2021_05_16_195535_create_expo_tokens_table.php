@@ -16,7 +16,7 @@ class CreateExpoTokensTable extends Migration
         Schema::create('expo_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('expo_token');
-            $table->foreignId('personal_access_tokens_id')->unique();
+            $table->foreignId('personal_access_token_id')->constrained()->onDelete('cascade')->unique();
             $table->timestamps();
         });
     }

@@ -27,8 +27,8 @@ Route::post('signup', [AuthController::class, 'signup']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:sanctum');
-Route::post('userNotifications/subscribe', [UserNotificationsController::class, 'subscribe'])->middleware('auth:sanctum');
-Route::delete('userNotifications/subscribe', [UserNotificationsController::class, 'unsubscribe'])->middleware('auth:sanctum');
+// Route::post('userNotifications/subscribe', [UserNotificationsController::class, 'subscribe'])->middleware('auth:sanctum');
+// Route::delete('userNotifications/subscribe', [UserNotificationsController::class, 'unsubscribe'])->middleware('auth:sanctum');
 
 
 Route::post('/loginProvider', [ProviderAuthController::class, 'login']);

@@ -23,10 +23,12 @@ class AuthTest extends TestCase
 
         $user = User::factory()->create(['password' => Hash::make('password')]);
 
+        $testing_expo_token = '11111';
         $response = $this->postJson('api/login', [
             'phone_number' => $user->phone_number,
             'password' => 'password',
-            'device_name' => 'mobile'
+            'device_name' => 'mobile',
+            'expo_token' => $testing_expo_token
         ]);
 
         $response->assertStatus(201);

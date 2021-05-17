@@ -13,6 +13,6 @@ class ExpoToken extends Model
     protected $guarded = [];
 
     public function PersonalAccessToken() {
-        return $this->belongsTo(PersonalAccessToken::class,'personal_access_tokens_id');
+        return $this->belongsTo(PersonalAccessToken::class);
     }
 }
