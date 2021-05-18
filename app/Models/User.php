@@ -50,22 +50,13 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-
-    // public function tokens()
-    // {
-    //     return $this->morphMany(ExpoToken::class, 'notifiable');
-    // }
-
     public function routeNotificationForExpoApp()
     {
         return $this->expoTokens();
-
-        // return $this->hasMany(ExpoToken::class);
     }
 
     public function expoTokens()
     {
-        return $this->hasManyThrough(ExpoToken::class, PersonalAccessToken::class, 'tokenable_id')
-            ->where('tokenable_type', User::class);
+        return $this->tokens()->pluck('expo_token')->unique();
     }
 }

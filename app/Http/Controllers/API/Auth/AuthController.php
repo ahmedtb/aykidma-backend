@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\activationNumber;
-use App\Models\ExpoToken;
 use App\Models\User;
 use App\Models\ServiceProvider;
 use Illuminate\Http\Request;
@@ -21,26 +20,18 @@ class AuthController extends Controller
         $request->validate([
             'phone_number' => 'required|string',
             'password' => 'required',
-            'device_name' => 'required',
-            'expo_token' => 'required|unique:expo_tokens'
+            'device_name' => 'required|string',
+            'expo_token' => 'required|string'
         ]);
 
         $user = User::where('phone_number', $request->phone_number)->first();
-
-        // dd($request->password . " " .  $user->password);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone_number' => ['The provided credentials are incorrect.'],
             ]);
         }
-        $personal_access_token = $user->createToken($request->device_name);
-        // $token = $personal_access_token->plainTextToken;
-
-        ExpoToken::create([
-            'personal_access_token_id' => $personal_access_token->accessToken->id,
-            'expo_token' => $request->expo_token
-        ]);
+        $personal_access_token = $user->createToken($request->device_name,$request->expo_token);
 
         $response = [
             'user' => $user,

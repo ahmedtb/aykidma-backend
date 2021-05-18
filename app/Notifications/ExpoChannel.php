@@ -12,8 +12,8 @@ class ExpoChannel
     {
         $message = $notification->toExpoApp($notifiable);
 
-        $Tos = $notifiable->routeNotificationFor('ExpoApp')->pluck('expo_token');       
-        // dd($Tos);
+        $Tos = $notifiable->routeNotificationFor('ExpoApp');       
+
         $response = Http::withHeaders([
             'host' => 'exp.host',
             'accept' => 'application/json',

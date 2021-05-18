@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\User;
-use App\Models\ExpoToken;
 use Illuminate\Http\Request;
 use App\Models\UserNotification;
 use App\Http\Controllers\Controller;

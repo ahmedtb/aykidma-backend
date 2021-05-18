@@ -22,13 +22,14 @@ class ProviderAuthTest extends TestCase
      */
     public function test_service_provider_can_login_to_his_account_and_get_access_token()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $provider = ServiceProvider::factory()->create(['password' => Hash::make('password') ]);
         $response = $this->postJson('api/loginProvider',
         [
             'phone_number' => $provider->phone_number,
-            'password' => 'password'
+            'password' => 'password',
+            'expo_token' => '11111'
         ]);
 
         $response->assertStatus(200);
@@ -46,7 +47,7 @@ class ProviderAuthTest extends TestCase
 
         $provider = ServiceProvider::factory()->create();
 
-        $token = $provider->createToken('mobile');
+        $token = $provider->createToken('mobile','11111');
         // dd($token);
         
 

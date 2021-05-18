@@ -17,6 +17,7 @@ class ProviderAuthController extends Controller
         $request->validate([
             'phone_number' => 'required|string',
             'password' => 'required',
+            'expo_token' => 'required|string'
         ]);
 
         $provider = ServiceProvider::where('phone_number', $request->phone_number)->first();
@@ -30,8 +31,8 @@ class ProviderAuthController extends Controller
         return response()->json([
             'provider' => $provider,
             'token' => $provider->createToken(
-                'mobile'
-                // , ['role:provider']
+                'mobile',
+                $request->expo_token
             )->plainTextToken
         ]);
     }
