@@ -23,7 +23,8 @@ class UserNotificationFactory extends Factory
     public function definition()
     {
         return [
-            'message' => $this->faker->sentence(),
+            'title' => $this->faker->sentence(),
+            'body' => $this->faker->sentence(),
             'type' => $this->faker->word(),
             'user_id' => User::factory()->create()->id
         ];

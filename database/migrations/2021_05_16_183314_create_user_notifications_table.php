@@ -15,9 +15,10 @@ class CreateUserNotificationsTable extends Migration
     {
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('message');
+            $table->string('title');
+            $table->string('body');
             $table->string('type');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->onDelete('cascade');
             $table->boolean('sent')->default(false);
             $table->timestamps();
         });
