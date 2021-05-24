@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(UserNotification::class);
+    }
+
     /**
      * Create a new personal access token for the user.
      *
@@ -59,7 +64,7 @@ class User extends Authenticatable
      * @param  array  $abilities
      * @return \Laravel\Sanctum\NewAccessToken
      */
-    public function createToken(string $name, string $expo_token,array $abilities = ['*'])
+    public function createToken(string $name, string $expo_token, array $abilities = ['*'])
     {
         $token = $this->tokens()->forceCreate([
             'tokenable_id' => $this->id,
@@ -70,7 +75,7 @@ class User extends Authenticatable
             'abilities' => $abilities,
         ]);
 
-        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
     }
 
     public function routeNotificationForExpoApp()

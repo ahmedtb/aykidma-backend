@@ -38,6 +38,9 @@ Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->mid
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:sanctum', 'type.provider']);
 
+Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:sanctum', 'type.provider']);
+
+
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum', 'type.admin']);
 
 Route::resource('category', CategoryController::class);

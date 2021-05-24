@@ -30,10 +30,7 @@ class ProviderAuthController extends Controller
 
         return response()->json([
             'provider' => $provider,
-            'token' => $provider->createToken(
-                'mobile',
-                $request->expo_token
-            )->plainTextToken
+            'token' => $provider->createToken('mobile', $request->expo_token)->plainTextToken
         ]);
     }
 
