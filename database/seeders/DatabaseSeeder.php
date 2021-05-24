@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\Order::factory(10)->create();
         \App\Models\Admin::factory()->create();
-
+        \App\Models\UserNotification::factory(10)->create(['user_id'=>1]);
     }
 }

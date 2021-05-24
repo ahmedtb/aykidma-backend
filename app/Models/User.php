@@ -61,7 +61,9 @@ class User extends Authenticatable
      */
     public function createToken(string $name, string $expo_token,array $abilities = ['*'])
     {
-        $token = $this->tokens()->create([
+        $token = $this->tokens()->forceCreate([
+            'tokenable_id' => $this->id,
+            'tokenable_type' => static::class,
             'name' => $name,
             'token' => hash('sha256', $plainTextToken = Str::random(40)),
             'expo_token' => $expo_token,
