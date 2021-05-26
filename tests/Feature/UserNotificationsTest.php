@@ -52,7 +52,7 @@ class UserNotificationsTest extends TestCase
             ->once();
         // ->with($Tos);
 
-        $user->notify(new MessageNotification());
+        $user->notify(new MessageNotification('title','body','type'));
     }
 
 

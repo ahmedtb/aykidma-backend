@@ -11,13 +11,13 @@ class MessageNotification extends Notification
 {
     use Queueable;
 
-    protected $title,$body,$type;
+    protected $title, $body, $type;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($title,$body,$type)
+    public function __construct($title, $body, $type)
     {
         //
         $this->title = $title;
@@ -33,7 +33,7 @@ class MessageNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [ ExpoDatabaseChannel::class];
+        return [ExpoDatabaseChannel::class];
     }
 
 
@@ -60,13 +60,33 @@ class MessageNotification extends Notification
         ];
     }
 
+    public function toUser($notifiable)
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body,
+            'type' => $this->type,
+            'user_id' => $notifiable->id,
+        ];
+    }
+
+    public function toProvider($notifiable)
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body,
+            'type' => $this->type,
+            'service_provider_id' => $notifiable->id,
+        ];
+    }
+
     /**
      * Get the database representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase ($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'title' => $this->title,

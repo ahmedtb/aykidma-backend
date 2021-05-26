@@ -8,12 +8,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
 use App\Models\ProviderNotification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ServiceProvider extends Authenticatable
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $casts = [
         'address' => Json::class,

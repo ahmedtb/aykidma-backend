@@ -2,6 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Models\ProviderNotification;
+use App\Models\User;
+use App\Models\ServiceProvider;
 use App\Models\UserNotification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Notifications\Notification;
@@ -9,9 +12,10 @@ use Illuminate\Notifications\Notification;
 
 class ExpoDatabaseChannel
 {
-    public function send($notifiable, Notification $notification)
+    public function forServiceProvider($notifiable, Notification $notification)
     {
-        $data = $notification->toExpoAppAndDatabase($notifiable);
+
+        $data = $notification->toProvider($notifiable);
 
         // retrive all expo tokens from sanctum records (personal access tokens table)
         $Tos = $notifiable->routeNotificationFor('ExpoApp');
@@ -21,9 +25,36 @@ class ExpoDatabaseChannel
             return (!is_null($value) && $value !== '');
         });
 
-        // save in database
-        $userNotification = UserNotification::create($data);
 
+        $providerNotification = ProviderNotification::create($data);
+        if (!$Tos->isEmpty()) {
+            $response = Http::withHeaders([
+                'host' => 'exp.host',
+                'accept' => 'application/json',
+                'accept-encoding' => 'gzip, deflate',
+                'content-type' => 'application/json'
+            ])->post('https://exp.host/--/api/v2/push/send', [
+                "to" => $Tos,
+                "title" => $providerNotification->title,
+                "body" => $providerNotification->body,
+                'data' => $providerNotification,
+            ]);
+        }
+    }
+
+    public function forUser($notifiable, Notification $notification)
+    {
+        $data = $notification->toUser($notifiable);
+
+        // retrive all expo tokens from sanctum records (personal access tokens table)
+        $Tos = $notifiable->routeNotificationFor('ExpoApp');
+
+        // remove empty tokens (nulls and '') from the collection
+        $Tos = $Tos->filter(function ($value) {
+            return (!is_null($value) && $value !== '');
+        });
+
+        $userNotification = UserNotification::create($data);
         if (!$Tos->isEmpty()) {
             $response = Http::withHeaders([
                 'host' => 'exp.host',
@@ -37,7 +68,15 @@ class ExpoDatabaseChannel
                 'data' => $userNotification,
             ]);
         }
+    }
 
-        
+    public function send($notifiable, Notification $notification)
+    {
+
+        if ($notifiable instanceof ServiceProvider) {
+            $this->forServiceProvider($notifiable, $notification);
+        } else if ($notifiable instanceof User) {
+            $this->forUser($notifiable, $notification);
+        }
     }
 }

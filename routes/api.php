@@ -9,6 +9,7 @@ use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\ProviderAuthController;
 use App\Http\Controllers\API\UserNotificationsController;
+use App\Http\Controllers\API\ProviderNotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::post('signup', [AuthController::class, 'signup']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:sanctum');
-Route::get('notificationTest', function () {
+Route::get('userNotificationTest', function () {
     $user = App\Models\User::where('id', 1)->first();
     $user->notify(new App\Notifications\MessageNotification('title', 'body', 'type'));
     return 'notify success';
@@ -39,7 +40,11 @@ Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider'])
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:sanctum', 'type.provider']);
 
 Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:sanctum', 'type.provider']);
-
+Route::get('providerNotificationTest', function () {
+    $provider = App\Models\ServiceProvider::where('id', 1)->first();
+    $provider->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'typeP'));
+    return 'notify success';
+});
 
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum', 'type.admin']);
 

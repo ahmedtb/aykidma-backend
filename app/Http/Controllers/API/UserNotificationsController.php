@@ -16,6 +16,7 @@ class UserNotificationsController extends Controller
      */
     public function index()
     {
+        return Auth::user()->notifications()->get();
         return UserNotification::where('user_id', Auth::user()->id)->get();
     }
 
