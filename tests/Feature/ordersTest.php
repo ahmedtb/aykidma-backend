@@ -16,27 +16,18 @@ class ordersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected function setUp(): void
-    {
-
-        parent::setup();
-    }
-
-
-
     public function test_all_orders_retrieved_from_database_in_correct_formate_json()
     {
         $user = User::factory()->create();
         Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user,'web')->getJson('api/orders');
+        $response = $this->actingAs($user, 'web')->getJson('api/orders');
 
         $size = sizeof($response->json());
 
-        // $response->dump();
         $response
             ->assertJson(
-                function (AssertableJson $json) use ($size,$user) {
+                function (AssertableJson $json) use ($size, $user) {
                     for ($x = 0; $x < $size; $x++) {
                         $json->has(
                             $x,
@@ -46,7 +37,9 @@ class ordersTest extends TestCase
                                 ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
-                                ->whereType('meta_data.location.name', 'string')
+                                ->whereType('meta_data', 'array')
+                                ->whereType('service', 'array')
+                                ->whereType('service.service_provider', 'array')
                                 ->etc()
                         );
                     }
@@ -57,16 +50,17 @@ class ordersTest extends TestCase
 
     public function test_check_orders_retrived_by_service_id()
     {
+        $this->withoutExceptionHandling();
 
         $user = User::factory()->create();
         Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user,'web')->getJson('api/orders/1');
+        $response = $this->actingAs($user, 'web')->getJson('api/orders/1');
 
         $size = sizeof($response->json());
         $response
             ->assertJson(
-                function (AssertableJson $json) use ($size,$user) {
+                function (AssertableJson $json) use ($size, $user) {
                     for ($x = 0; $x < $size; $x++) {
                         $json->has(
                             $x,
@@ -76,7 +70,7 @@ class ordersTest extends TestCase
                                 ->where('user_id', $user->id)
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
-                                ->whereType('meta_data.location.name', 'string')
+                                ->whereType('meta_data', 'array')
                                 ->etc()
                         );
                     }
@@ -85,32 +79,13 @@ class ordersTest extends TestCase
             );
     }
 
-    public function test_only_authenticated_user_can_retrive_orders()
-    {
-        $user = User::factory()->create();
-        Order::factory()->count(10)->create(['user_id' => $user->id]);
 
-
-        $response = $this->getJson('api/orders');
-        $response->assertUnauthorized();
-
-        $response = $this->getJson('api/orders/1');
-        $response->assertUnauthorized();
-
-        $this->actingAs($user,'web');
-
-        $response = $this->getJson('api/orders');
-        $response->assertOk();
-
-        $response = $this->getJson('api/orders/1');
-        $response->assertOk();
-    }
 
     public function test_only_authenticated_users_can_submit_orders()
     {
         $user = User::factory()->create();
         $service = Service::factory()->create();
-        $fields = $service->offer->fields;
+        $fields = $service->fields;
 
         // with values set to string
         foreach ($fields as $key => $field) {
@@ -119,40 +94,14 @@ class ordersTest extends TestCase
 
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
-            'user_id' => 1,
             'fields' => $fields
         ]);
 
 
         $response->assertUnauthorized();
 
-        $response = $this->actingAs($user,'web')->postJson('api/orders', [
+        $response = $this->actingAs($user, 'web')->postJson('api/orders', [
             'service_id' => $service->id,
-            'user_id' => 1,
-            'fields' => $fields
-        ]);
-
-
-        $response->assertStatus(200);
-    }
-
-    public function test_validating_a_valid_creating_order_request()
-    {
-
-        $service = Service::factory()->create();
-        $fields = $service->offer->fields;
-
-        // with values set to string
-        foreach ($fields as $key => $field) {
-            $fields[$key]['value'] = "Some value";
-        }
-        
-        $user = User::factory()->create();
-        $this->actingAs($user,'web');
-
-        $response = $this->postJson('api/orders', [
-            'service_id' => $service->id,
-
             'fields' => $fields
         ]);
 
@@ -165,7 +114,7 @@ class ordersTest extends TestCase
         $service = Service::factory()->create();
 
         $user = User::factory()->create();
-        $this->actingAs($user,'web');
+        $this->actingAs($user, 'web');
 
 
         $fields = [
@@ -249,7 +198,7 @@ class ordersTest extends TestCase
         $response->assertUnauthorized();
 
         $user = User::factory()->create();
-        $this->actingAs($user,'web');
+        $this->actingAs($user, 'web');
 
         $response = $this->postJson('api/orders', [
             // 'service_id' => 1,
@@ -273,15 +222,14 @@ class ordersTest extends TestCase
     public function test_order_fields_structure_should_match_offer_fields_structure()
     {
         $service = Service::factory()->create();
-        $offer = $service->offer;
-        $fields = $offer->fields;
+        $fields = $service->fields;
         // with values set to string
         foreach ($fields as $key => $field) {
             $fields[$key]['value'] = "Some value";
         }
 
         $user = User::factory()->create();
-        $this->actingAs($user,'web');
+        $this->actingAs($user, 'web');
 
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
@@ -318,7 +266,7 @@ class ordersTest extends TestCase
         $user = User::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'status' => 'resumed']);
 
-        $this->actingAs($user,'web')->put('api/order/done',[
+        $this->actingAs($user, 'web')->put('api/order/done', [
             'order_id' => $order->id
         ])->assertOk();
     }

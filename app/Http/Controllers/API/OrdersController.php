@@ -18,7 +18,7 @@ class OrdersController extends Controller
 
     public function getServiceOrders(Request $request)
     {
-        return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service.offer', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
     /**
@@ -28,7 +28,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        return Auth::user()->orders()->with(['service.offer', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders()->with(['service', 'service.ServiceProvider'])->get();
     }
 
     /**
@@ -65,7 +65,7 @@ class OrdersController extends Controller
 
     public function getProviderOrders(Request $request)
     {
-        return $request->user()->Orders()->with(['service.offer'])->get();
+        return $request->user()->Orders()->with(['service'])->get();
     }
 
     public function resume(Request $request)

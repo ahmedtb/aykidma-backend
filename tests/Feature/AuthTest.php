@@ -4,12 +4,13 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\activationNumber;
+use App\Models\Order;
 use App\Models\Service;
+use App\Models\activationNumber;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthTest extends TestCase
 {
@@ -86,6 +87,27 @@ class AuthTest extends TestCase
             'password' => 'password',
             'activationNumber' => $activationNumber->activationNumber
         ])->assertStatus(201)->assertJson(['message' => 'user is successfully created']);
+    }
+
+    public function test_only_authenticated_user_can_retrive_orders()
+    {
+        $user = User::factory()->create();
+        Order::factory()->count(10)->create(['user_id' => $user->id]);
+
+
+        $response = $this->getJson('api/orders');
+        $response->assertUnauthorized();
+
+        $response = $this->getJson('api/orders/1');
+        $response->assertUnauthorized();
+
+        $this->actingAs($user, 'web');
+
+        $response = $this->getJson('api/orders');
+        $response->assertOk();
+
+        $response = $this->getJson('api/orders/1');
+        $response->assertOk();
     }
 
 }

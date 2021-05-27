@@ -39,11 +39,11 @@ class FieldsMatch implements Rule
     public function passes($attribute, $fields)
     {
 
-        $offer = $this->service->offer;
-        if (!$offer)
-            return false;
+        // $offer = $this->service->offer;
+        // if (!$offer)
+        //     return false;
 
-        $offer_fields = $offer->fields;
+        $offer_fields = $this->service->fields;
 
         if (sizeof($fields) != sizeof($offer_fields))
             return false;

@@ -16,8 +16,8 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function offers()
+    public function services()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Service::class);
     }
 }

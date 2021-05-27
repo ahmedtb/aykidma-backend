@@ -50,10 +50,13 @@ Route::put('/approve/service', [AdminController::class, 'approveService'])->midd
 
 Route::resource('category', CategoryController::class);
 
-Route::get('offers', [OffersController::class, 'allOffersWithApprovedServices']);
-Route::get('offers/{category_id}', [OffersController::class, 'byCategory']);
+// Route::get('offers', [OffersController::class, 'allOffersWithApprovedServices']);
+// Route::get('offers/{category_id}', [OffersController::class, 'byCategory']);
 
-Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
+Route::get('services', [ServicesController::class, 'allApprovedServices']);
+Route::get('services/{category_id}', [ServicesController::class, 'byCategory']);
+
+// Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum', 'type.provider']);
 Route::post('createServiceWithOffer', [ServicesController::class, 'createWithOffer'])->middleware(['auth:sanctum', 'type.provider']);
 

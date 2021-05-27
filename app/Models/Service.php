@@ -15,7 +15,9 @@ class Service extends Model
         'service_provider_id' => 'integer',
         'offer_id' => 'integer',
         'rating' => 'float',
-        'approved' => 'boolean'
+        'approved' => 'boolean',
+        'fields' =>  Json::class,
+        'category_id' => 'integer'
     ];
 
     protected $guarded = [];
@@ -24,7 +26,22 @@ class Service extends Model
         return $this->belongsTo(ServiceProvider::class);
     }
 
-    public function offer() {
-        return $this->belongsTo(Offer::class);
+    // public function offer() {
+    //     return $this->belongsTo(Offer::class);
+    // }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    // public function services()
+    // {
+    //     return $this->hasMany(Service::class);
+    // }
+
+    public function approvedServices()
+    {
+        return $this->hasMany(Service::class)->where('approved',true);
     }
 }

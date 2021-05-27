@@ -20,16 +20,14 @@ class servicesTest extends TestCase
     use DatabaseMigrations;
 
 
-    protected function setUp(): void
+    public function test_user_can_can_fetch_all_services_guaranteed_that_they_have_a_correct_format()
     {
-
-        parent::setup();
-
         Order::factory()->count(10)->create();
-    }
-    public function test_check_services_retrieved_by_offer_id()
-    {
-        $response = $this->getJson('api/service/1');
+        $this->withoutExceptionHandling();
+
+        $response = $this->getJson('api/services');
+
+        // dd($response->json());
 
         $size = sizeof($response->json());
         $response
@@ -41,9 +39,13 @@ class servicesTest extends TestCase
                             fn (AssertableJson $sample) =>
                             $sample->whereType('id', 'integer')
                                 ->whereType('service_provider_id', 'integer')
-                                ->whereType('offer_id', 'integer')
-                                ->has('meta_data')
-                                ->whereType('service_provider', 'array')
+                                ->whereType('approved', 'boolean')
+                                ->whereType('title', 'string')
+                                ->whereType('description', 'string')
+                                ->whereType('fields', 'array')
+                                ->whereType('category_id', 'integer')
+                                ->whereType('image', 'string')
+                                ->whereType('meta_data','array')
                                 ->etc()
                         );
                     }
@@ -56,32 +58,36 @@ class servicesTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
-        $offer = Offer::factory()->create();
-        $this->actingAs($provider,'web')->postJson('api/services', [
-            'service_provider_id' => $provider->id,
-            'offer_id' => $offer->id,
-            'meta_data' => ['details' => 'details about the services'],
+        $service = Service::factory()->make();
+        $response = $this->actingAs($provider,'web')->postJson('api/services', [
+            // 'service_provider_id' => $provider->id,
+            'title' => $service->title,
+            'description' => $service->description,
+            'fields' => $service->fields,
+            'category_id' => $service->category_id,
+            'image' =>  $service->image,
+            'meta_data' => $service->meta_data,
         ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
     }
 
-    public function test_provider_will_create_offer_when_submit_request_to_create_service()
-    {
+    // public function test_provider_will_create_offer_when_submit_request_to_create_service()
+    // {
         
-        $this->postJson('api/createServiceWithOffer', [])->assertUnauthorized();
+    //     $this->postJson('api/createServiceWithOffer', [])->assertUnauthorized();
 
-        $provider = ServiceProvider::factory()->create();
-        $category = Category::factory()->create();
-        $offer = Offer::factory()->make(['category_id' => $category->id]);
+    //     $provider = ServiceProvider::factory()->create();
+    //     $category = Category::factory()->create();
+    //     $offer = Offer::factory()->make(['category_id' => $category->id]);
         
-        $this->actingAs($provider,'web')->postJson('api/createServiceWithOffer', [
-            'title' => $offer->title,
-            'description' => $offer->description,
-            'fields' => $offer->fields,
-            'category_id' => $offer->category_id,
-            'meta_data' => $offer->meta_data,
-            'details' => 'details about the services'
-        ])->assertStatus(201);
-    }
+    //     $this->actingAs($provider,'web')->postJson('api/createServiceWithOffer', [
+    //         'title' => $offer->title,
+    //         'description' => $offer->description,
+    //         'fields' => $offer->fields,
+    //         'category_id' => $offer->category_id,
+    //         'meta_data' => $offer->meta_data,
+    //         'details' => 'details about the services'
+    //     ])->assertStatus(201);
+    // }
     public function test_Provider_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
     {
         $service = Service::factory()->create();
@@ -101,5 +107,34 @@ class servicesTest extends TestCase
         ])->assertStatus(404);
         // dd($response->json());
         $response->assertJson(['failure' => 'the service is already approved']);
+    }
+
+
+    public function test_user_can_fetch_only_services_that_are_approved()
+    {
+        // $offer = Offer::factory()->create([]);
+
+        Service::factory()->create();
+        $response = $this->getJson('api/services');
+        $this->assertEquals(sizeof($response->json() ), 0);
+
+        Service::factory()->approved()->create();
+        $response = $this->getJson('api/services');
+        $this->assertEquals(sizeof($response->json() ), 1);
+
+
+    }
+
+    public function test_user_can_fetch_approved_services_with_category_id()
+    {
+        $service = Service::factory()->create();
+        $response = $this->get('api/services/' . $service->category_id);
+        $this->assertEquals(sizeof($response->json() ), 0);
+        $response->assertStatus(200);
+
+        $service = Service::factory()->approved()->create();
+        $response = $this->get('api/services/' . $service->category_id);
+        $this->assertEquals(sizeof($response->json() ), 1);
+        $response->assertStatus(200);
     }
 }

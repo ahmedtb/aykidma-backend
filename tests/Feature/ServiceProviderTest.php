@@ -48,45 +48,25 @@ class ServiceProviderTest extends TestCase
     public function test_service_provider_can_retrive_his_services()
     {
         $service_provider = ServiceProvider::factory()->create();
-        $services = Service::factory()->count(10)->create([
+        $services = Service::factory()->count(5)->create([
             'service_provider_id' => $service_provider->id,
             'meta_data' => []
         ]);
 
         $response = $this->actingAs($service_provider,'web')->getJson('api/myServices')->assertOk();
 
-        $sample_index = random_int(0, sizeof($response->json()) - 1);
+        $this->assertEquals( sizeof($response->json()), 5);
 
-        // dd($response->json());
-        // $this->withoutExceptionHandling();
-        $response
-            ->assertJson(
-                fn (AssertableJson $json) =>
-                $json->has(
-                    $sample_index,
-                    fn (AssertableJson $sample) =>
-                    $sample->has('id')
-                        ->whereType('id', 'integer')
-                        ->whereType('service_provider_id', 'integer')
-                        ->whereType('offer_id', 'integer')
-                        ->has('meta_data')
-                        ->whereType('rating', 'integer')
-                        ->etc()
-                )
-            );
     }
 
-    public function test_service_can_retrive_his_orders()
+    public function test_provider_can_retrive_his_orders()
     {
         $service_provider = ServiceProvider::factory()->create();
         $service = Service::factory()->create(['service_provider_id' => $service_provider->id]);
-        $orders = Order::factory()->count(5)->create(['service_id' => $service->id]);
-
+        Order::factory()->count(5)->create(['service_id' => $service->id]);
         $response = $this->actingAs($service_provider,'web')->getJson('api/providerOrders')->assertOk();
 
         $sample_index = random_int(0, sizeof($response->json()) - 1);
-
-        // dd($response->json());
 
         $response
             ->assertJson(
@@ -108,9 +88,7 @@ class ServiceProviderTest extends TestCase
                         )
                         ->whereType('meta_data', 'array')
                         ->whereType('service', 'array')
-                        ->whereType('service.offer', 'array')
-                        // ->whereType('service.service_provider', 'array')
-
+                        ->whereType('service.fields', 'array')
                         ->etc()
                 )
             );

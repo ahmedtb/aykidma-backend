@@ -68,7 +68,7 @@ class OrderFactory extends Factory
 
         return [
             //
-            'service_id' => \App\Models\Service::factory()->create()->id,
+            'service_id' => \App\Models\Service::factory()->approved()->create()->id,
             // 'offer_id' => $offer->id,
             'user_id' => \App\Models\User::factory()->create()->id,
             'status' => 'done',
