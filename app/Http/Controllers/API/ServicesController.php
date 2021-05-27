@@ -21,13 +21,14 @@ class ServicesController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'service_provider_id' => 'required|exists:service_providers,id',
+            // 'service_provider_id' => 'required|exists:service_providers,id',
             'offer_id' => 'required|exists:offers,id',
             'meta_data' => 'array'
         ]);
 
         Service::create([
-            'service_provider_id' => $request->service_provider_id,
+            // 'service_provider_id' => $request->service_provider_id,
+            'service_provider_id' => $request->user()->id,
             'offer_id' => $request->offer_id,
             'meta_data' => $request->meta_data
         ]);
