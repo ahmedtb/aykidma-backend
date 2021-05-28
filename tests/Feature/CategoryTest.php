@@ -21,4 +21,9 @@ class CategoryTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_category_should_have_an_image()
+    {
+        
+    }
 }

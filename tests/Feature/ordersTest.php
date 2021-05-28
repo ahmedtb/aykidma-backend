@@ -219,7 +219,7 @@ class ordersTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function test_order_fields_structure_should_match_offer_fields_structure()
+    public function test_order_fields_structure_should_match_service_fields_structure()
     {
         $service = Service::factory()->create();
         $fields = $service->fields;

@@ -65,29 +65,15 @@ class servicesTest extends TestCase
             'description' => $service->description,
             'fields' => $service->fields,
             'category_id' => $service->category_id,
-            'image' =>  $service->image,
+            // 'image' =>  $service->image,
             'meta_data' => $service->meta_data,
         ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
     }
 
-    // public function test_provider_will_create_offer_when_submit_request_to_create_service()
-    // {
-        
-    //     $this->postJson('api/createServiceWithOffer', [])->assertUnauthorized();
+    public function test_if_service_create_request_contain_null_image_input_the_system_should_put_default_image(){
 
-    //     $provider = ServiceProvider::factory()->create();
-    //     $category = Category::factory()->create();
-    //     $offer = Offer::factory()->make(['category_id' => $category->id]);
-        
-    //     $this->actingAs($provider,'web')->postJson('api/createServiceWithOffer', [
-    //         'title' => $offer->title,
-    //         'description' => $offer->description,
-    //         'fields' => $offer->fields,
-    //         'category_id' => $offer->category_id,
-    //         'meta_data' => $offer->meta_data,
-    //         'details' => 'details about the services'
-    //     ])->assertStatus(201);
-    // }
+    }
+
     public function test_Provider_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
     {
         $service = Service::factory()->create();

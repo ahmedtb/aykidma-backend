@@ -12,7 +12,7 @@ class AdminController extends Controller
     //
     public function listOfNotApprovedServices()
     {
-        $services = Service::where('approved', false)->with(['ServiceProvider', 'offer'])->get();
+        $services = Service::where('approved', false)->with(['ServiceProvider'])->get();
         return view('dashboard', ['services' => $services]);
     }
 

@@ -25,12 +25,12 @@
 
 
     <p>This is service {{ $service->id }}</p>
-    <p>{{ $service->offer->title }}</p>
+    <p>{{ $service->title }}</p>
     <p>the structure of the fields of the serivce preposed are</p>
 
-    <div class="border border-dark rounded">{!! nl2br($service->offer->description) !!}</div>
+    <div class="border border-dark rounded">{!! nl2br($service->description) !!}</div>
 
-    @foreach ($service->offer->fields as $field)
+    @foreach ($service->fields as $field)
 
         @if ($field['type'] == 'options')
             <p class="text-center mb-0">{{ $field['label'] }}</p>
