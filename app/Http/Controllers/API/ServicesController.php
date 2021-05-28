@@ -20,11 +20,11 @@ class ServicesController extends Controller
             'description' => 'required|string',
             'fields' => 'required|array',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'max:5000',
+            'image' => 'sometimes|max:5000',
             'meta_data' => 'present|array',
         ]);
         // this line needs further examination
-        $data['image'] = $data['image'] ?? 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
+        // $data['image'] = $data['image'] ?? 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
 
         $data['service_provider_id'] = $request->user()->id;
         Service::create($data);
@@ -45,7 +45,7 @@ class ServicesController extends Controller
 
     public function allApprovedServices()
     {
-        return Service::where('approved',true)->get(); 
+        return Service::where('approved', true)->get();
     }
 
 
@@ -55,6 +55,25 @@ class ServicesController extends Controller
             'category_id' => 'required|integer'
         ])->validate();
 
-        return Service::where('approved',true)->where('category_id', $category_id)->get();
+        return Service::where('approved', true)->where('category_id', $category_id)->get();
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $data = $request->validate([
+            'title' => 'sometimes|string',
+            'description' => 'sometimes|string',
+            'fields' => 'sometimes|array',
+            'category_id' => 'sometimes|exists:categories,id',
+            'image' => 'sometimes|max:5000',
+            'meta_data' => 'sometimes|array',
+        ]);
+
+        $service = $request->user()->Services()->where('id',$id)->first();
+        // $data['service_provider_id'] = $request->user()->id;
+        // Service::create($data);
+        $service->update($data);
+
+        return response(null, 204);
     }
 }

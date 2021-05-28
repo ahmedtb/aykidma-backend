@@ -45,7 +45,7 @@ class servicesTest extends TestCase
                                 ->whereType('fields', 'array')
                                 ->whereType('category_id', 'integer')
                                 ->whereType('image', 'string')
-                                ->whereType('meta_data','array')
+                                ->whereType('meta_data', 'array')
                                 ->etc()
                         );
                     }
@@ -56,10 +56,10 @@ class servicesTest extends TestCase
 
     public function test_provider_can_submit_request_to_create_service()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
-        $response = $this->actingAs($provider,'web')->postJson('api/services', [
+        $response = $this->actingAs($provider, 'web')->postJson('api/services', [
             // 'service_provider_id' => $provider->id,
             'title' => $service->title,
             'description' => $service->description,
@@ -68,10 +68,16 @@ class servicesTest extends TestCase
             // 'image' =>  $service->image,
             'meta_data' => $service->meta_data,
         ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
+        // dd($response->json());
     }
 
-    public function test_if_service_create_request_contain_null_image_input_the_system_should_put_default_image(){
+    public function test_if_service_create_request_contain_null_image_input_the_system_should_put_default_image()
+    {
+    }
 
+    public function test_services_retrived_should_came_with_category_field()
+    {
+        
     }
 
     public function test_Provider_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
@@ -84,11 +90,11 @@ class servicesTest extends TestCase
         ])->assertUnauthorized();
 
         // $this->withoutExceptionHandling();
-        $this->actingAs($admin,'web')->putJson('api/approve/service', [
+        $this->actingAs($admin, 'web')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertOK()->assertJson(['success' => 'the service has been approved']);
 
-        $response = $this->actingAs($admin,'web')->putJson('api/approve/service', [
+        $response = $this->actingAs($admin, 'web')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertStatus(404);
         // dd($response->json());
@@ -102,25 +108,41 @@ class servicesTest extends TestCase
 
         Service::factory()->create();
         $response = $this->getJson('api/services');
-        $this->assertEquals(sizeof($response->json() ), 0);
+        $this->assertEquals(sizeof($response->json()), 0);
 
         Service::factory()->approved()->create();
         $response = $this->getJson('api/services');
-        $this->assertEquals(sizeof($response->json() ), 1);
-
-
+        $this->assertEquals(sizeof($response->json()), 1);
     }
 
     public function test_user_can_fetch_approved_services_with_category_id()
     {
         $service = Service::factory()->create();
         $response = $this->get('api/services/' . $service->category_id);
-        $this->assertEquals(sizeof($response->json() ), 0);
+        $this->assertEquals(sizeof($response->json()), 0);
         $response->assertStatus(200);
 
         $service = Service::factory()->approved()->create();
         $response = $this->get('api/services/' . $service->category_id);
-        $this->assertEquals(sizeof($response->json() ), 1);
+        $this->assertEquals(sizeof($response->json()), 1);
         $response->assertStatus(200);
+    }
+
+    public function test_provider_can_edit_his_service_weather_it_is_approved_or_not()
+    {
+        $updateTo = Service::factory()->make();
+        $service = Service::factory()->create();
+
+        $response = $this->actingAs($service->ServiceProvider, 'web')->putJson('api/services/'.$service->id,[
+            // 'title' => $updateTo->title,
+            'description' => $updateTo->description,
+            'fields' => $updateTo->fields,
+            'category_id' => $updateTo->category_id,
+            'image' => $updateTo->image,
+            // 'meta_data' =>  $updateTo->meta_data,
+        ])->assertStatus(204);
+        
+        // $response->assertJson(['message' => 'service successfully edited']);
+        // dd($response->json());
     }
 }

@@ -58,6 +58,8 @@ Route::get('services/{category_id}', [ServicesController::class, 'byCategory']);
 
 // Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum', 'type.provider']);
+Route::put('services/{id}', [ServicesController::class, 'edit'])->middleware(['auth:sanctum', 'type.provider']);
+
 // Route::post('createServiceWithOffer', [ServicesController::class, 'createWithOffer'])->middleware(['auth:sanctum', 'type.provider']);
 
 Route::get('myServices', [ServicesController::class, 'myServices'])->middleware(['auth:sanctum', 'type.provider']);
