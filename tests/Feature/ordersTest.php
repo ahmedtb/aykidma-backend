@@ -16,7 +16,7 @@ class ordersTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_all_orders_retrieved_from_database_in_correct_formate_json()
+    public function test_all_orders_retrieved_from_database_came_in_a_correct_formate_json()
     {
         $user = User::factory()->create();
         Order::factory()->count(10)->create(['user_id' => $user->id]);
@@ -48,7 +48,7 @@ class ordersTest extends TestCase
             );
     }
 
-    public function test_check_orders_retrived_by_service_id()
+    public function test_orders_can_be_retrived_by_service_id()
     {
         $this->withoutExceptionHandling();
 
