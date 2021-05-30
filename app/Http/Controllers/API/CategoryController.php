@@ -40,6 +40,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'      => 'required|min:3|max:255|string',
+            'image' => 'required|string',
             'parent_id' => 'sometimes|nullable|exists:categories,id'
         ]);
 
@@ -77,9 +78,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $this->validate($request, [
+            'name'  => 'sometimes|min:3|max:255|string',
+            'image' => 'sometimes|string'
+        ]);
+
+        $category->update($validatedData);
+
+        return response(['success' => 'You have successfully updated a Category!']);
     }
 
     /**

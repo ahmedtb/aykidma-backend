@@ -41,7 +41,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'name'      => 'required|min:3|max:255|string',
+            'name' => 'required|min:3|max:255|string',
+            'image' => 'required|string',
             'parent_id' => 'sometimes|nullable|numeric'
         ]);
 
@@ -82,7 +83,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validatedData = $this->validate($request, [
-            'name'  => 'required|min:3|max:255|string'
+            'name'  => 'sometimes|min:3|max:255|string',
+            'image' => 'sometimes|string'
         ]);
 
         $category->update($validatedData);

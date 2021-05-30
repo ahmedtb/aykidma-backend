@@ -270,4 +270,8 @@ class ordersTest extends TestCase
             'order_id' => $order->id
         ])->assertOk();
     }
+
+    public function test_order_images_uploaded_as_base64_should_be_saved_as_files(){
+        
+    }
 }
