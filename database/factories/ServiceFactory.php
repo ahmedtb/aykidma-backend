@@ -97,7 +97,7 @@ class ServiceFactory extends Factory
             'description' => $this->faker->randomHtml(),
             'fields' => $fields,
             'category_id' => Category::factory()->create(),
-            'image'=> $this->faker->imageUrl(), // it has default value
+            'image'=> getBase64DefaultImage(),
             'meta_data' => $meta_data
         ];
     }

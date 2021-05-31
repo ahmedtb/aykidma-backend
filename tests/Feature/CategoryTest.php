@@ -31,7 +31,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_create_category_in_browser()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $category = Category::factory()->make();
 
         $this->post('/category',[
@@ -77,5 +77,10 @@ class CategoryTest extends TestCase
             'name' => $category2->name,
             'image' => $category2->image,
         ])->assertOk()->assertJson(['success' => 'You have successfully updated a Category!']);
+    }
+
+    public function test_drive_stored_image_file_should_be_deleted_when_deleting_the_category()
+    {
+        
     }
 }

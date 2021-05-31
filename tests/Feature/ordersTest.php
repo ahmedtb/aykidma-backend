@@ -6,6 +6,9 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Service;
+use App\Rules\base64;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -271,7 +274,9 @@ class ordersTest extends TestCase
         ])->assertOk();
     }
 
-    public function test_order_images_uploaded_as_base64_should_be_saved_as_files(){
-        
+    public function test_order_image_field_should_be_validated_as_base64_and_stored_as_linked_public_file_with_it_is_path_put_in_DB()
+    {
+
     }
+
 }

@@ -2,10 +2,12 @@
 
 namespace App\Rules;
 
+use App\Rules\base64;
 use App\Models\Service;
-use Illuminate\Contracts\Validation\Rule;
 
 use function PHPUnit\Framework\matches;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class FieldsMatch implements Rule
 {
@@ -38,28 +40,28 @@ class FieldsMatch implements Rule
      */
     public function passes($attribute, $fields)
     {
+        $service_fields = $this->service->fields;
 
-        // $offer = $this->service->offer;
-        // if (!$offer)
-        //     return false;
-
-        $offer_fields = $this->service->fields;
-
-        if (sizeof($fields) != sizeof($offer_fields))
+        if (sizeof($fields) != sizeof($service_fields))
             return false;
-            
+
         $matches = 0;
-        foreach ($offer_fields as $offer_field) {
+        foreach ($service_fields as $service_field) {
             foreach ($fields as $field) {
                 if (
-                    $this->key_value_pair_exists($field, 'label', $offer_field['label'])
+                    $this->key_value_pair_exists($field, 'label', $service_field['label'])
                     &&
-                    $this->key_value_pair_exists($field, 'type', $offer_field['type'])
+                    $this->key_value_pair_exists($field, 'type', $service_field['type'])
                 )
                     $matches++;
+                // if($field['type'] == 'image'){
+                //     $validator = Validator::make(['value' => $field['value']], [
+                //         'value' => [new base64()],
+                //     ]);
+                // }
             }
         }
-        return $matches == sizeof($offer_fields);
+        return $matches == sizeof($service_fields);
     }
 
     /**
@@ -69,6 +71,6 @@ class FieldsMatch implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'The fields formate (types and labels) is not valid.';
     }
 }

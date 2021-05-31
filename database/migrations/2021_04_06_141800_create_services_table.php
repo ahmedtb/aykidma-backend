@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateServicesTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -25,7 +26,7 @@ class CreateServicesTable extends Migration
             $table->longText('description');
             $table->json('fields');
             $table->foreignId('category_id');
-            $table->string('image')->default('https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg');
+            $table->mediumText('image');
             $table->json('meta_data')->nullable();
 
             $table->timestamps();

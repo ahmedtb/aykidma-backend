@@ -24,7 +24,7 @@ class ServicesController extends Controller
             'meta_data' => 'present|array',
         ]);
         // this line needs further examination
-        // $data['image'] = $data['image'] ?? 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
+        $data['image'] = $data['image'] ?? getBase64DefaultImage();
 
         $data['service_provider_id'] = $request->user()->id;
         Service::create($data);
@@ -65,7 +65,7 @@ class ServicesController extends Controller
             'description' => 'sometimes|string',
             'fields' => 'sometimes|array',
             'category_id' => 'sometimes|exists:categories,id',
-            'image' => 'sometimes|max:5000',
+            'image' => 'sometimes',
             'meta_data' => 'sometimes|array',
         ]);
 

@@ -56,7 +56,7 @@ class servicesTest extends TestCase
 
     public function test_provider_can_submit_request_to_create_service()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
         $response = $this->actingAs($provider, 'web')->postJson('api/services', [

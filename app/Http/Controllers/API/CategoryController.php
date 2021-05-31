@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rules\base64;
 
 class CategoryController extends Controller
 {
@@ -40,11 +41,18 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'      => 'required|min:3|max:255|string',
-            'image' => 'required|string',
+            'image' => ['required', new base64()],
             'parent_id' => 'sometimes|nullable|exists:categories,id'
         ]);
 
-        Category::create($validatedData);
+        // $imagePath = storeBase64PngFile($request->image);
+
+        Category::create([
+            'name'      => $request->name,
+            // 'image' => $imagePath,
+            'image' => $request->image,
+            'parent_id' => $request->parent_id
+        ]);
 
         return response(['success' => 'You have successfully created a Category!']);
     }
@@ -82,7 +90,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'  => 'sometimes|min:3|max:255|string',
-            'image' => 'sometimes|string'
+            'image' =>  ['required', new base64()]
         ]);
 
         $category->update($validatedData);
