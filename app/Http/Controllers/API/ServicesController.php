@@ -20,7 +20,7 @@ class ServicesController extends Controller
             'description' => 'required|string',
             'fields' => 'required|array',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'sometimes|max:5000',
+            'image' => 'sometimes',
             'meta_data' => 'present|array',
         ]);
         // this line needs further examination
