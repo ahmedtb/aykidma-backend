@@ -58,7 +58,7 @@ class OrderFactory extends Factory
         ];
 
         $meta_data = [
-            "review" => ["comment" => "هذا تعليق مزور", "rating" => 3.5],
+            "review" => ["comment" => "هذا تعليق تجريبي", "rating" => 3.5],
             "cost" => "500 دينار",
             "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
         ];
