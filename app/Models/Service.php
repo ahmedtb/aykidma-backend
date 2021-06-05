@@ -22,26 +22,23 @@ class Service extends Model
 
     protected $guarded = [];
 
-    public function ServiceProvider() {
+    public function ServiceProvider()
+    {
         return $this->belongsTo(ServiceProvider::class);
     }
-
-    // public function offer() {
-    //     return $this->belongsTo(Offer::class);
-    // }
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // public function services()
-    // {
-    //     return $this->hasMany(Service::class);
-    // }
-
     public function approvedServices()
     {
-        return $this->hasMany(Service::class)->where('approved',true);
+        return $this->hasMany(Service::class)->where('approved', true);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Order::class)->where('status','done')->select(['comment','rating']);
     }
 }

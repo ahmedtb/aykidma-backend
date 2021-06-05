@@ -271,7 +271,7 @@ class ordersTest extends TestCase
 
         $this->actingAs($user, 'web')->put('api/order/done', [
             'order_id' => $order->id
-        ])->assertOk();
+        ])->assertOk()->assertJson(['success' => 'order successfully marked as done']);
     }
 
     public function test_order_image_field_should_be_validated_as_base64_and_stored_as_linked_public_file_with_it_is_path_put_in_DB()

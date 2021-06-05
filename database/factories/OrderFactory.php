@@ -73,7 +73,18 @@ class OrderFactory extends Factory
             'user_id' => \App\Models\User::factory()->create()->id,
             'status' => 'done',
             'fields' => ($fields),
+
             'meta_data' => ($meta_data)
         ];
+    }
+    public function withReview()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'done',
+                'comment' => $this->faker->sentence(),
+                'rating' => random_int(0, 5),
+            ];
+        });
     }
 }

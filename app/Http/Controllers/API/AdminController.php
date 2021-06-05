@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,5 +30,26 @@ class AdminController extends Controller
              throw $error;
         }
 
+    }
+
+    public function deleteReview(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer'
+        ]);
+
+        $order = Order::where(['orders.id' => $request->order_id, 'status' => 'done'])->first();
+
+        if ($order) {
+            if ($request->comment) {
+                $order->comment = $request->comment;
+            }
+            if ($request->rating) {
+                $order->rating = $request->rating;
+            }
+            $order->save();
+            return response(['success' => 'review deleted']);
+        } else
+            return response(['failed' => 'there is no a done order that belongs to you with this id'], 400);
     }
 }

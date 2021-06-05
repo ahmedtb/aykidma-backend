@@ -12,12 +12,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class OrdersController extends Controller
 {
 
     public function getServiceOrders(Request $request)
     {
+        // could be provider or a user...does not matter since both has orders() function
         return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
@@ -87,17 +89,48 @@ class OrdersController extends Controller
     public function done(Request $request)
     {
         $request->validate([
-            'order_id' => 'required|integer'
+            'order_id' => 'required|integer',
+            'comment' => 'sometimes|string',
+            'rating' => 'sometimes|min:0|max:5'
         ]);
         // $order = Order::find(1)->where(['id'=>$request->order_id,'status'=>'new'])->first();
         $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'resumed'])->first();
 
         if ($order) {
             $order->status = 'done';
+            if ($request->comment) {
+                $order->comment = $request->comment;
+            }
+            if ($request->rating) {
+                $order->rating = $request->rating;
+            }
             $order->save();
             return response(['success' => 'order successfully marked as done']);
         } else
             return response(['failed' => 'there is no a resumed order that belongs to you with this id'], 400);
+    }
+
+    public function editReview(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer',
+            'comment' => 'required_without:rating|string',
+            'rating' => 'required_without:comment|min:0|max:5'
+        ]);
+
+        $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'done'])->first();
+
+        if ($order) {
+            if ($request->comment) {
+                $order->comment = $request->comment;
+            }
+            if ($request->rating) {
+                $order->rating = $request->rating;
+            }
+            $order->save();
+            return response(['success' => 'review edited']);
+        } else
+            return response(['failed' => 'there is no a done order that belongs to you with this id'], 400);
     }
 
     /**

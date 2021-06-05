@@ -68,5 +68,9 @@ Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:sanct
 Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:sanctum');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:sanctum');
 Route::put('order/resume', [OrdersController::class, 'resume'])->middleware(['auth:sanctum', 'type.provider']);
+Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:sanctum', 'type.admin']);
+
 Route::put('order/done', [OrdersController::class, 'done'])->middleware(['auth:sanctum']);
+Route::put('order/editReview', [OrdersController::class, 'editReview'])->middleware(['auth:sanctum']);
+
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum', 'type.provider']);
