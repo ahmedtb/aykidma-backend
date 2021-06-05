@@ -93,7 +93,6 @@ class OrdersController extends Controller
             'comment' => 'sometimes|string',
             'rating' => 'sometimes|min:0|max:5'
         ]);
-        // $order = Order::find(1)->where(['id'=>$request->order_id,'status'=>'new'])->first();
         $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'resumed'])->first();
 
         if ($order) {

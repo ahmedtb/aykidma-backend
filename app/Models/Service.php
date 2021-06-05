@@ -41,4 +41,9 @@ class Service extends Model
     {
         return $this->hasMany(Order::class)->where('status','done')->select(['comment','rating']);
     }
+
+    public function averageRating()
+    {
+        
+    }
 }
