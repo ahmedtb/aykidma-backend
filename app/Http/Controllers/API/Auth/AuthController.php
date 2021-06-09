@@ -31,7 +31,7 @@ class AuthController extends Controller
                 'phone_number' => ['The provided credentials are incorrect.'],
             ]);
         }
-        $personal_access_token = $user->createToken($request->device_name,$request->expo_token);
+        $personal_access_token = $user->createToken($request->device_name, $request->expo_token);
 
         $response = [
             'user' => $user,
@@ -53,6 +53,12 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return $request->user();
+    }
+
+    public function myImage(Request $request)
+    {
+        return $request->user()->image;
+
     }
 
     public function signup(Request $request)
@@ -92,5 +98,4 @@ class AuthController extends Controller
             }
         }
     }
-
 }

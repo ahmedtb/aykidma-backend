@@ -17,7 +17,7 @@ class AuthTest extends TestCase
     use DatabaseMigrations;
 
 
-    
+
 
     public function test_users_can_sign_in_and_get_access_tokens()
     {
@@ -38,7 +38,6 @@ class AuthTest extends TestCase
             'user',
             'token'
         ]);
-        
     }
 
     public function test_user_can_logout()
@@ -47,7 +46,7 @@ class AuthTest extends TestCase
 
         $user = User::factory()->create();
 
-        $token = $user->createToken('mobile','11111')->plainTextToken;
+        $token = $user->createToken('mobile', '11111')->plainTextToken;
 
         $response = $this->withHeaders([
             'Authorization' => ('Bearer ' . $token)
@@ -70,7 +69,7 @@ class AuthTest extends TestCase
             'password' => 'password'
         ])->assertStatus(201);
 
-        $activationNumber = activationNumber::where('phone_number',$phone_number)->first();
+        $activationNumber = activationNumber::where('phone_number', $phone_number)->first();
 
         // wrong activation number
         $this->post('api/signup', [
@@ -110,4 +109,33 @@ class AuthTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_user_data_return_does_not_contain_image()
+    {
+        $user = User::factory()->create(['password' => Hash::make('password')]);
+
+        $testing_expo_token = '11111';
+        $response = $this->postJson('api/login', [
+            'phone_number' => $user->phone_number,
+            'password' => 'password',
+            'device_name' => 'mobile',
+            'expo_token' => $testing_expo_token
+        ]);
+
+        $response->assertStatus(201);
+
+        $response->assertJsonStructure([
+            'user',
+            'token'
+        ]);
+        $this->assertArrayNotHasKey('image',$response->json()['user']);
+    }
+
+    public function test_user_can_fetch_his_image(){
+        $user = User::factory()->create();
+        $response = $this->actingAs($user, 'web')->getJson('api/myImage')->assertOk();
+        
+        // assert it is valid base64 image
+        $image = $response->content();
+        $this->assertTrue(base64_encode(base64_decode($image)) === $image);
+    }
 }
