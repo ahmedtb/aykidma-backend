@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\OffersController;
 use App\Http\Controllers\API\OrdersController;
+use App\Http\Controllers\API\SearchsController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\SearchesController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\ProviderAuthController;
@@ -74,3 +76,12 @@ Route::put('order/done', [OrdersController::class, 'done'])->middleware(['auth:s
 Route::put('order/editReview', [OrdersController::class, 'editReview'])->middleware(['auth:sanctum']);
 
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum', 'type.provider']);
+
+Route::get('search/services/{q}', [SearchesController::class,'servicesSearch']);
+Route::get('search/services/{category_id}/{q}', [SearchesController::class,'servicesCategorySearch']);
+
+Route::middleware(['auth:sanctum', 'type.provider'])->group(function () {
+    Route::get('provider/search/newOrders/{q}', [SearchesController::class,'providerNewOrdersSearch']);
+    Route::get('provider/search/resumedOrders/{q}', [SearchesController::class,'providerResumedOrdersSearch']);
+    Route::get('provider/search/doneOrders/{q}', [SearchesController::class,'providerDoneOrdersSearch']);
+});
