@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\activationNumber;
 use App\Models\User;
 use App\Models\ServiceProvider;
+use App\Rules\base64;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -58,7 +59,19 @@ class AuthController extends Controller
     public function myImage(Request $request)
     {
         return $request->user()->image;
+    }
 
+    public function editProfile(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'sometimes|string',
+            'phone_number' => 'sometimes|string',
+            'image' => ['sometimes', new base64()]
+        ]);
+        $user = $request->user();
+        $user->update($validatedData);
+        $user->save();
+        return response(['success' => 'user edited']);
     }
 
     public function signup(Request $request)

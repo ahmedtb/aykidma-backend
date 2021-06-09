@@ -127,15 +127,34 @@ class AuthTest extends TestCase
             'user',
             'token'
         ]);
-        $this->assertArrayNotHasKey('image',$response->json()['user']);
+        $this->assertArrayNotHasKey('image', $response->json()['user']);
     }
 
-    public function test_user_can_fetch_his_image(){
+    public function test_user_can_fetch_his_image()
+    {
         $user = User::factory()->create();
         $response = $this->actingAs($user, 'web')->getJson('api/myImage')->assertOk();
-        
+
         // assert it is valid base64 image
         $image = $response->content();
         $this->assertTrue(base64_encode(base64_decode($image)) === $image);
+    }
+
+    public function test_user_can_edit_his_profile()
+    {
+        $user = User::factory()->create();
+        $user2 = User::factory()->make();
+
+        $response = $this->actingAs($user, 'web')->postJson('api/editProfile', [
+            'name' => $user2->name,
+            // 'phone_number' => $user2->phone_number,
+            'image' => $user2->image,
+        ])->assertOk();
+
+        $response = $this->actingAs($user, 'web')->postJson('api/editProfile', [
+            // 'name' => $user2->name,
+            'phone_number' => $user2->phone_number,
+            // 'image' => $user2->image,
+        ])->assertOk();
     }
 }

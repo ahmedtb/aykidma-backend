@@ -29,6 +29,7 @@ Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sa
 Route::post('signup', [AuthController::class, 'signup']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
 Route::get('myImage', [AuthController::class, 'myImage'])->middleware('auth:sanctum');
+Route::post('editProfile', [AuthController::class, 'editProfile'])->middleware('auth:sanctum');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:sanctum');
 Route::get('userNotificationTest', function () {
