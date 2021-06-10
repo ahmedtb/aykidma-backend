@@ -58,7 +58,7 @@ class AuthController extends Controller
 
     public function myImage(Request $request)
     {
-        return $request->user()->image;
+        return $request->user()->image ?? getBase64DefaultImage();
     }
 
     public function editProfile(Request $request)

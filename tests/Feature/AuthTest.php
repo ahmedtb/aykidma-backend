@@ -31,7 +31,6 @@ class AuthTest extends TestCase
             'device_name' => 'mobile',
             'expo_token' => $testing_expo_token
         ]);
-
         $response->assertStatus(201);
 
         $response->assertJsonStructure([
@@ -156,5 +155,14 @@ class AuthTest extends TestCase
             'phone_number' => $user2->phone_number,
             // 'image' => $user2->image,
         ])->assertOk();
+    }
+
+    public function test_user_can_get_fresh_data_of_his_profile()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user, 'web')->getJson('api/user')->assertOk();
+        $response->assertJsonStructure([
+            'name','phone_number','phone_number_verified_at','updated_at','created_at','id'
+        ]);
     }
 }
