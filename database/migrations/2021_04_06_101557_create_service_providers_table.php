@@ -24,7 +24,7 @@ class CreateServiceProvidersTable extends Migration
             $table->string('password');
             $table->json('address');
             $table->json('coverage');
-            $table->string('image')->nullable();
+            $table->mediumText('image')->nullable();
             
             $table->json('meta_data')->nullable();
             $table->timestamps();

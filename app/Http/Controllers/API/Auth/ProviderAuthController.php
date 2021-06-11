@@ -81,7 +81,7 @@ class ProviderAuthController extends Controller
                     'email' => $request->email,
                     'address' => $request->address,
                     'coverage' => $request->coverage,
-                    "image" => null,
+                    "image" => getBase64DefaultImage(),
                     // "meta_data" => [
                     //     // "description" => "هذا وصف اختباري",
                     //     // "location" => ["GPS" => ["latitude" => 13.1, "longtitude" => 32.5]]

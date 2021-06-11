@@ -132,4 +132,13 @@ class ProviderAuthTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user,'web')->getJson('api/myServices')->assertUnauthorized();
     }
+
+    public function test_Provider_can_get_fresh_data_of_his_profile()
+    {
+        $Provider = ServiceProvider::factory()->create();
+        $response = $this->actingAs($Provider, 'web')->getJson('api/provider')->assertOk();
+        $response->assertJsonStructure([
+            'name','phone_number','email','address','coverage','image', 'meta_data', 'updated_at', 'created_at', 'id'
+        ]);
+    }
 }

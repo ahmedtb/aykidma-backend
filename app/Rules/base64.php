@@ -6,14 +6,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class base64 implements Rule
 {
+
+    protected int $maxSize;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(int $maxSize)
     {
-        //
+        $this->maxSize = $maxSize;
     }
 
     /**
@@ -25,10 +27,10 @@ class base64 implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (base64_encode(base64_decode($value)) === $value) {
+        if (sizeof($value) >= $this->maxSize || base64_encode(base64_decode($value)) === $value) {
             // dd('Success! The String entered match base64_decode and is Image');
             return true;
-        } else{
+        } else {
             // dd('failure!');
             return false;
         }
@@ -41,6 +43,6 @@ class base64 implements Rule
      */
     public function message()
     {
-        return 'String value is not a valid base64 string';
+        return 'image string value is not a valid base64 string';
     }
 }

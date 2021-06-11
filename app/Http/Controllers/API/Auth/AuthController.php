@@ -66,7 +66,7 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'sometimes|string',
             'phone_number' => 'sometimes|string',
-            'image' => ['sometimes', new base64()]
+            'image' => ['sometimes', new base64(8000000)]
         ]);
         $user = $request->user();
         $user->update($validatedData);

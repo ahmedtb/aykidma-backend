@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'      => 'required|min:3|max:255|string',
-            'image' => ['required', new base64()],
+            'image' => ['required', new base64(8000000)],
             'parent_id' => 'sometimes|nullable|exists:categories,id'
         ]);
 
@@ -90,7 +90,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'  => 'sometimes|min:3|max:255|string',
-            'image' =>  ['required', new base64()]
+            'image' =>  ['required', new base64(8000000)]
         ]);
 
         $category->update($validatedData);

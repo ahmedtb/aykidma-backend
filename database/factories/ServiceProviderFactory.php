@@ -41,7 +41,6 @@ class ServiceProviderFactory extends Factory
                 'area' => 'area1',
             ]
         ];
-        $image = 'https://www.mintformations.co.uk/blog/wp-content/uploads/2020/05/shutterstock_583717939.jpg';
         $meta_data = [
             "description" => "هذا وصف اختباري",
             "GPS" => ["latitude"=> 13.1, "longtitude"=> 32.5]
@@ -55,7 +54,7 @@ class ServiceProviderFactory extends Factory
             'password' => Hash::make('password'),
             'address' =>  $address,
             'coverage' => $coverage,
-            "image" => $image,
+            "image" => getBase64DefaultImage(),
             "meta_data" => $meta_data
         ];
     }
