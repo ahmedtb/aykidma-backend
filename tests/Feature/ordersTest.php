@@ -22,12 +22,12 @@ class ordersTest extends TestCase
     public function test_all_orders_retrieved_from_database_came_in_a_correct_formate_json()
     {
         $user = User::factory()->create();
-        Order::factory()->count(10)->create(['user_id' => $user->id]);
+        Order::factory()->count(5)->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($user, 'web')->getJson('api/orders');
 
         $size = sizeof($response->json());
-
+        // dd($response->json());
         $response
             ->assertJson(
                 function (AssertableJson $json) use ($size, $user) {
@@ -40,10 +40,22 @@ class ordersTest extends TestCase
                                 ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
+                                ->has(
+                                    'fields.1',
+                                    fn ($json) =>
+                                    $json->whereType('label', 'string')
+                                        ->whereType('type', 'string')
+                                        ->has('value')
+                                        ->etc()
+                                )
                                 ->whereType('meta_data', 'array')
+                                ->whereType('comment', 'string')
+                                ->whereType('rating', 'integer')
+                                ->whereType('cost', 'integer')
                                 ->whereType('service', 'array')
                                 ->whereType('service.service_provider', 'array')
-                                ->etc()
+                                ->whereType('created_at', 'string')
+                                ->whereType('updated_at', 'string')
                         );
                     }
                 }
@@ -69,12 +81,18 @@ class ordersTest extends TestCase
                             $x,
                             fn (AssertableJson $sample) =>
                             $sample->whereType('id', 'integer')
-                                ->whereType('service_id', 'integer')
                                 ->where('user_id', $user->id)
+                                ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
                                 ->whereType('fields', 'array')
                                 ->whereType('meta_data', 'array')
-                                ->etc()
+                                ->whereType('comment', 'string')
+                                ->whereType('rating', 'integer')
+                                ->whereType('cost', 'integer')
+                                ->whereType('service', 'array')
+                                ->whereType('service.service_provider', 'array')
+                                ->whereType('created_at', 'string')
+                                ->whereType('updated_at', 'string')
                         );
                     }
                 }
@@ -276,7 +294,5 @@ class ordersTest extends TestCase
 
     public function test_order_image_field_should_be_validated_as_base64_and_stored_as_linked_public_file_with_it_is_path_put_in_DB()
     {
-
     }
-
 }

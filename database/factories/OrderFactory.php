@@ -58,23 +58,19 @@ class OrderFactory extends Factory
         ];
 
         $meta_data = [
-            "review" => ["comment" => "هذا تعليق تجريبي", "rating" => 3.5],
-            "cost" => "500 دينار",
             "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
         ];
-
-        // to use the same offer in service factory and offer factory, it needs to be defined sperately
-        // $offer = \App\Models\Offer::factory()->create();
 
         return [
             //
             'service_id' => \App\Models\Service::factory()->approved()->create()->id,
-            // 'offer_id' => $offer->id,
             'user_id' => \App\Models\User::factory()->create()->id,
             'status' => 'done',
             'fields' => ($fields),
-
-            'meta_data' => ($meta_data)
+            'comment' => $this->faker->sentence(),
+            'rating' => random_int(0,5),
+            'cost' => random_int(0,65535),
+            'meta_data' => $meta_data
         ];
     }
     public function withReview()

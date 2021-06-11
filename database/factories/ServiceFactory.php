@@ -98,7 +98,8 @@ class ServiceFactory extends Factory
             'fields' => $fields,
             'category_id' => Category::factory()->create(),
             'image'=> getBase64DefaultImage(),
-            'meta_data' => $meta_data
+            'meta_data' => $meta_data,
+            'price' => random_int(0,65535),
         ];
     }
 

@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->json('fields');
             $table->string('comment')->nullable();
             $table->unsignedSmallInteger('rating')->nullable();
-            // meta_data should include informations like (location, review, cost, )
+            $table->unsignedSmallInteger('cost')->nullable();
             $table->json('meta_data')->nullable();
             $table->timestamps();
         });

@@ -34,11 +34,11 @@ class ServiceProviderTest extends TestCase
             'order_id' => $order->id
         ])->assertUnauthorized();
 
-        $this->actingAs($service_provider,'web')->putJson('api/order/resume/', [
+        $this->actingAs($service_provider, 'web')->putJson('api/order/resume/', [
             'order_id' => 111
         ])->assertStatus(400);
 
-        $this->actingAs($service_provider,'web')->putJson('api/order/resume/', [
+        $this->actingAs($service_provider, 'web')->putJson('api/order/resume/', [
             'order_id' => $order->id
         ])->assertOk();
 
@@ -53,10 +53,9 @@ class ServiceProviderTest extends TestCase
             'meta_data' => []
         ]);
 
-        $response = $this->actingAs($service_provider,'web')->getJson('api/myServices')->assertOk();
+        $response = $this->actingAs($service_provider, 'web')->getJson('api/myServices')->assertOk();
 
-        $this->assertEquals( sizeof($response->json()), 5);
-
+        $this->assertEquals(sizeof($response->json()), 5);
     }
 
     public function test_provider_can_retrive_his_orders()
@@ -64,7 +63,7 @@ class ServiceProviderTest extends TestCase
         $service_provider = ServiceProvider::factory()->create();
         $service = Service::factory()->create(['service_provider_id' => $service_provider->id]);
         Order::factory()->count(5)->create(['service_id' => $service->id]);
-        $response = $this->actingAs($service_provider,'web')->getJson('api/providerOrders')->assertOk();
+        $response = $this->actingAs($service_provider, 'web')->getJson('api/providerOrders')->assertOk();
 
         $sample_index = random_int(0, sizeof($response->json()) - 1);
 
@@ -74,10 +73,11 @@ class ServiceProviderTest extends TestCase
                 $json->has(
                     $sample_index,
                     fn (AssertableJson $sample) =>
-                    $sample->has('id')
-                        ->whereType('id', 'integer')
-                        ->whereType('service_id', 'integer')
+                    $sample->whereType('id', 'integer')
                         ->whereType('user_id', 'integer')
+                        ->whereType('service_id', 'integer')
+                        ->whereType('status', 'string')
+                        ->whereType('fields', 'array')
                         ->has(
                             'fields.1',
                             fn ($json) =>
@@ -87,9 +87,13 @@ class ServiceProviderTest extends TestCase
                                 ->etc()
                         )
                         ->whereType('meta_data', 'array')
+                        ->whereType('comment', 'string')
+                        ->whereType('rating', 'integer')
+                        ->whereType('cost', 'integer')
                         ->whereType('service', 'array')
-                        ->whereType('service.fields', 'array')
-                        ->etc()
+                        ->whereType('created_at', 'string')
+                        ->whereType('updated_at', 'string')
+                        ->has('laravel_through_key')
                 )
             );
     }

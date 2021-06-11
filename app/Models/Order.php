@@ -17,7 +17,8 @@ class Order extends Model
         'fields' =>  Json::class,
         'service_id' => 'integer',
         'user_id' => 'integer',
-        'rating' => 'integer'
+        'rating' => 'integer',
+        'cost' => 'integer'
     ];
 
     public function service()

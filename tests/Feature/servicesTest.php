@@ -46,7 +46,9 @@ class servicesTest extends TestCase
                                 ->whereType('category_id', 'integer')
                                 ->whereType('image', 'string')
                                 ->whereType('meta_data', 'array')
-                                ->etc()
+                                ->whereType('price','integer')
+                                ->whereType('created_at','string')
+                                ->whereType('updated_at', 'string')
                         );
                     }
                 }
@@ -134,15 +136,12 @@ class servicesTest extends TestCase
         $service = Service::factory()->create();
 
         $response = $this->actingAs($service->ServiceProvider, 'web')->putJson('api/services/'.$service->id,[
-            // 'title' => $updateTo->title,
+            'title' => $updateTo->title,
             'description' => $updateTo->description,
             'fields' => $updateTo->fields,
             'category_id' => $updateTo->category_id,
             'image' => $updateTo->image,
-            // 'meta_data' =>  $updateTo->meta_data,
+            'meta_data' =>  $updateTo->meta_data,
         ])->assertStatus(204);
-        
-        // $response->assertJson(['message' => 'service successfully edited']);
-        // dd($response->json());
     }
 }

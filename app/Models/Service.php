@@ -17,7 +17,8 @@ class Service extends Model
         'rating' => 'float',
         'approved' => 'boolean',
         'fields' =>  Json::class,
-        'category_id' => 'integer'
+        'category_id' => 'integer',
+        'price' => 'integer'
     ];
 
     protected $guarded = [];

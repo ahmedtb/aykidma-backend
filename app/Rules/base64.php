@@ -27,7 +27,7 @@ class base64 implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (sizeof($value) >= $this->maxSize || base64_encode(base64_decode($value)) === $value) {
+        if (strlen($value) >= $this->maxSize || base64_encode(base64_decode($value)) === $value) {
             // dd('Success! The String entered match base64_decode and is Image');
             return true;
         } else {
