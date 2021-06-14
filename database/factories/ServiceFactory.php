@@ -25,6 +25,11 @@ class ServiceFactory extends Factory
 
         $fields = [
             [
+                "label" => "أوصف مشكلتك وحاجتك بوضوح",
+                "type" => "string",
+                "value" => null
+            ],
+            [
                 "titles" => [
                     "حي السلام",
                     "حي الزهور",
@@ -33,7 +38,6 @@ class ServiceFactory extends Factory
                     "حي الاندلس"
                 ],
                 "label" => "اختر المنطقة",
-                "name" => "testingOptions",
                 "type" => "options",
                 "value" => null
             ],
@@ -46,38 +50,22 @@ class ServiceFactory extends Factory
                     "ستارات"
                 ],
                 "label" => "اختر نوع الغسيل",
-                "name" => "testingOptions2",
-                "type" => "options",
-                "value" => null
-            ],
-            [
-                "titles" => [
-                    "اليوم",
-                    "غدا",
-                    "خلال اسبوع",
-                    "الاسبوع القادم"
-                ],
-                "label" => "اختار الوقت المفضل للتنفيذ",
-                "name" => "testingOptions3",
                 "type" => "options",
                 "value" => null
             ],
             [
                 "label" => "أوصف مشكلتك وحاجتك بوضوح",
                 "subLabel" => "أضف وصف واضح لمشكلتك، ليتمكن مزود الخدمة من فهمها وتقديم العرض الافضل لك",
-                "name" => "testingTextArea",
                 "type" => "textarea",
                 "value" => null
             ],
             [
                 "label" => "أضف صورة للمشكلة (اختياري)",
-                "name" => "testingImage",
                 "type" => "image",
                 "value" => null
             ],
             [
                 "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                "name" => "testingLocation",
                 "type" => "location",
                 "value" => [
                     "latitude" => null,

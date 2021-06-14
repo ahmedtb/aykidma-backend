@@ -22,6 +22,10 @@ class ServiceProvider extends Authenticatable
         'meta_data' => Json::class,
     ];
 
+    protected $hidden = [
+        'image'
+    ];
+
     protected $guarded = [];
 
     public function Services()
