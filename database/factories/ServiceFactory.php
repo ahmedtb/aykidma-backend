@@ -82,7 +82,7 @@ class ServiceFactory extends Factory
             "service_provider_id" => \App\Models\ServiceProvider::factory()->create()->id,
             // 'approved' => $this->faker->boolean(), // has a default value of false
             "title" => $this->faker->sentence(),
-            'description' => $this->faker->randomHtml(),
+            'description' => $this->faker->text(),
             'fields' => $fields,
             'category_id' => Category::factory()->create(),
             'image'=> getBase64DefaultImage(),
