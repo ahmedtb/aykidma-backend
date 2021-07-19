@@ -23,6 +23,12 @@ class Service extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['category'];
+
+    public function getCategoryAttribute(){
+        return $this->category()->first();
+    }
+
     public function ServiceProvider()
     {
         return $this->belongsTo(ServiceProvider::class);
