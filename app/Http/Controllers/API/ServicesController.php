@@ -46,7 +46,7 @@ class ServicesController extends Controller
 
     public function allApprovedServices()
     {
-        return Service::where('approved', true)->get();
+        return Service::where('approved', true)->with('ServiceProvider')->get();
     }
 
 

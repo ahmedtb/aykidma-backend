@@ -54,18 +54,10 @@ Route::put('/approve/service', [AdminController::class, 'approveService'])->midd
 
 Route::resource('category', CategoryController::class);
 
-// Route::get('offers', [OffersController::class, 'allOffersWithApprovedServices']);
-// Route::get('offers/{category_id}', [OffersController::class, 'byCategory']);
-
 Route::get('services', [ServicesController::class, 'allApprovedServices']);
 Route::get('services/{category_id}', [ServicesController::class, 'byCategory']);
-
-// Route::get('service/{offer_id}', [ServicesController::class, 'getOfferServices']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:sanctum', 'type.provider']);
 Route::put('services/{id}', [ServicesController::class, 'edit'])->middleware(['auth:sanctum', 'type.provider']);
-
-// Route::post('createServiceWithOffer', [ServicesController::class, 'createWithOffer'])->middleware(['auth:sanctum', 'type.provider']);
-
 Route::get('myServices', [ServicesController::class, 'myServices'])->middleware(['auth:sanctum', 'type.provider']);
 
 Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:sanctum');
@@ -76,12 +68,10 @@ Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->m
 
 Route::put('order/done', [OrdersController::class, 'done'])->middleware(['auth:sanctum']);
 Route::put('order/editReview', [OrdersController::class, 'editReview'])->middleware(['auth:sanctum']);
-
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:sanctum', 'type.provider']);
 
 Route::get('search/services/{q}', [SearchesController::class,'servicesSearch']);
 Route::get('search/services/{category_id}/{q}', [SearchesController::class,'servicesCategorySearch']);
-
 Route::middleware(['auth:sanctum', 'type.provider'])->group(function () {
     Route::get('provider/search/newOrders/{q}', [SearchesController::class,'providerNewOrdersSearch']);
     Route::get('provider/search/resumedOrders/{q}', [SearchesController::class,'providerResumedOrdersSearch']);
