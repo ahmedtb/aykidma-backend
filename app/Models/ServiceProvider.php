@@ -23,6 +23,7 @@ class ServiceProvider extends Authenticatable
     ];
 
     protected $hidden = [
+        'password',
         'image'
     ];
 

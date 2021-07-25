@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Rules\base64;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
 use App\Models\activationNumber;
@@ -101,5 +102,24 @@ class ProviderAuthController extends Controller
     public function provider(Request $request)
     {
         return $request->user();
+    }
+
+    public function myImage(Request $request)
+    {
+        return $request->user()->image ?? getBase64DefaultImage();
+    }
+
+    
+    public function editProfile(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'sometimes|string',
+            'phone_number' => 'sometimes|string',
+            'image' => ['sometimes', new base64(8000000)]
+        ]);
+        $user = $request->user();
+        $user->update($validatedData);
+        $user->save();
+        return response(['success' => 'provider profile edited']);
     }
 }

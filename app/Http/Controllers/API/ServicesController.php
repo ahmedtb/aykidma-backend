@@ -56,7 +56,7 @@ class ServicesController extends Controller
             'category_id' => 'required|integer'
         ])->validate();
 
-        return Service::where('approved', true)->where('category_id', $category_id)->get();
+        return Service::where('approved', true)->where('category_id', $category_id)->with('ServiceProvider')->get();
     }
 
     public function edit(Request $request, $id)

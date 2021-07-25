@@ -28,13 +28,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('signup', [AuthController::class, 'signup']);
 Route::get('user', [AuthController::class, 'user'])->middleware('auth:sanctum');
-Route::get('myImage', [AuthController::class, 'myImage'])->middleware('auth:sanctum');
-Route::post('editProfile', [AuthController::class, 'editProfile'])->middleware('auth:sanctum');
+Route::get('user/image', [AuthController::class, 'myImage'])->middleware('auth:sanctum');
+Route::post('user/edit', [AuthController::class, 'editProfile'])->middleware('auth:sanctum');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:sanctum');
 Route::get('userNotificationTest', function () {
     $user = App\Models\User::where('id', 1)->first();
-    $user->notify(new App\Notifications\MessageNotification('title', 'body', 'type'));
+    $user->notify(new App\Notifications\MessageNotification('title', 'body', 'user'));
     return 'notify success';
 });
 
@@ -42,11 +42,13 @@ Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum', 'type.provider']);
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:sanctum', 'type.provider']);
+Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:sanctum');
+Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:sanctum');
 
 Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:sanctum', 'type.provider']);
 Route::get('providerNotificationTest', function () {
     $provider = App\Models\ServiceProvider::where('id', 1)->first();
-    $provider->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'typeP'));
+    $provider->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'provider'));
     return 'notify success';
 });
 
