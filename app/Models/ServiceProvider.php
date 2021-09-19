@@ -73,4 +73,8 @@ class ServiceProvider extends Authenticatable
     {
         return $this->tokens()->pluck('expo_token')->unique();
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

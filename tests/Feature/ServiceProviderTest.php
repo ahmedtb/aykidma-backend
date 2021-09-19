@@ -16,11 +16,6 @@ class ServiceProviderTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_service_provider_can_resume_order_that_belong_to_his_services()
     {
         $service_provider = ServiceProvider::factory()->create();

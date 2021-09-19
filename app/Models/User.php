@@ -89,4 +89,8 @@ class User extends Authenticatable
     {
         return $this->tokens()->pluck('expo_token')->unique();
     }
+
+    public function provider(){
+        return $this->hasOne(ServiceProvider::class,'user_id');
+    }
 }

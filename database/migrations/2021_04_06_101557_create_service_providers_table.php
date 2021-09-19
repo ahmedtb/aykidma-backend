@@ -16,13 +16,14 @@ class CreateServiceProvidersTable extends Migration
         Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
-            $table->string('phone_number')->unique();
-            $table->timestamp('phone_number_verified_at')->nullable();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->json('address');
+            $table->foreignId('user_id');
+            $table->boolean('activated');
+            // $table->string('phone_number')->unique();
+            // $table->timestamp('phone_number_verified_at')->nullable();
+            // $table->string('email')->unique();
+            // $table->timestamp('email_verified_at')->nullable();
+            // $table->string('password');
+            // $table->json('address');
             $table->json('coverage');
             $table->mediumText('image')->nullable();
             

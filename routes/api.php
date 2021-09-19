@@ -41,7 +41,7 @@ Route::get('userNotificationTest', function () {
 Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:sanctum', 'type.provider']);
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
-Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:sanctum', 'type.provider']);
+Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:provider']);
 Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:sanctum');
 Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:sanctum');
 
@@ -53,6 +53,7 @@ Route::get('providerNotificationTest', function () {
 });
 
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:sanctum', 'type.admin']);
+Route::put('/approve/provider', [AdminController::class, 'approveProvider'])->middleware(['auth:admin']);
 
 Route::resource('category', CategoryController::class);
 

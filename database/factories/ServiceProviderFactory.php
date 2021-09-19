@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\ServiceProvider;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -49,10 +50,12 @@ class ServiceProviderFactory extends Factory
         return [
             //
             "name" => $this->faker->name(),
-            'phone_number' => $this->faker->phoneNumber(),
-            'email' => $this->faker->email(),
-            'password' => Hash::make('password'),
-            'address' =>  $address,
+            "user_id" => User::inRandomOrder()->first() ?? User::factory()->create(),
+            'activated' => $this->faker->boolean(),
+            // 'phone_number' => $this->faker->phoneNumber(),
+            // 'email' => $this->faker->email(),
+            // 'password' => Hash::make('password'),
+            // 'address' =>  $address,
             'coverage' => $coverage,
             "image" => getBase64DefaultImage(),
             "meta_data" => $meta_data

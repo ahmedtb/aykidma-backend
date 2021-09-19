@@ -50,6 +50,10 @@ return [
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
+        ],
+
+        'provider' => [
+            'driver' => 'provider-request',
         ]
     ],
 
