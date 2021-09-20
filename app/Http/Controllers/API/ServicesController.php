@@ -35,7 +35,7 @@ class ServicesController extends Controller
 
     public function myServices(Request $request)
     {
-        return Auth()->user()->Services()->get();
+        return Auth()->user('provider')->Services()->get();
     }
 
 

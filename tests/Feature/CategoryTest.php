@@ -31,7 +31,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_create_category_in_browser()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $category = Category::factory()->make();
 
         $this->post('/category',[
@@ -43,7 +43,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_update_category_in_browser()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $category1 = Category::factory()->create();
 
         $category2 = Category::factory()->make();
@@ -56,7 +56,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_create_category_with_api()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $category = Category::factory()->make();
 
         $this->post('api/category',[
@@ -68,15 +68,16 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_update_category_with_api()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $category1 = Category::factory()->create();
 
         $category2 = Category::factory()->make();
 
-        $this->put('api/category/' . $category1->id,[
+        $response = $this->put('api/category/' . $category1->id,[
             'name' => $category2->name,
             'image' => $category2->image,
         ])->assertOk()->assertJson(['success' => 'You have successfully updated a Category!']);
+        // dd($response->json() );
     }
 
     public function test_drive_stored_image_file_should_be_deleted_when_deleting_the_category()

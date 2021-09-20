@@ -54,7 +54,9 @@ class ProviderAuthTest extends TestCase
             'token'
         ]);
 
-        $response = $this->actingAs($provider->user, 'sanctum')->getJson('api/provider')->assertOk();
+        $response = $this->withHeaders([
+            'Authorization' => ('Bearer ' . $response->json()['token'])
+        ])->getJson('api/provider')->assertOk();
         $response->assertJsonStructure([
             'name', 'user_id', 'coverage', 'meta_data', 'updated_at', 'created_at', 'id'
         ]);
@@ -119,15 +121,16 @@ class ProviderAuthTest extends TestCase
     public function test_users_can_not_access_providers_routes()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'web')->getJson('api/myServices')->assertUnauthorized();
+        $response = $this->actingAs($user, 'user')->getJson('api/myServices')->assertUnauthorized();
+        // dd($response->json());
     }
 
     public function test_Provider_can_get_fresh_data_of_his_profile()
     {
-        $Provider = ServiceProvider::factory()->create();
-        $response = $this->actingAs($Provider, 'web')->getJson('api/provider')->assertOk();
+        $Provider = ServiceProvider::factory()->activated()->create();
+        $response = $this->actingAs($Provider->user, 'web')->getJson('api/provider')->assertOk();
         $response->assertJsonStructure([
-            'name', 'phone_number', 'email', 'address', 'coverage', 'image', 'meta_data', 'updated_at', 'created_at', 'id'
+            'name', 'coverage', 'meta_data', 'updated_at', 'created_at', 'id'
         ]);
     }
 }

@@ -27,8 +27,6 @@ class servicesTest extends TestCase
 
         $response = $this->getJson('api/services');
 
-        // dd($response->json());
-
         $size = sizeof($response->json());
         $response
             ->assertJson(
@@ -48,12 +46,13 @@ class servicesTest extends TestCase
                                 ->whereType('meta_data', 'array')
                                 ->whereType('price','integer')
                                 ->whereType('created_at','string')
-                                ->whereType('updated_at', 'string')
+                                ->whereType('updated_at', 'string')->etc()
                         );
                     }
                 }
-
             );
+        // dd($response->json());
+
     }
 
     public function test_provider_can_submit_request_to_create_service()
@@ -61,7 +60,7 @@ class servicesTest extends TestCase
         $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
-        $response = $this->actingAs($provider, 'web')->postJson('api/services', [
+        $response = $this->actingAs($provider, 'provider')->postJson('api/services', [
             // 'service_provider_id' => $provider->id,
             'title' => $service->title,
             'description' => $service->description,
@@ -92,11 +91,11 @@ class servicesTest extends TestCase
         ])->assertUnauthorized();
 
         // $this->withoutExceptionHandling();
-        $this->actingAs($admin, 'web')->putJson('api/approve/service', [
+        $this->actingAs($admin, 'admin')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertOK()->assertJson(['success' => 'the service has been approved']);
 
-        $response = $this->actingAs($admin, 'web')->putJson('api/approve/service', [
+        $response = $this->actingAs($admin, 'admin')->putJson('api/approve/service', [
             'service_id' => $service->id
         ])->assertStatus(404);
         // dd($response->json());
@@ -135,7 +134,7 @@ class servicesTest extends TestCase
         $updateTo = Service::factory()->make();
         $service = Service::factory()->create();
 
-        $response = $this->actingAs($service->ServiceProvider, 'web')->putJson('api/services/'.$service->id,[
+        $response = $this->actingAs($service->ServiceProvider, 'provider')->putJson('api/services/'.$service->id,[
             'title' => $updateTo->title,
             'description' => $updateTo->description,
             'fields' => $updateTo->fields,

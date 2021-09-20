@@ -27,10 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        
+
         Auth::viaRequest('provider-request', function (Request $request) {
-            $user = $request->user('sanctum');
-            return ($user->provider->activated);
+            $user = $request->user('user');
+            if ($user && $user->provider)
+                return ($user->provider->activated ? $user->provider : null);
+            else return null;
         });
     }
 }

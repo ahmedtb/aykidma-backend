@@ -99,7 +99,7 @@ class AuthTest extends TestCase
         $response = $this->getJson('api/orders/1');
         $response->assertUnauthorized();
 
-        $this->actingAs($user, 'web');
+        $this->actingAs($user, 'user');
 
         $response = $this->getJson('api/orders');
         $response->assertOk();
@@ -131,8 +131,9 @@ class AuthTest extends TestCase
 
     public function test_user_can_fetch_his_image()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
-        $response = $this->actingAs($user, 'web')->getJson('api/myImage')->assertOk();
+        $response = $this->actingAs($user, 'user')->getJson('api/user/image')->assertOk();
 
         // assert it is valid base64 image
         $image = $response->content();
@@ -144,13 +145,15 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $user2 = User::factory()->make();
 
-        $response = $this->actingAs($user, 'web')->postJson('api/editProfile', [
+        $response = $this->actingAs($user, 'user')->postJson('api/user/edit', [
             'name' => $user2->name,
             // 'phone_number' => $user2->phone_number,
             'image' => $user2->image,
         ])->assertOk();
 
-        $response = $this->actingAs($user, 'web')->postJson('api/editProfile', [
+        // dd($response->json());
+
+        $response = $this->actingAs($user, 'user')->postJson('api/user/edit', [
             // 'name' => $user2->name,
             'phone_number' => $user2->phone_number,
             // 'image' => $user2->image,
@@ -160,7 +163,7 @@ class AuthTest extends TestCase
     public function test_user_can_get_fresh_data_of_his_profile()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user, 'web')->getJson('api/user')->assertOk();
+        $response = $this->actingAs($user, 'user')->getJson('api/user')->assertOk();
         $response->assertJsonStructure([
             'name','phone_number','phone_number_verified_at','updated_at','created_at','id'
         ]);

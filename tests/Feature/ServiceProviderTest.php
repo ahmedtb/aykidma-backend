@@ -25,15 +25,15 @@ class ServiceProviderTest extends TestCase
             'status' => 'new'
         ]);
 
-        $this->putJson('api/order/resume/', [
+        $response = $this->putJson('api/order/resume/', [
             'order_id' => $order->id
         ])->assertUnauthorized();
-
-        $this->actingAs($service_provider, 'web')->putJson('api/order/resume/', [
+        // dd($response->json());
+        $this->actingAs($service_provider, 'provider')->putJson('api/order/resume/', [
             'order_id' => 111
         ])->assertStatus(400);
 
-        $this->actingAs($service_provider, 'web')->putJson('api/order/resume/', [
+        $this->actingAs($service_provider, 'provider')->putJson('api/order/resume/', [
             'order_id' => $order->id
         ])->assertOk();
 
@@ -48,8 +48,8 @@ class ServiceProviderTest extends TestCase
             'meta_data' => []
         ]);
 
-        $response = $this->actingAs($service_provider, 'web')->getJson('api/myServices')->assertOk();
-
+        $response = $this->actingAs($service_provider, 'provider')->getJson('api/myServices')->assertOk();
+        // dd($response->json());
         $this->assertEquals(sizeof($response->json()), 5);
     }
 
@@ -58,7 +58,7 @@ class ServiceProviderTest extends TestCase
         $service_provider = ServiceProvider::factory()->create();
         $service = Service::factory()->create(['service_provider_id' => $service_provider->id]);
         Order::factory()->count(5)->create(['service_id' => $service->id]);
-        $response = $this->actingAs($service_provider, 'web')->getJson('api/providerOrders')->assertOk();
+        $response = $this->actingAs($service_provider, 'provider')->getJson('api/providerOrders')->assertOk();
 
         $sample_index = random_int(0, sizeof($response->json()) - 1);
 

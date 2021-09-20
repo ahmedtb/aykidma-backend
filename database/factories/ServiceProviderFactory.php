@@ -61,4 +61,13 @@ class ServiceProviderFactory extends Factory
             "meta_data" => $meta_data
         ];
     }
+
+    public function activated()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'activated' => true,
+            ];
+        });
+    }
 }
