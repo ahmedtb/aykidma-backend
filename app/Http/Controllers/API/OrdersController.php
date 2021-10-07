@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 
+use App\Models\Admin;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
 use App\Rules\FieldsMatch;
 use Illuminate\Http\Request;
+use App\Models\ServiceProvider;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -177,14 +180,27 @@ class OrdersController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
+    public function userDelete(Request $request, $id)
     {
-        //
+        $user = $request->user();
+
+        if ($user->orders()->where('id', $id)->delete())
+            return ['success' => 'order: ' . $id . ' successfully deleted'];
+    }
+
+    public function providerDelete(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if ($user->orders()->where('orders.id', $id)->delete())
+            return ['success' => 'order: ' . $id . ' successfully deleted'];
+    }
+
+    public function adminDelete(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if (Order::where('id', $id)->delete())
+            return ['success' => 'order: ' . $id . ' successfully deleted'];
     }
 }

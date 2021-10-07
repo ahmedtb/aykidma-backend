@@ -73,9 +73,9 @@ class ExpoDatabaseChannel
     public function send($notifiable, Notification $notification)
     {
 
-        if ($notifiable instanceof ServiceProvider) {
-            $this->forServiceProvider($notifiable, $notification);
-        } else if ($notifiable instanceof User) {
+        if ($notification->type == 'provider') {
+            $this->forServiceProvider($notifiable, $$notification);
+        } else if ($notification->type == 'user') {
             $this->forUser($notifiable, $notification);
         }
     }

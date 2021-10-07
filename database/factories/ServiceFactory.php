@@ -79,15 +79,15 @@ class ServiceFactory extends Factory
             "rating" => $this->faker->numberBetween(0, 5)
         ];
         return [
-            "service_provider_id" => \App\Models\ServiceProvider::factory()->create()->id,
+            "service_provider_id" => \App\Models\ServiceProvider::factory()->create(['activated' => true])->id,
             // 'approved' => $this->faker->boolean(), // has a default value of false
             "title" => $this->faker->sentence(),
             'description' => $this->faker->text(),
             'fields' => $fields,
             'category_id' => Category::factory()->create(),
-            'image'=> getBase64DefaultImage(),
+            'image' => getBase64DefaultImage(),
             'meta_data' => $meta_data,
-            'price' => random_int(0,65535),
+            'price' => random_int(0, 65535),
         ];
     }
 

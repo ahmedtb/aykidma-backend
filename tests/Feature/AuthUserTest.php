@@ -12,7 +12,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class AuthTest extends TestCase
+class AuthUserTest extends TestCase
 {
     use DatabaseMigrations;
 

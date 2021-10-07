@@ -10,7 +10,7 @@
                 <strong class="">{{ $service->ServiceProvider->name }}</strong>
                 <div>{{ $service->ServiceProvider->phone_number }}</div>
                 <div>{{ $service->ServiceProvider->email }}</div>
-                <div>عنوان مزود الخدمة {{ $service->ServiceProvider->address['city'] }}</div>
+                {{-- <div>عنوان مزود الخدمة {{ $service->ServiceProvider->address['city'] }}</div> --}}
 
                 <div class="row">
                     <strong>اماكن التخطية</strong>

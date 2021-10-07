@@ -41,14 +41,14 @@ Route::get('userNotificationTest', function () {
 // Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 // Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:provider']);
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
-Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:provider']);
+Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:user']);
 Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:user');
 Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:user');
 
 Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:provider']);
 Route::get('providerNotificationTest', function () {
-    $provider = App\Models\ServiceProvider::where('id', 1)->first();
-    $provider->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'provider'));
+    $user = App\Models\User::where('id', 2)->first();
+    $user->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'provider'));
     return 'notify success';
 });
 
@@ -67,16 +67,20 @@ Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:user'
 Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:user');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:user');
 Route::put('order/resume', [OrdersController::class, 'resume'])->middleware(['auth:provider']);
-Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:admin']);
 
 Route::put('order/done', [OrdersController::class, 'done'])->middleware(['auth:user']);
 Route::put('order/editReview', [OrdersController::class, 'editReview'])->middleware(['auth:user']);
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:provider']);
+Route::delete('userOrder/{id}', [OrdersController::class, 'userDelete'])->middleware('auth:user');
+Route::delete('providerOrder/{id}', [OrdersController::class, 'providerDelete'])->middleware('auth:provider');
+Route::delete('order/{id}', [OrdersController::class, 'adminDelete'])->middleware('auth:admin');
 
-Route::get('search/services/{q}', [SearchesController::class,'servicesSearch']);
-Route::get('search/services/{category_id}/{q}', [SearchesController::class,'servicesCategorySearch']);
+Route::get('search/services/{q}', [SearchesController::class, 'servicesSearch']);
+Route::get('search/services/{category_id}/{q}', [SearchesController::class, 'servicesCategorySearch']);
 Route::middleware(['auth:provider'])->group(function () {
-    Route::get('provider/search/newOrders/{q}', [SearchesController::class,'providerNewOrdersSearch']);
-    Route::get('provider/search/resumedOrders/{q}', [SearchesController::class,'providerResumedOrdersSearch']);
-    Route::get('provider/search/doneOrders/{q}', [SearchesController::class,'providerDoneOrdersSearch']);
+    Route::get('provider/search/newOrders/{q}', [SearchesController::class, 'providerNewOrdersSearch']);
+    Route::get('provider/search/resumedOrders/{q}', [SearchesController::class, 'providerResumedOrdersSearch']);
+    Route::get('provider/search/doneOrders/{q}', [SearchesController::class, 'providerDoneOrdersSearch']);
 });
+
+Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:admin']);

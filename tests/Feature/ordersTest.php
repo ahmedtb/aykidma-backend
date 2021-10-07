@@ -4,9 +4,11 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Order;
-use App\Models\Service;
 use App\Rules\base64;
+use App\Models\Service;
+use App\Models\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -128,6 +130,10 @@ class ordersTest extends TestCase
 
 
         $response->assertStatus(200);
+    }
+
+    public function test_auth_users_can_not_submit_orders_to_their_serivce_provider_acount_services()
+    {
     }
 
     public function test_validating_a_invalid_creating_order_request_without_requeird_field_properties()
@@ -294,5 +300,28 @@ class ordersTest extends TestCase
 
     public function test_order_image_field_should_be_validated_as_base64_and_stored_as_linked_public_file_with_it_is_path_put_in_DB()
     {
+    }
+
+    public function test_user_admin_or_provider_can_delete_his_orders()
+    {
+        $user = User::factory()->create();
+        $order = Order::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user, 'user')->delete('api/userOrder/' . $order->id)
+            ->assertOk()->assertJson(['success' => 'order: ' . $order->id . ' successfully deleted']);
+
+        $admin = Admin::factory()->create();
+        $order = Order::factory()->create();
+
+        $response = $this->actingAs($admin, 'admin')->delete('api/order/' . $order->id)
+            ->assertOk()->assertJson(['success' => 'order: ' . $order->id . ' successfully deleted']);
+
+        $order = Order::factory()->create();
+        $provider = $order->service->ServiceProvider;
+        $response = $this->actingAs($provider, 'provider')->delete('api/providerOrder/' . $order->id)
+            ->assertOk()->assertJson(['success' => 'order: ' . $order->id . ' successfully deleted']);
+        // dd($response->json());
+
+        $this->assertEquals(Order::all()->count(), 0);
     }
 }

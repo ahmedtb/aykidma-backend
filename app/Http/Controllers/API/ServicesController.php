@@ -75,6 +75,6 @@ class ServicesController extends Controller
         // Service::create($data);
         $service->update($data);
 
-        return response(null, 204);
+        return ['success' => 'the service is edited'];
     }
 }

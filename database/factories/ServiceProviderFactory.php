@@ -49,7 +49,7 @@ class ServiceProviderFactory extends Factory
 
         return [
             //
-            "name" => $this->faker->name(),
+            "name" => $this->faker->company(),
             "user_id" => User::inRandomOrder()->first() ?? User::factory()->create(),
             'activated' => $this->faker->boolean(),
             // 'phone_number' => $this->faker->phoneNumber(),
