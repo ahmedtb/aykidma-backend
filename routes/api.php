@@ -40,7 +40,7 @@ Route::get('userNotificationTest', function () {
 
 // Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
 // Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:provider']);
-Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider']);
+Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider'])->middleware(['auth:user']);
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:user']);
 Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:user');
 Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:user');
@@ -53,7 +53,6 @@ Route::get('providerNotificationTest', function () {
 });
 
 Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:admin']);
-Route::put('/approve/provider', [AdminController::class, 'approveProvider'])->middleware(['auth:admin']);
 
 Route::resource('category', CategoryController::class);
 
@@ -63,7 +62,9 @@ Route::post('services', [ServicesController::class, 'create'])->middleware(['aut
 Route::put('services/{id}', [ServicesController::class, 'edit'])->middleware(['auth:provider']);
 Route::get('myServices', [ServicesController::class, 'myServices'])->middleware(['auth:provider']);
 
-Route::get('orders', [OrdersController::class, 'index'])->middleware('auth:user');
+Route::get('userOrders', [OrdersController::class, 'userOrders'])->middleware('auth:user');
+Route::get('providerOrders', [OrdersController::class, 'providerOrders'])->middleware('auth:provider');
+
 Route::get('orders/{service_id}', [OrdersController::class, 'getServiceOrders'])->middleware('auth:user');
 Route::post('orders', [OrdersController::class, 'create'])->middleware('auth:user');
 Route::put('order/resume', [OrdersController::class, 'resume'])->middleware(['auth:provider']);

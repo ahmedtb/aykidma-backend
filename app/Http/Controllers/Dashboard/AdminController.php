@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Models\ServiceProvider;
 use App\Http\Controllers\Controller;
+use App\Models\ProviderEnrollmentRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
@@ -56,5 +59,35 @@ class AdminController extends Controller
             ]);
             throw $error;
         }
+    }
+
+    public function approveProvider($id)
+    {
+
+        Validator::validate([
+            'id' => $id
+        ], [
+            'id' => 'required|exists:provider_enrollment_requests,id'
+        ]);
+
+        $enrollmentRequest = ProviderEnrollmentRequest::where('id', $id)->first();
+
+        $provider = ServiceProvider::where('id', $enrollmentRequest->user_id)->first();
+
+        if (!$provider)
+            $provider = ServiceProvider::create([
+                'name' => $enrollmentRequest->name,
+                'coverage' => $enrollmentRequest->coverage,
+                'user_id' => $enrollmentRequest->user_id,
+                'activated' => true,
+            ]);
+        else
+            $provider->update([
+                'name' => $enrollmentRequest->name,
+                'coverage' => $enrollmentRequest->coverage,
+                'activated' => true
+            ]);
+        $enrollmentRequest->delete();
+        return ['success' => 'the provider has been approved'];
     }
 }

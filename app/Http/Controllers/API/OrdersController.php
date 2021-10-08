@@ -26,14 +26,14 @@ class OrdersController extends Controller
         return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function userOrders()
     {
         return Auth::user()->orders()->with(['service', 'service.ServiceProvider'])->get();
+    }
+
+    public function providerOrders()
+    {
+        return Auth::user()->orders()->with(['service'])->get();
     }
 
     /**
@@ -191,9 +191,12 @@ class OrdersController extends Controller
     public function providerDelete(Request $request, $id)
     {
         $user = $request->user();
+        // return $user;
 
         if ($user->orders()->where('orders.id', $id)->delete())
             return ['success' => 'order: ' . $id . ' successfully deleted'];
+        else
+            return response()->json(['failure' => 'order: ' . $id . ' failed to deleted'], 424);
     }
 
     public function adminDelete(Request $request, $id)

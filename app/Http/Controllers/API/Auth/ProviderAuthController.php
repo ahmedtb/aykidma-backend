@@ -49,13 +49,17 @@ class ProviderAuthController extends Controller
 
         $date = $request->validate([
             'name' => 'required|string|unique:service_providers,name',
-            'coverage' => 'required|array',
+            'coverage' => 'sometimes|array',
             'coverage.*.city' => 'required|string',
             'coverage.*.area' => 'required|string',
-            'user_id' => 'required|exists:users,id'
+            // 'user_id' => 'required|exists:users,id'
         ]);
 
-        ProviderEnrollmentRequest::create($date);
+        ProviderEnrollmentRequest::create([
+            'name' => $request->name,
+            'coverage' => $request->coverage,
+            'user_id' => $request->user()->id,
+        ]);
 
         return response(['success' => 'provider enrollemnt is submitted'], 200);
     }

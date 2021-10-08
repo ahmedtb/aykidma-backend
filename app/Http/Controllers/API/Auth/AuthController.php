@@ -82,33 +82,34 @@ class AuthController extends Controller
             'phone_number' => 'required|string'
         ]);
 
-        $activationNumber = activationNumber::where('phone_number', $request->phone_number)->first();
+        // $activationNumber = activationNumber::where('phone_number', $request->phone_number)->first();
 
-        if (!$activationNumber) {
-            $randomNumber = random_int(1, 65535);
-            activationNumber::create([
-                'activationNumber' => $randomNumber,
-                'phone_number' => $request->phone_number
-            ]);
-            // where will be code to send the number through whatsapp message
+        // if (!$activationNumber) {
+        //     $randomNumber = random_int(1, 65535);
+        //     activationNumber::create([
+        //         'activationNumber' => $randomNumber,
+        //         'phone_number' => $request->phone_number
+        //     ]);
+        //     // where will be code to send the number through whatsapp message
 
-            return response(['message' => 'activation number is created'], 201);
-        } else {
-            if ($activationNumber->activationNumber == $request->activationNumber) {
+        //     return response(['message' => 'activation number is created'], 201);
+        // } else {
+        //     if ($activationNumber->activationNumber == $request->activationNumber) {
 
-                // dd($request->phone_number);
-                User::create([
-                    'name' => $request->name,
-                    'phone_number' => $request->phone_number,
-                    'phone_number_verified_at' => now(),
-                    'password' => Hash::make($request->password),
-                ]);
-                $activationNumber->delete();
+        // dd($request->phone_number);
+        $user = User::create([
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'phone_number_verified_at' => now(),
+            'password' => Hash::make($request->password),
+        ]);
 
-                return response(['message' => 'user is successfully created'], 201);
-            } else {
-                return response(['message' => 'the activation number is wrong'], 422);
-            }
-        }
+        // $activationNumber->delete();
+
+        return response(['message' => 'user is successfully created'], 201);
+        // } else {
+        //     return response(['message' => 'the activation number is wrong'], 422);
+        // }
+        // }
     }
 }
