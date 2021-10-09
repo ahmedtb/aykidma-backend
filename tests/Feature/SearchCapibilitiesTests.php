@@ -58,7 +58,7 @@ class SearchCapibilitiesTests extends TestCase
             'service_id' => $service->id
         ]);
 
-        $this->actingAs($provider, 'web')->getJson('api/provider/search/newOrders/searchTerm')
+        $this->actingAs($provider, 'provider')->getJson('api/provider/search/newOrders/searchTerm')
             ->assertOk()
             ->assertJsonCount(2);
     }
@@ -80,7 +80,7 @@ class SearchCapibilitiesTests extends TestCase
             'service_id' => $service->id
         ]);
 
-        $this->actingAs($provider, 'web')->getJson('api/provider/search/resumedOrders/searchTerm')
+        $this->actingAs($provider, 'provider')->getJson('api/provider/search/resumedOrders/searchTerm')
             ->assertOk()
             ->assertJsonCount(2);
     }
@@ -102,7 +102,7 @@ class SearchCapibilitiesTests extends TestCase
             'service_id' => $service->id
         ]);
 
-        $this->actingAs($provider, 'web')->getJson('api/provider/search/doneOrders/searchTerm')
+        $this->actingAs($provider, 'provider')->getJson('api/provider/search/doneOrders/searchTerm')
             ->assertOk()
             ->assertJsonCount(2);
     }

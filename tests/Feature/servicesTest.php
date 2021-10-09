@@ -44,8 +44,8 @@ class servicesTest extends TestCase
                                 ->whereType('category_id', 'integer')
                                 ->whereType('image', 'string')
                                 ->whereType('meta_data', 'array')
-                                ->whereType('price','integer')
-                                ->whereType('created_at','string')
+                                ->whereType('price', 'integer')
+                                ->whereType('created_at', 'string')
                                 ->whereType('updated_at', 'string')->etc()
                         );
                     }
@@ -78,7 +78,6 @@ class servicesTest extends TestCase
 
     public function test_services_retrived_should_came_with_category_field()
     {
-        
     }
 
     public function test_Provider_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
@@ -86,16 +85,16 @@ class servicesTest extends TestCase
         $service = Service::factory()->create();
         $admin = Admin::factory()->create();
 
-        $this->putJson('api/approve/service', [
+        $this->putJson('approve/service', [
             'service_id' => $service->id
         ])->assertUnauthorized();
 
-        // $this->withoutExceptionHandling();
-        $this->actingAs($admin, 'admin')->putJson('api/approve/service', [
+        $this->withoutExceptionHandling();
+        $this->actingAs($admin, 'admin')->putJson('approve/service', [
             'service_id' => $service->id
         ])->assertOK()->assertJson(['success' => 'the service has been approved']);
 
-        $response = $this->actingAs($admin, 'admin')->putJson('api/approve/service', [
+        $response = $this->actingAs($admin, 'admin')->putJson('approve/service', [
             'service_id' => $service->id
         ])->assertStatus(404);
         // dd($response->json());
@@ -134,14 +133,13 @@ class servicesTest extends TestCase
         $updateTo = Service::factory()->make();
         $service = Service::factory()->create();
 
-        $response = $this->actingAs($service->ServiceProvider, 'provider')->putJson('api/services/'.$service->id,[
+        $response = $this->actingAs($service->ServiceProvider, 'provider')->putJson('api/services/' . $service->id, [
             'title' => $updateTo->title,
             'description' => $updateTo->description,
             'fields' => $updateTo->fields,
             'category_id' => $updateTo->category_id,
             'image' => $updateTo->image,
             'meta_data' =>  $updateTo->meta_data,
-        ])->assertStatus(204);
+        ])->assertStatus(200);
     }
-    
 }

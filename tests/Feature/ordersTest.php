@@ -26,7 +26,7 @@ class ordersTest extends TestCase
         $user = User::factory()->create();
         Order::factory()->count(5)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user, 'web')->getJson('api/orders');
+        $response = $this->actingAs($user, 'user')->getJson('api/userOrders');
 
         $size = sizeof($response->json());
         // dd($response->json());

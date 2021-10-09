@@ -58,9 +58,10 @@ class commentsTests extends TestCase
         $user = User::factory()->create();
         $order = Order::factory()->withReview()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user, 'web')
-            ->getJson('api/orders')
+        $response = $this->actingAs($user, 'user')
+            ->getJson('api/userOrders')
             ->assertOk();
+        // dd($response->json());
         $size = sizeof($response->json());
 
         $response->assertJson(
@@ -99,13 +100,14 @@ class commentsTests extends TestCase
     {
     }
 
-    public function test_admin_could_delete_in_appropriete_review()
+    public function test_admin_could_delete_inappropriete_review()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $admin = Admin::factory()->create();
         $order = Order::factory()->withReview()->create();
-        $response = $this->actingAs($admin, 'web')->delete('api/order/deleteReview', [
+        $response = $this->actingAs($admin, 'admin')->delete('/order/deleteReview', [
             'order_id' => $order->id
         ])->assertOk()->assertJson(['success' => 'review deleted']);
+        // dd($response->content());
     }
 }

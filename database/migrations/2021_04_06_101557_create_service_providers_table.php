@@ -16,7 +16,7 @@ class CreateServiceProvidersTable extends Migration
         Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->uniqid();
             $table->boolean('activated');
             // $table->string('phone_number')->unique();
             // $table->timestamp('phone_number_verified_at')->nullable();
@@ -26,7 +26,7 @@ class CreateServiceProvidersTable extends Migration
             // $table->json('address');
             $table->json('coverage');
             $table->mediumText('image')->nullable();
-            
+
             $table->json('meta_data')->nullable();
             $table->timestamps();
         });

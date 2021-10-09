@@ -93,7 +93,7 @@ class AuthUserTest extends TestCase
         Order::factory()->count(10)->create(['user_id' => $user->id]);
 
 
-        $response = $this->getJson('api/orders');
+        $response = $this->getJson('api/userOrders');
         $response->assertUnauthorized();
 
         $response = $this->getJson('api/orders/1');
@@ -101,7 +101,8 @@ class AuthUserTest extends TestCase
 
         $this->actingAs($user, 'user');
 
-        $response = $this->getJson('api/orders');
+        $response = $this->getJson('api/userOrders');
+        // dd($response->json());
         $response->assertOk();
 
         $response = $this->getJson('api/orders/1');

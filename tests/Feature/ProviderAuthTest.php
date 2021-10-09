@@ -85,8 +85,10 @@ class ProviderAuthTest extends TestCase
     public function test_user_can_enroll_to_be_a_service_provider_and_admins_can_reject_or_accept_the_activation()
     {
 
+        $user = User::factory()->create();
         $provider = ServiceProvider::factory()->create([
-            'activated' => false
+            'activated' => false,
+            'user_id' => $user->id
         ]);
         $fake_name = 'random name';
         $coverage = [
@@ -100,21 +102,20 @@ class ProviderAuthTest extends TestCase
             ]
         ];
         $this->withoutExceptionHandling();
-        $response = $this->postJson('api/enrollProvider', [
+        $response = $this->actingAs($user, 'user')->postJson('api/enrollProvider', [
             'name' => $fake_name,
             // 'phone_number' => $fake_phone_number,
             // 'email' => $fake_email,
             // 'password' => $fake_password,
             // 'address' => $address,
             'coverage' => $coverage,
-            'user_id' => $provider->user->id
+            'user_id' => $user->id
         ]);
         $response->assertStatus(200)->assertJson(['success' => 'provider enrollemnt is submitted']);
 
         $admin = Admin::factory()->create();
-        $response = $this->actingAs($admin, 'admin')->putJson('api/approve/provider', [
-            'user_id' => $provider->user->id
-        ])->assertOK()->assertJson(['success' => 'the provider has been approved']);
+        $response = $this->actingAs($admin, 'admin')->get('activateProvider/' . $provider->user->id)
+            ->assertOK()->assertJson(['success' => 'the provider has been activated']);
         // dd($response->json());
     }
 

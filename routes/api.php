@@ -52,7 +52,6 @@ Route::get('providerNotificationTest', function () {
     return 'notify success';
 });
 
-Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:admin']);
 
 Route::resource('category', CategoryController::class);
 
@@ -84,4 +83,5 @@ Route::middleware(['auth:provider'])->group(function () {
     Route::get('provider/search/doneOrders/{q}', [SearchesController::class, 'providerDoneOrdersSearch']);
 });
 
-Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:admin']);
+// Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:admin']);
+// Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:admin']);

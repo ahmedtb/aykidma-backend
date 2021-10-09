@@ -27,7 +27,7 @@ class UserNotificationsTest extends TestCase
     public function test_user_can_fetch_his_notifications()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'web');
+        $this->actingAs($user, 'user');
 
         UserNotification::factory()->create();
         $response = $this->get('api/userNotifications');
@@ -52,7 +52,7 @@ class UserNotificationsTest extends TestCase
             ->once();
         // ->with($Tos);
 
-        $user->notify(new MessageNotification('title','body','type'));
+        $user->notify(new MessageNotification('title','body','user'));
     }
 
 

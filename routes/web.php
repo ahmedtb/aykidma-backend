@@ -26,6 +26,8 @@ Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'
 Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService'])->middleware('auth:admin');
 Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService'])->middleware('auth:admin');
 Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider'])->middleware(['auth:admin']);
+Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider'])->middleware(['auth:admin']);
+Route::delete('order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview'])->middleware(['auth:admin']);
 
 Route::resource('category', CategoryController::class);
 
