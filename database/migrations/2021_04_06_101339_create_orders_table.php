@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('service_id');
             $table->foreignId('user_id');
             $table->string('status');
-            $table->json('fields');
+            $table->json('array_of_fields');
             $table->string('comment')->nullable();
             $table->unsignedSmallInteger('rating')->nullable();
             $table->unsignedSmallInteger('cost')->nullable();

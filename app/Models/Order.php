@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\casts\Json;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Casts\CastsArrayOfFields;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -14,7 +15,7 @@ class Order extends Model
 
     protected $casts = [
         'meta_data' => Json::class,
-        'fields' =>  Json::class,
+        'array_of_fields' =>  CastsArrayOfFields::class,
         'service_id' => 'integer',
         'user_id' => 'integer',
         'rating' => 'integer',

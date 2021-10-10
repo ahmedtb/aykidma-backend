@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Offer;
 
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use App\Models\Service;
 use App\Rules\LongString;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
+use App\Rules\ArrayOfFieldsRule;
 use App\Http\Controllers\Controller;
 
 class ServicesController extends Controller
@@ -19,9 +20,9 @@ class ServicesController extends Controller
         $data = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'fields' => 'required|array',
+            'array_of_fields' => ['required', new ArrayOfFieldsRule()],
             'category_id' => 'required|exists:categories,id',
-            'image' => ['sometimes', new base64(8000000)],
+            'image' => ['sometimes', new Base64Rule(8000000)],
             'meta_data' => 'present|array',
         ]);
         // this line needs further examination
@@ -64,9 +65,9 @@ class ServicesController extends Controller
         $data = $request->validate([
             'title' => 'sometimes|string',
             'description' => 'sometimes|string',
-            'fields' => 'sometimes|array',
+            'array_of_fields' => ['sometimes', new ArrayOfFieldsRule()],
             'category_id' => 'sometimes|exists:categories,id',
-            'image' => ['sometimes', new base64(8000000)],
+            'image' => ['sometimes', new Base64Rule(8000000)],
             'meta_data' => 'sometimes|array',
         ]);
 

@@ -20,7 +20,7 @@ class CreateServicesTable extends Migration
             $table->boolean("approved")->default(false);
             $table->string('title');
             $table->longText('description');
-            $table->json('fields');
+            $table->json('array_of_fields');
             $table->foreignId('category_id');
             $table->mediumText('image');
             $table->json('meta_data')->nullable();

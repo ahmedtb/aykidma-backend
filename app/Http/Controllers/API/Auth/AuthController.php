@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\activationNumber;
 use App\Models\User;
 use App\Models\ServiceProvider;
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -66,7 +66,7 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'sometimes|string',
             'phone_number' => 'sometimes|string',
-            'image' => ['sometimes', new base64(8000000)]
+            'image' => ['sometimes', new Base64Rule(8000000)]
         ]);
         $user = $request->user();
         $user->update($validatedData);

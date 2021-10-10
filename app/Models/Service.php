@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\casts\Json;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Casts\CastsArrayOfFields;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Service extends Model
 {
@@ -16,7 +17,7 @@ class Service extends Model
         'offer_id' => 'integer',
         'rating' => 'float',
         'approved' => 'boolean',
-        'fields' =>  Json::class,
+        'array_of_fields' =>  CastsArrayOfFields::class,
         'category_id' => 'integer',
         'price' => 'integer'
     ];

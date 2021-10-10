@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Service;
 use App\Models\Category;
+use App\FieldsTypes\StringField;
+use App\FieldsTypes\ArrayOfFields;
+use App\FieldsTypes\OptionsField;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceFactory extends Factory
@@ -23,56 +26,69 @@ class ServiceFactory extends Factory
     public function definition()
     {
 
-        $fields = [
-            [
-                "label" => "أوصف مشكلتك وحاجتك بوضوح",
-                "type" => "string",
-                "value" => null
-            ],
-            [
-                "titles" => [
-                    "حي السلام",
-                    "حي الزهور",
-                    "عين زارة",
-                    "سوق الخميس",
-                    "حي الاندلس"
-                ],
-                "label" => "اختر المنطقة",
-                "type" => "options",
-                "value" => null
-            ],
-            [
-                "titles" => [
-                    "سجاد",
-                    "مفروشات",
-                    "صالونات",
-                    "جلسات",
-                    "ستارات"
-                ],
-                "label" => "اختر نوع الغسيل",
-                "type" => "options",
-                "value" => null
-            ],
-            [
-                "label" => "أوصف مشكلتك وحاجتك بوضوح",
-                "subLabel" => "أضف وصف واضح لمشكلتك، ليتمكن مزود الخدمة من فهمها وتقديم العرض الافضل لك",
-                "type" => "textarea",
-                "value" => null
-            ],
-            [
-                "label" => "أضف صورة للمشكلة (اختياري)",
-                "type" => "image",
-                "value" => null
-            ],
-            [
-                "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-                "type" => "location",
-                "value" => [
-                    "latitude" => null,
-                    "longitude" => null
-                ]
-            ]
-        ];
+        $array_of_fields =  new ArrayOfFields(array(
+            new StringField('String Field label1'),
+            new StringField('String Field label2'),
+            new OptionsField(
+                'Options Field label',
+                array(
+                    'option1',
+                    'option2',
+                    'option3',
+                )
+            )
+        ));
+
+        // $array_of_fields = [
+        //     [
+        //         "label" => "أوصف مشكلتك وحاجتك بوضوح",
+        //         "type" => "string",
+        //         "value" => null
+        //     ],
+        //     [
+        //         "titles" => [
+        //             "حي السلام",
+        //             "حي الزهور",
+        //             "عين زارة",
+        //             "سوق الخميس",
+        //             "حي الاندلس"
+        //         ],
+        //         "label" => "اختر المنطقة",
+        //         "type" => "options",
+        //         "value" => null
+        //     ],
+        //     [
+        //         "titles" => [
+        //             "سجاد",
+        //             "مفروشات",
+        //             "صالونات",
+        //             "جلسات",
+        //             "ستارات"
+        //         ],
+        //         "label" => "اختر نوع الغسيل",
+        //         "type" => "options",
+        //         "value" => null
+        //     ],
+        //     [
+        //         "label" => "أوصف مشكلتك وحاجتك بوضوح",
+        //         "subLabel" => "أضف وصف واضح لمشكلتك، ليتمكن مزود الخدمة من فهمها وتقديم العرض الافضل لك",
+        //         "type" => "textarea",
+        //         "value" => null
+        //     ],
+        //     [
+        //         "label" => "أضف صورة للمشكلة (اختياري)",
+        //         "type" => "image",
+        //         "value" => null
+        //     ],
+        //     [
+        //         "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
+        //         "type" => "location",
+        //         "value" => [
+        //             "latitude" => null,
+        //             "longitude" => null
+        //         ]
+        //     ]
+        // ];
         $meta_data = [
             "price" => "300 جنيه",
             "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
@@ -83,7 +99,7 @@ class ServiceFactory extends Factory
             // 'approved' => $this->faker->boolean(), // has a default value of false
             "title" => $this->faker->sentence(),
             'description' => $this->faker->text(),
-            'fields' => $fields,
+            'array_of_fields' => $array_of_fields,
             'category_id' => Category::factory()->create(),
             'image' => getBase64DefaultImage(),
             'meta_data' => $meta_data,

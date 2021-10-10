@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,7 +43,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name' => 'required|min:3|max:255|string',
-            'image' => ['required', new base64(8000000)],
+            'image' => ['required', new Base64Rule(8000000)],
             'parent_id' => 'sometimes|nullable|numeric'
         ]);
 

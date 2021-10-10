@@ -34,24 +34,26 @@ class CategoryTest extends TestCase
         $this->withoutExceptionHandling();
         $category = Category::factory()->make();
 
-        $this->post('/category',[
+        $response = $this->postJson('api/category',[
             'name' => $category->name,
             'image' => $category->image,
             'parent_id' => $category->parent_id
-        ])->assertRedirect();
+        ])->assertOk();
+        // dd($response->content());
     }
 
     public function test_admin_can_update_category_in_browser()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $category1 = Category::factory()->create();
 
         $category2 = Category::factory()->make();
 
-        $this->put('/category/' . $category1->id,[
+        $response = $this->putJson('api/category/' . $category1->id,[
             'name' => $category2->name,
             'image' => $category2->image,
-        ])->assertRedirect();
+        ])->assertOk();
+        // dd($response->json());
     }
 
     public function test_admin_can_create_category_with_api()

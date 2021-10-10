@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use App\Models\Service;
 
 use function PHPUnit\Framework\matches;

@@ -11,6 +11,8 @@ use App\Models\Service;
 use App\Rules\FieldsMatch;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
+use App\Rules\ArrayOfFieldsRule;
+use App\FieldsTypes\ArrayOfFields;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -46,23 +48,23 @@ class OrdersController extends Controller
 
         $request->validate([
             'service_id' => 'required|exists:services,id',
-            'fields' => ['required', 'array'],
-            'fields.*.type' => 'string|required',
-            'fields.*.label' => 'string|required',
-            'fields.*.value' => 'required',
         ]);
 
         $service = Service::where('id', $request->service_id)->first();
 
         $request->validate([
-            'fields' => [new fieldsMatch($service)],
+            'array_of_fields' => ['required', new ArrayOfFieldsRule($service->array_of_fields)],
         ]);
+
+        // $request->validate([
+        //     'fields' => [new fieldsMatch($service)],
+        // ]);
 
 
         Order::create([
             'service_id' => $request->service_id,
             'user_id' => $request->user()->id,
-            'fields' => $request->fields,
+            'array_of_fields' => ArrayOfFields::fromArray($request->array_of_fields),
             'status' => 'new'
         ]);
         return ['success' => 'تم تقديم الطلب'];

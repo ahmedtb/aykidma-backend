@@ -4,10 +4,11 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class base64 implements Rule
+class Base64Rule implements Rule
 {
 
     protected int $maxSize;
+    protected ?string $message = null;
     /**
      * Create a new rule instance.
      *
@@ -27,11 +28,13 @@ class base64 implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (strlen($value) >= $this->maxSize || base64_encode(base64_decode($value)) === $value) {
-            // dd('Success! The String entered match base64_decode and is Image');
+        if (strlen($value) >= $this->maxSize) {
+            $this->message = 'the base64 string exceedes the max size';
             return true;
-        } else {
-            // dd('failure!');
+        } else if (base64_encode(base64_decode($value)) === $value) {
+            $this->message = 'the string is not valid base64 string';
+            return true;
+        } else {            // dd('failure!');
             return false;
         }
     }
@@ -43,6 +46,6 @@ class base64 implements Rule
      */
     public function message()
     {
-        return 'image string value is not a valid base64 string';
+        return $this->message;
     }
 }

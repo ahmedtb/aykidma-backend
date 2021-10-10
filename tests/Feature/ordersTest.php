@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\FieldsTypes\ArrayOfFields;
+use App\FieldsTypes\StringField;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Order;
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use App\Models\Service;
 use App\Models\ServiceProvider;
 use Illuminate\Support\Str;
@@ -41,12 +43,12 @@ class ordersTest extends TestCase
                                 ->where('user_id', $user->id)
                                 ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
-                                ->whereType('fields', 'array')
+                                ->whereType('array_of_fields.fields', 'array')
                                 ->has(
-                                    'fields.1',
+                                    'array_of_fields.fields.1',
                                     fn ($json) =>
                                     $json->whereType('label', 'string')
-                                        ->whereType('type', 'string')
+                                        ->whereType('class', 'string')
                                         ->has('value')
                                         ->etc()
                                 )
@@ -86,7 +88,7 @@ class ordersTest extends TestCase
                                 ->where('user_id', $user->id)
                                 ->whereType('service_id', 'integer')
                                 ->whereType('status', 'string')
-                                ->whereType('fields', 'array')
+                                ->whereType('array_of_fields', 'array')
                                 ->whereType('meta_data', 'array')
                                 ->whereType('comment', 'string')
                                 ->whereType('rating', 'integer')
@@ -108,27 +110,25 @@ class ordersTest extends TestCase
     {
         $user = User::factory()->create();
         $service = Service::factory()->create();
-        $fields = $service->fields;
+        $array_of_fields = $service->array_of_fields;
 
         // with values set to string
-        foreach ($fields as $key => $field) {
-            $fields[$key]['value'] = "Some value";
-        }
-
+        $array_of_fields->generateMockedValues();
+        // dd($array_of_fields);
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
-            'fields' => $fields
+            'array_of_fields' => $array_of_fields
         ]);
 
 
         $response->assertUnauthorized();
 
-        $response = $this->actingAs($user, 'web')->postJson('api/orders', [
+        $response = $this->actingAs($user, 'user')->postJson('api/orders', [
             'service_id' => $service->id,
-            'fields' => $fields
+            'array_of_fields' => $array_of_fields
         ]);
 
-
+        // dd($response->json());
         $response->assertStatus(200);
     }
 
@@ -249,41 +249,33 @@ class ordersTest extends TestCase
     public function test_order_fields_structure_should_match_service_fields_structure()
     {
         $service = Service::factory()->create();
-        $fields = $service->fields;
+        $array_of_fields = $service->array_of_fields;
         // with values set to string
-        foreach ($fields as $key => $field) {
-            $fields[$key]['value'] = "Some value";
-        }
-
+        // foreach ($array_of_fields as $key => $field) {
+        //     $array_of_fields[$key]['value'] = "Some value";
+        // }
+        $array_of_fields->generateMockedValues();
+        // dd($array_of_fields);
         $user = User::factory()->create();
-        $this->actingAs($user, 'web');
-
+        $this->actingAs($user, 'user');
         $response = $this->postJson('api/orders', [
             'service_id' => $service->id,
-            'fields' => $fields
+            'array_of_fields' => $array_of_fields
         ]);
-
+        // dd($response->json());
         $response->assertStatus(200);
 
 
-        // when fields does not match offer fields
-        $fields = [
-            [
-                "label" => "اختر المنطقة",
-                "type" => "options",
-                "value" => "حي السلام"
-            ],
-            [
-                "label" => "اختر نوع الغسيل",
-                "type" => "options",
-                "value" => "مفروشات"
-            ]
-        ];
-
+        // when array_of_fields does not match offer array_of_fields
+        $array_of_fields = new ArrayOfFields([
+            new StringField('random label', 'value')
+        ]);
+        // $this->withoutExceptionHandling();
         $response = $this->postJson('api/orders', [
             'service_id' =>  $service->id,
-            'fields' => $fields
+            'array_of_fields' => $array_of_fields
         ]);
+        
 
         $response->assertStatus(422);
     }

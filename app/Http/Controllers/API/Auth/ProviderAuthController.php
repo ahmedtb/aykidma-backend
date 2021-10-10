@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Rules\base64;
+use App\Rules\Base64Rule;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
 use App\Models\activationNumber;

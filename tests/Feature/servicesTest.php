@@ -40,7 +40,7 @@ class servicesTest extends TestCase
                                 ->whereType('approved', 'boolean')
                                 ->whereType('title', 'string')
                                 ->whereType('description', 'string')
-                                ->whereType('fields', 'array')
+                                ->whereType('array_of_fields', 'array')
                                 ->whereType('category_id', 'integer')
                                 ->whereType('image', 'string')
                                 ->whereType('meta_data', 'array')
@@ -57,14 +57,14 @@ class servicesTest extends TestCase
 
     public function test_provider_can_submit_request_to_create_service()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
         $response = $this->actingAs($provider, 'provider')->postJson('api/services', [
             // 'service_provider_id' => $provider->id,
             'title' => $service->title,
             'description' => $service->description,
-            'fields' => $service->fields,
+            'array_of_fields' => $service->array_of_fields,
             'category_id' => $service->category_id,
             // 'image' =>  $service->image,
             'meta_data' => $service->meta_data,

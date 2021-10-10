@@ -66,25 +66,25 @@ class AuthUserTest extends TestCase
             'name' => 'random name',
             'phone_number' => $phone_number,
             'password' => 'password'
-        ])->assertStatus(201);
-
-        $activationNumber = activationNumber::where('phone_number', $phone_number)->first();
-
-        // wrong activation number
-        $this->post('api/signup', [
-            'name' => 'random name',
-            'phone_number' => $phone_number,
-            'password' => 'password',
-            'activationNumber' => 1111
-        ])->assertStatus(422)->assertJson(['message' => 'the activation number is wrong']);
-
-        // right activation number
-        $this->post('api/signup', [
-            'name' => 'random name',
-            'phone_number' => $phone_number,
-            'password' => 'password',
-            'activationNumber' => $activationNumber->activationNumber
         ])->assertStatus(201)->assertJson(['message' => 'user is successfully created']);
+
+        // $activationNumber = activationNumber::where('phone_number', $phone_number)->first();
+
+        // // wrong activation number
+        // $this->post('api/signup', [
+        //     'name' => 'random name',
+        //     'phone_number' => $phone_number,
+        //     'password' => 'password',
+        //     'activationNumber' => 1111
+        // ])->assertStatus(422)->assertJson(['message' => 'the activation number is wrong']);
+
+        // // right activation number
+        // $this->post('api/signup', [
+        //     'name' => 'random name',
+        //     'phone_number' => $phone_number,
+        //     'password' => 'password',
+        //     'activationNumber' => $activationNumber->activationNumber
+        // ])->assertStatus(201)->assertJson(['message' => 'user is successfully created']);
     }
 
     public function test_only_authenticated_user_can_retrive_orders()

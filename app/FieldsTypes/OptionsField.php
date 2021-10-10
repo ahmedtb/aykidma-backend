@@ -1,0 +1,68 @@
+<?php
+
+namespace App\FieldsTypes;
+
+use JsonSerializable;
+use Illuminate\Support\Facades\Date;
+use App\FieldsTypes\FieldTypeException;
+use Illuminate\Support\Facades\Validator;
+
+class OptionsField extends FieldType
+{
+    public string $label;
+    public array $options;
+    private ?string $value = null;
+
+    public static function fromArray(array $arrayForm)
+    {
+        $instance = new self($arrayForm['label'], $arrayForm['options'], $arrayForm['value']);
+        return $instance;
+    }
+
+    public function __construct(string $label, array $options, ?string $value = null)
+    {
+        $this->label = $label;
+        $this->options = $options;
+        if ($value)
+            $this->setValue($value);
+    }
+
+    public function setValue($value)
+    {
+        if (!in_array($value, $this->options))
+            throw new FieldTypeException('please choose from the options');
+
+        $this->value = $value;
+        return $this;
+    }
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'class' => static::class,
+            'label' => $this->label,
+            'options' => $this->options,
+            'value' => $this->value
+        );
+    }
+
+    public function generateMockedValue()
+    {
+        // $faker = new \Faker\Generator();
+        $this->setValue($this->options[array_rand($this->options)]);
+    }
+
+    public function isCompatibleField($field)
+    {
+        if (get_class($field) != OptionsField::class)
+            throw new FieldTypeException('field is not an OptionsField');
+        else if ($field->label != $this->label)
+            throw new FieldTypeException('optionsfields label is not equal');
+        else if ($field->options != $this->options)
+            throw new FieldTypeException('optionsfields options is not equal');
+    }
+}

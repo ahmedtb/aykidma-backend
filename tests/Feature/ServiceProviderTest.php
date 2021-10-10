@@ -60,24 +60,24 @@ class ServiceProviderTest extends TestCase
         Order::factory()->count(5)->create(['service_id' => $service->id]);
         $response = $this->actingAs($service_provider, 'provider')->getJson('api/providerOrders')->assertOk();
 
-        $sample_index = random_int(0, sizeof($response->json()) - 1);
-
+        // $sample_index = random_int(0, sizeof($response->json()) - 1);
+        // dd($response->json()[0]['array_of_fields']['fields'][1]);
         $response
             ->assertJson(
                 fn (AssertableJson $json) =>
                 $json->has(
-                    $sample_index,
+                    0,
                     fn (AssertableJson $sample) =>
                     $sample->whereType('id', 'integer')
                         ->whereType('user_id', 'integer')
                         ->whereType('service_id', 'integer')
                         ->whereType('status', 'string')
-                        ->whereType('fields', 'array')
+                        ->whereType('array_of_fields', 'array')
                         ->has(
-                            'fields.1',
+                            'array_of_fields.fields.1',
                             fn ($json) =>
                             $json->whereType('label', 'string')
-                                ->whereType('type', 'string')
+                                ->whereType('class', 'string')
                                 ->has('value')
                                 ->etc()
                         )
