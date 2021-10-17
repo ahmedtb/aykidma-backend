@@ -26,7 +26,7 @@ class ProviderNotificationFactory extends Factory
             'title' => $this->faker->sentence(),
             'body' => $this->faker->sentence(),
             'type' => $this->faker->word(),
-            'service_provider_id' => ServiceProvider::factory()->create()->id
+            'service_provider_id' => ServiceProvider::activated(true)->inRandomOrder()->first() ?? ServiceProvider::factory()->create()->id
         ];
     }
 }

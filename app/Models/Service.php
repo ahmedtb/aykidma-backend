@@ -54,4 +54,8 @@ class Service extends Model
     {
         
     }
+
+    public function scopeApproved($query, $bool = true){
+        return $query->where('approved', $bool);
+    }
 }

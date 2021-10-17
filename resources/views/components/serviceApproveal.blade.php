@@ -30,16 +30,16 @@
 
     <div class="border border-dark rounded">{!! nl2br($service->description) !!}</div>
 
-    @foreach ($service->fields as $field)
+    @foreach ($service->array_of_fields->getFields() as $field)
 
-        @if ($field['type'] == 'options')
+        @if (get_class($field) == OptionsField::class)
             <p class="text-center mb-0">{{ $field['label'] }}</p>
             <div class="border border-dark rounded d-flex flex-row justify-content-around">
                 @foreach ($field['titles'] as $title)
                     <p class='mb-0'>{{ $title }} </p>
                 @endforeach
             </div>
-        @elseif ($field['type'] == 'image')
+        @elseif (get_class($field) == ImageField::class)
             <p class="text-center mb-0">{{ $field['label'] }}</p>
             <div class="border border-dark rounded d-flex flex-row justify-content-around p-5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
@@ -49,13 +49,14 @@
                         d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z" />
                 </svg>
             </div>
-        @elseif ($field['type'] == 'textarea')
+        @elseif (get_class($field) == TextAreaField::class)
             <p class="text-center mb-0">{{ $field['label'] }}</p>
             <div class="border border-dark rounded d-flex flex-row justify-content-around p-4">
             </div>
         @endif
 
     @endforeach
+
     <div class=" d-flex flex-row justify-content-around">
 
 

@@ -26,7 +26,7 @@ class UserNotificationFactory extends Factory
             'title' => $this->faker->sentence(),
             'body' => $this->faker->sentence(),
             'type' => $this->faker->word(),
-            'user_id' => User::factory()->create()->id
+            'user_id' => User::inRandomOrder()->first() ?? User::factory()->create()->id
         ];
     }
 }

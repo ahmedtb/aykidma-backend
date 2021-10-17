@@ -58,7 +58,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_create_category_with_api()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $category = Category::factory()->make();
 
         $this->post('api/category',[

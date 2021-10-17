@@ -2,7 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Admin;
+use App\Models\Order;
+use App\Models\Service;
+use App\Models\ServiceProvider;
 use Illuminate\Database\Seeder;
+use App\Models\UserNotification;
+use App\Models\ProviderNotification;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +21,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Order::factory(10)->create();
-        \App\Models\Admin::factory()->create();
-        \App\Models\UserNotification::factory(10)->create(['user_id'=>1]);
-        \App\Models\ProviderNotification::factory(10)->create(['service_provider_id'=>1]);
+        Admin::factory()->create();
+        $user = User::factory()->create([
+            'name' => 'ahmed tb',
+            'phone_number' => '0914354173',
+            'password' => Hash::make('password')
+        ]);
+        $provider = ServiceProvider::factory()->activated()->forUser($user)->create();
+        Service::factory()->approved()->forProvider($provider)->create();
+
+        $users = User::factory(10)->create();
+        foreach ($users as $user) {
+            $provider = ServiceProvider::factory()->activated()->forUser($user)->create();
+            Service::factory()->approved()->forProvider($provider)->create();
+        }
+
+
+        Order::factory(10)->create();
+        UserNotification::factory(100)->create();
+        ProviderNotification::factory(100)->create();
     }
 }

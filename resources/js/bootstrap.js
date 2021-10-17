@@ -10,7 +10,7 @@ try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
-    require('rtl-bootstrap');
+    require('bootstrap');
 } catch (e) {}
 
 /**

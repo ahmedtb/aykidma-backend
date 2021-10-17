@@ -6,7 +6,11 @@ use App\Models\Service;
 use App\Models\Category;
 use App\FieldsTypes\StringField;
 use App\FieldsTypes\ArrayOfFields;
+use App\FieldsTypes\ImageField;
+use App\FieldsTypes\LocationField;
 use App\FieldsTypes\OptionsField;
+use App\FieldsTypes\TextAreaField;
+use App\Models\ServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceFactory extends Factory
@@ -27,8 +31,8 @@ class ServiceFactory extends Factory
     {
 
         $array_of_fields =  new ArrayOfFields(array(
-            new StringField('String Field label1'),
-            new StringField('String Field label2'),
+            new StringField('String Field label'),
+            new TextAreaField('Text Field label'),
             new OptionsField(
                 'Options Field label',
                 array(
@@ -36,66 +40,18 @@ class ServiceFactory extends Factory
                     'option2',
                     'option3',
                 )
-            )
+            ),
+            new LocationField('location field'),
+            new ImageField('image fields')
         ));
 
-        // $array_of_fields = [
-        //     [
-        //         "label" => "أوصف مشكلتك وحاجتك بوضوح",
-        //         "type" => "string",
-        //         "value" => null
-        //     ],
-        //     [
-        //         "titles" => [
-        //             "حي السلام",
-        //             "حي الزهور",
-        //             "عين زارة",
-        //             "سوق الخميس",
-        //             "حي الاندلس"
-        //         ],
-        //         "label" => "اختر المنطقة",
-        //         "type" => "options",
-        //         "value" => null
-        //     ],
-        //     [
-        //         "titles" => [
-        //             "سجاد",
-        //             "مفروشات",
-        //             "صالونات",
-        //             "جلسات",
-        //             "ستارات"
-        //         ],
-        //         "label" => "اختر نوع الغسيل",
-        //         "type" => "options",
-        //         "value" => null
-        //     ],
-        //     [
-        //         "label" => "أوصف مشكلتك وحاجتك بوضوح",
-        //         "subLabel" => "أضف وصف واضح لمشكلتك، ليتمكن مزود الخدمة من فهمها وتقديم العرض الافضل لك",
-        //         "type" => "textarea",
-        //         "value" => null
-        //     ],
-        //     [
-        //         "label" => "أضف صورة للمشكلة (اختياري)",
-        //         "type" => "image",
-        //         "value" => null
-        //     ],
-        //     [
-        //         "label" => "سيتم استخدام موقعك الحالي كدليل لتقديم الخدمة",
-        //         "type" => "location",
-        //         "value" => [
-        //             "latitude" => null,
-        //             "longitude" => null
-        //         ]
-        //     ]
-        // ];
         $meta_data = [
             "price" => "300 جنيه",
             "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
             "rating" => $this->faker->numberBetween(0, 5)
         ];
         return [
-            "service_provider_id" => \App\Models\ServiceProvider::factory()->create(['activated' => true])->id,
+            "service_provider_id" => \App\Models\ServiceProvider::activated(true)->inRandomOrder()->first() ?? \App\Models\ServiceProvider::factory()->create(['activated' => true])->id,
             // 'approved' => $this->faker->boolean(), // has a default value of false
             "title" => $this->faker->sentence(),
             'description' => $this->faker->text(),
@@ -107,16 +63,20 @@ class ServiceFactory extends Factory
         ];
     }
 
-    /**
-     * set the service as approved
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
     public function approved()
     {
         return $this->state(function (array $attributes) {
             return [
                 'approved' => true,
+            ];
+        });
+    }
+
+    public function forProvider(ServiceProvider $provider)
+    {
+        return $this->state(function (array $attributes) use($provider) {
+            return [
+                "service_provider_id" => $provider->id
             ];
         });
     }

@@ -39,7 +39,8 @@ class ServiceProvider extends Authenticatable
         return $this->hasManyThrough(Order::class, Service::class);
     }
 
-    public function notifications(){
+    public function notifications()
+    {
         return $this->hasMany(ProviderNotification::class);
     }
 
@@ -74,7 +75,13 @@ class ServiceProvider extends Authenticatable
         return $this->tokens()->pluck('expo_token')->unique();
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeActivated($query, $bool = true)
+    {
+        return $query->where('activated', $bool);
     }
 }

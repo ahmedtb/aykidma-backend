@@ -44,7 +44,7 @@ class ServiceProviderFactory extends Factory
         ];
         $meta_data = [
             "description" => "هذا وصف اختباري",
-            "GPS" => ["latitude"=> 13.1, "longtitude"=> 32.5]
+            "GPS" => ["latitude" => 13.1, "longtitude" => 32.5]
         ];
 
         return [
@@ -67,6 +67,15 @@ class ServiceProviderFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'activated' => true,
+            ];
+        });
+    }
+
+    public function forUser(User $user)
+    {
+        return $this->state(function (array $attributes) use ($user) {
+            return [
+                "user_id" => $user->id,
             ];
         });
     }

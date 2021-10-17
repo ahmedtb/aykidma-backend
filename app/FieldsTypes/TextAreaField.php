@@ -64,7 +64,7 @@ class TextAreaField extends FieldType
 
     public function isCompatibleField($field)
     {
-        if (!get_class($field) != TextAreaField::class)
+        if (get_class($field) != TextAreaField::class)
             throw new FieldTypeException('field is not an TextAreaField');
         else if ($field->label != $this->label)
             throw new FieldTypeException('TextAreaField label is not equal');
