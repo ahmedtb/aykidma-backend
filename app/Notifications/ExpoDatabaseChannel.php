@@ -74,7 +74,7 @@ class ExpoDatabaseChannel
     {
 
         if ($notification->type == 'provider') {
-            $this->forServiceProvider($notifiable, $$notification);
+            $this->forServiceProvider($notifiable, $notification);
         } else if ($notification->type == 'user') {
             $this->forUser($notifiable, $notification);
         }

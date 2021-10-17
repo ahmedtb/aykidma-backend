@@ -48,12 +48,13 @@ class OrderFactory extends Factory
         $meta_data = [
             "GPS" => ["latitude" => 13.1, "longtitude" => 32.5],
         ];
+        $states = array("new", "resumed", "done");
 
         return [
             //
             'service_id' => \App\Models\Service::approved()->inRandomOrder()->first() ??  \App\Models\Service::factory()->approved()->create()->id,
             'user_id' => \App\Models\User::inRandomOrder()->first() ?? \App\Models\User::factory()->create()->id,
-            'status' => 'done',
+            'status' => $states[array_rand($states)],
             'array_of_fields' => ($array_of_fields),
             'comment' => $this->faker->sentence(),
             'rating' => random_int(0, 5),

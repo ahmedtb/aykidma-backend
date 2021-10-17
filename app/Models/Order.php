@@ -6,6 +6,7 @@ use App\casts\Json;
 use App\Casts\CastsArrayOfFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PDO;
 
 class Order extends Model
 {
@@ -30,5 +31,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function provider(){
+        return $this->service->ServiceProvider();
+
     }
 }

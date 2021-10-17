@@ -4,17 +4,16 @@ namespace App\Models;
 
 use App\casts\Json;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
 use App\Models\ProviderNotification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+// use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ServiceProvider extends Authenticatable
+class ServiceProvider extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $casts = [
         'address' => Json::class,
@@ -67,12 +66,7 @@ class ServiceProvider extends Authenticatable
 
     public function routeNotificationForExpoApp()
     {
-        return $this->expoTokens();
-    }
-
-    public function expoTokens()
-    {
-        return $this->tokens()->pluck('expo_token')->unique();
+        return $this->user->expoTokens();
     }
 
     public function user()

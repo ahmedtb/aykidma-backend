@@ -16,6 +16,7 @@ use App\FieldsTypes\ArrayOfFields;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\MessageNotification;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
@@ -38,11 +39,6 @@ class OrdersController extends Controller
         return Auth::user()->orders()->with(['service'])->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
 
@@ -56,17 +52,14 @@ class OrdersController extends Controller
             'array_of_fields' => ['required', new ArrayOfFieldsRule($service->array_of_fields)],
         ]);
 
-        // $request->validate([
-        //     'fields' => [new fieldsMatch($service)],
-        // ]);
-
-
         Order::create([
             'service_id' => $request->service_id,
             'user_id' => $request->user()->id,
             'array_of_fields' => ArrayOfFields::fromArray($request->array_of_fields),
             'status' => 'new'
         ]);
+        $service->ServiceProvider->notify(new MessageNotification('you have new order', 'order by: ' . $request->user('user')->id, 'provider'));
+
         return ['success' => 'تم تقديم الطلب'];
     }
 
@@ -81,11 +74,12 @@ class OrdersController extends Controller
             'order_id' => 'required|integer'
         ]);
         // $order = Order::find(1)->where(['id'=>$request->order_id,'status'=>'new'])->first();
-        $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'new'])->first();
+        $order = $request->user('provider')->Orders()->where(['orders.id' => $request->order_id, 'status' => 'new'])->first();
 
         if ($order) {
             $order->status = 'resumed';
             $order->save();
+            $order->user->notify(new MessageNotification('your order is accepted', 'order: ' . $order->id, 'user'));
             return response(['success' => 'order successfully resumed']);
         } else
             return response(['failed' => 'there is no a new order that belongs to you with this id'], 400);
@@ -98,7 +92,7 @@ class OrdersController extends Controller
             'comment' => 'sometimes|string',
             'rating' => 'sometimes|min:0|max:5'
         ]);
-        $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'resumed'])->first();
+        $order = $request->user('user')->Orders()->where(['orders.id' => $request->order_id, 'status' => 'resumed'])->first();
 
         if ($order) {
             $order->status = 'done';
@@ -108,6 +102,7 @@ class OrdersController extends Controller
             if ($request->rating) {
                 $order->rating = $request->rating;
             }
+            $order->provider->notify(new MessageNotification('your order is done by user', 'order: ' . $order->id, 'provider'));
             $order->save();
             return response(['success' => 'order successfully marked as done']);
         } else

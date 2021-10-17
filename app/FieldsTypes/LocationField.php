@@ -60,7 +60,7 @@ class LocationField extends FieldType
     public function generateMockedValue()
     {
         $this->setValue(
-            ['latitude' => random_int(0, 5), 'longitude' => random_int(0, 5)]
+            ['latitude' => random_int(1, 5), 'longitude' => random_int(1, 5)]
         );
     }
 
