@@ -60,7 +60,7 @@ class servicesTest extends TestCase
         // $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
-        $response = $this->actingAs($provider, 'provider')->postJson('api/services', [
+        $response = $this->actingAs($provider->user, 'provider')->postJson('api/services', [
             // 'service_provider_id' => $provider->id,
             'title' => $service->title,
             'description' => $service->description,

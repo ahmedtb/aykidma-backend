@@ -26,13 +26,17 @@ class UserNotificationsTest extends TestCase
      */
     public function test_user_can_fetch_his_notifications()
     {
+        UserNotification::factory()->create();
         $user = User::factory()->create();
         $this->actingAs($user, 'user');
 
-        UserNotification::factory()->create();
         $response = $this->get('api/userNotifications');
+        // dd($response->json());
         $this->assertEquals(sizeof($response->json()), 0);
         $response->assertStatus(200);
+
+        
+
 
         UserNotification::factory(2)->create(['user_id' => $user->id]);
         $response = $this->get('api/userNotifications');

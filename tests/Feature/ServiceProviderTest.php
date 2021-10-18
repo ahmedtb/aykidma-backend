@@ -29,11 +29,11 @@ class ServiceProviderTest extends TestCase
             'order_id' => $order->id
         ])->assertUnauthorized();
         // dd($response->json());
-        $this->actingAs($service_provider, 'provider')->putJson('api/order/resume/', [
+        $this->actingAs($service_provider->user, 'provider')->putJson('api/order/resume/', [
             'order_id' => 111
         ])->assertStatus(400);
 
-        $this->actingAs($service_provider, 'provider')->putJson('api/order/resume/', [
+        $this->actingAs($service_provider->user, 'provider')->putJson('api/order/resume/', [
             'order_id' => $order->id
         ])->assertOk();
 

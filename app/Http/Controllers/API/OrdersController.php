@@ -23,20 +23,20 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 class OrdersController extends Controller
 {
 
-    public function getServiceOrders(Request $request)
+    public function getServiceOrders(Request $request, $service_id)
     {
         // could be provider or a user...does not matter since both has orders() function
-        return Auth::user()->orders()->where('service_id', $request->service_id)->with(['service', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders('user')->where('service_id', $service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
     public function userOrders()
     {
-        return Auth::user()->orders()->with(['service', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders('user')->with(['service', 'service.ServiceProvider'])->get();
     }
 
     public function providerOrders()
     {
-        return Auth::user()->orders()->with(['service'])->get();
+        return Auth::user()->orders('provider')->with(['service'])->get();
     }
 
     public function create(Request $request)
@@ -65,7 +65,7 @@ class OrdersController extends Controller
 
     public function getProviderOrders(Request $request)
     {
-        return $request->user()->Orders()->with(['service'])->get();
+        return $request->user()->Orders('provider')->with(['service'])->get();
     }
 
     public function resume(Request $request)
@@ -117,7 +117,7 @@ class OrdersController extends Controller
             'rating' => 'required_without:comment|min:0|max:5'
         ]);
 
-        $order = $request->user()->Orders()->where(['orders.id' => $request->order_id, 'status' => 'done'])->first();
+        $order = $request->user('user')->Orders()->where(['orders.id' => $request->order_id, 'status' => 'done'])->first();
 
         if ($order) {
             if ($request->comment) {
@@ -179,7 +179,7 @@ class OrdersController extends Controller
 
     public function userDelete(Request $request, $id)
     {
-        $user = $request->user();
+        $user = $request->user('user');
 
         if ($user->orders()->where('id', $id)->delete())
             return ['success' => 'order: ' . $id . ' successfully deleted'];
@@ -187,7 +187,7 @@ class OrdersController extends Controller
 
     public function providerDelete(Request $request, $id)
     {
-        $user = $request->user();
+        $user = $request->user('provider');
         // return $user;
 
         if ($user->orders()->where('orders.id', $id)->delete())
@@ -198,7 +198,7 @@ class OrdersController extends Controller
 
     public function adminDelete(Request $request, $id)
     {
-        $user = $request->user();
+        $user = $request->user('admin');
 
         if (Order::where('id', $id)->delete())
             return ['success' => 'order: ' . $id . ' successfully deleted'];

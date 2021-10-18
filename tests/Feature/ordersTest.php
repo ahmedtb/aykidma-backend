@@ -310,7 +310,7 @@ class ordersTest extends TestCase
 
         $order = Order::factory()->create();
         $provider = $order->service->ServiceProvider;
-        $response = $this->actingAs($provider, 'provider')->delete('api/providerOrder/' . $order->id)
+        $response = $this->actingAs($provider->user, 'provider')->delete('api/providerOrder/' . $order->id)
             ->assertOk()->assertJson(['success' => 'order: ' . $order->id . ' successfully deleted']);
         // dd($response->json());
 

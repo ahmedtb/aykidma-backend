@@ -71,7 +71,7 @@ class ServicesController extends Controller
             'meta_data' => 'sometimes|array',
         ]);
 
-        $service = $request->user()->Services()->where('id', $id)->first();
+        $service = $request->user('provider')->Services()->where('id', $id)->first();
         // $data['service_provider_id'] = $request->user()->id;
         // Service::create($data);
         $service->update($data);
