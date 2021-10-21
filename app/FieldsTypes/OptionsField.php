@@ -12,17 +12,20 @@ class OptionsField extends FieldType
     public string $label;
     public array $options;
     private ?string $value = null;
+    public bool $required = true;
 
     public static function fromArray(array $arrayForm)
     {
-        $instance = new self($arrayForm['label'], $arrayForm['options'], $arrayForm['value']);
+        $instance = new self($arrayForm['label'], $arrayForm['options'], $arrayForm['value'], $arrayForm['required']);
         return $instance;
     }
 
-    public function __construct(string $label, array $options, ?string $value = null)
+    public function __construct(string $label, array $options, ?string $value = null, ?bool $required = true)
     {
         $this->label = $label;
         $this->options = $options;
+        $this->required = $required;
+
         if ($value)
             $this->setValue($value);
     }
@@ -46,7 +49,9 @@ class OptionsField extends FieldType
             'class' => static::class,
             'label' => $this->label,
             'options' => $this->options,
-            'value' => $this->value
+            'value' => $this->value,
+            'required' => $this->required
+
         );
     }
 
@@ -64,5 +69,7 @@ class OptionsField extends FieldType
             throw new FieldTypeException('optionsfields label is not equal');
         else if ($field->options != $this->options)
             throw new FieldTypeException('optionsfields options is not equal');
+        else if ($this->required && $field->value == null)
+            throw new FieldTypeException('options field value is required');
     }
 }

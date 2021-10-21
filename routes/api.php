@@ -12,6 +12,7 @@ use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\ProviderAuthController;
 use App\Http\Controllers\API\UserNotificationsController;
 use App\Http\Controllers\API\ProviderNotificationsController;
+use App\Http\Controllers\API\ReportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,7 @@ Route::get('services/{category_id}', [ServicesController::class, 'byCategory']);
 Route::post('services', [ServicesController::class, 'create'])->middleware(['auth:provider']);
 Route::put('services/{id}', [ServicesController::class, 'edit'])->middleware(['auth:provider']);
 Route::get('myServices', [ServicesController::class, 'myServices'])->middleware(['auth:provider']);
+Route::get('service/{id}/PhoneNumber', [ServicesController::class, 'showPhoneNumber'])->middleware(['auth:user']);
 
 Route::get('userOrders', [OrdersController::class, 'userOrders'])->middleware('auth:user');
 Route::get('providerOrders', [OrdersController::class, 'providerOrders'])->middleware('auth:provider');
@@ -83,5 +85,7 @@ Route::middleware(['auth:provider'])->group(function () {
     Route::get('provider/search/doneOrders/{q}', [SearchesController::class, 'providerDoneOrdersSearch']);
 });
 
-// Route::put('/approve/service', [AdminController::class, 'approveService'])->middleware(['auth:admin']);
-// Route::delete('order/deleteReview', [AdminController::class, 'deleteReview'])->middleware(['auth:admin']);
+Route::post('reportComment', [ReportsController::class, 'reportComment']);
+Route::post('reportSP', [ReportsController::class, 'reportSP']);
+Route::post('reportService', [ReportsController::class, 'reportService']);
+

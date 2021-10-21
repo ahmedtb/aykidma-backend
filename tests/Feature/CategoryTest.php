@@ -81,9 +81,4 @@ class CategoryTest extends TestCase
         ])->assertOk()->assertJson(['success' => 'You have successfully updated a Category!']);
         // dd($response->json() );
     }
-
-    public function test_drive_stored_image_file_should_be_deleted_when_deleting_the_category()
-    {
-        
-    }
 }

@@ -38,14 +38,6 @@ class ArrayOfFieldsRule implements Rule
             $instance = ArrayOfFields::fromArray($value);
             if ($this->structure)
                 $this->structure->isCompatible($instance);
-            // foreach ($instance->getFields() as $index => $field) {
-            //     if (
-            //         !$this->structure->getFields()[$index]->label == $field->label || !get_class($this->structure->getFields()[$index]) == get_class($field)
-            //     ) {
-            //         $this->errorMessage = 'array_of_field structure is not compatibale';
-            //         return false;
-            //     }
-            // }
         } catch (Exception $e) {
             $this->errorMessage = $e->getMessage();
             return false;

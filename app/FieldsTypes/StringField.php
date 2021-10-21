@@ -11,16 +11,19 @@ class StringField extends FieldType
 {
     public string $label;
     public ?string $value = null;
+    public bool $required = true;
 
     public static function fromArray(array $arrayForm)
     {
-        $instance = new self($arrayForm['label'], $arrayForm['value']);
+        $instance = new self($arrayForm['label'], $arrayForm['value'], $arrayForm['required']);
         return $instance;
     }
 
-    public function __construct(string $label, ?string $value = null)
+    public function __construct(string $label, ?string $value = null, ?bool $required = true)
     {
         $this->label = $label;
+        $this->required = $required;
+
         if ($value)
             $this->setValue($value);
     }
@@ -42,32 +45,28 @@ class StringField extends FieldType
         return array(
             'class' => static::class,
             'label' => $this->label,
-            'value' => $this->value
+            'value' => $this->value,
+            'required' => $this->required
+
         );
     }
-    public function render()
-    {
-        return View('fields.stringField',['field'=>$this, 'input' => false, 'index' => null]);
-    }
-
-    public function formInput(int $index)
-    {
-        return View('fields.stringField',['field'=>$this, 'input' => true, 'index' => $index]);
-    }
     
+
     public function generateMockedValue()
     {
         $faker = Container::getInstance()->make(Generator::class);
         $this->setValue($faker->sentence());
     }
 
-    
+
     public function isCompatibleField($field)
     {
         // dd(get_class($field));
         if (get_class($field) != StringField::class)
             throw new FieldTypeException('field is not an string Field');
         else if ($field->label != $this->label)
-            throw new FieldTypeException('string fields label is not equal');
+            throw new FieldTypeException('string field label is not equal');
+        else if ($this->required && $field->value == null)
+            throw new FieldTypeException('string field value is required');
     }
 }

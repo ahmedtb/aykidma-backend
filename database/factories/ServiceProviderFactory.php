@@ -79,4 +79,12 @@ class ServiceProviderFactory extends Factory
             ];
         });
     }
+    public function newUser()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "user_id" => User::factory()->create(),
+            ];
+        });
+    }
 }

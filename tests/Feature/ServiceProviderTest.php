@@ -16,30 +16,6 @@ class ServiceProviderTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_service_provider_can_resume_order_that_belong_to_his_services()
-    {
-        $service_provider = ServiceProvider::factory()->create();
-        $service = Service::factory()->create(['service_provider_id' => $service_provider->id]);
-        $order = Order::factory()->create([
-            'service_id' => $service->id,
-            'status' => 'new'
-        ]);
-
-        $response = $this->putJson('api/order/resume/', [
-            'order_id' => $order->id
-        ])->assertUnauthorized();
-        // dd($response->json());
-        $this->actingAs($service_provider->user, 'provider')->putJson('api/order/resume/', [
-            'order_id' => 111
-        ])->assertStatus(400);
-
-        $this->actingAs($service_provider->user, 'provider')->putJson('api/order/resume/', [
-            'order_id' => $order->id
-        ])->assertOk();
-
-        // $response->assertStatus(200);
-    }
-
     public function test_service_provider_can_retrive_his_services()
     {
         $service_provider = ServiceProvider::factory()->create();

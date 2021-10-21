@@ -60,6 +60,8 @@ class ServiceFactory extends Factory
             'image' => getBase64DefaultImage(),
             'meta_data' => $meta_data,
             'price' => random_int(0, 65535),
+            'phone_number' => $this->faker->phoneNumber(),
+
         ];
     }
 

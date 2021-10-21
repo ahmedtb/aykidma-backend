@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
 use App\Rules\ArrayOfFieldsRule;
 use App\Http\Controllers\Controller;
+use App\Rules\PhoneNumberRule;
+use Illuminate\Validation\ValidationException;
 
 class ServicesController extends Controller
 {
@@ -24,11 +26,15 @@ class ServicesController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image' => ['sometimes', new Base64Rule(8000000)],
             'meta_data' => 'present|array',
+            'phone_number' => ['sometimes', new PhoneNumberRule],
+
         ]);
         // this line needs further examination
         $data['image'] = $data['image'] ?? getBase64DefaultImage();
+        // set service phone number the same as provider if it is not in the inputs
+        $data['phone_number'] = $data['phone_number'] ?? $request->user('provider')->phone_number;
 
-        $data['service_provider_id'] = $request->user()->id;
+        $data['service_provider_id'] = $request->user('provider')->id;
         Service::create($data);
 
         return response(['message' => 'service successfully created'], 201);
@@ -77,5 +83,15 @@ class ServicesController extends Controller
         $service->update($data);
 
         return ['success' => 'the service is edited'];
+    }
+
+    public function showPhoneNumber(Request $request, $id)
+    {
+        $user = $request->user('user');
+        if ($user->orders()->where('status', 'resumed')->where('service_id', $id)->count() > 0)
+            return Service::where('id', $id)->first()->phone_number;
+        else {
+            throw ValidationException::withMessages(['orders' => 'you dont have resumed orders for this service']);
+        }
     }
 }

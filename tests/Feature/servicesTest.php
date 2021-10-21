@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 
-class servicesTest extends TestCase
+class ServicesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -57,27 +57,42 @@ class servicesTest extends TestCase
 
     public function test_provider_can_submit_request_to_create_service()
     {
-        // $this->withoutExceptionHandling();
         $provider = ServiceProvider::factory()->create();
         $service = Service::factory()->make();
         $response = $this->actingAs($provider->user, 'provider')->postJson('api/services', [
-            // 'service_provider_id' => $provider->id,
+            'title' => $service->title,
+            'description' => $service->description,
+            'array_of_fields' => $service->array_of_fields,
+            'category_id' => $service->category_id,
+            'image' =>  $service->image,
+            'meta_data' => $service->meta_data,
+            'phone_number' => $service->phone_number
+        ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
+        $firstService = $provider->Services()->first();
+        $this->assertTrue($firstService->title == $service->title);
+        $this->assertTrue($firstService->description == $service->description);
+        $this->assertTrue($firstService->array_of_fields == $service->array_of_fields);
+        $this->assertTrue($firstService->category_id == $service->category_id);
+        $this->assertTrue($firstService->image == $service->image);
+        $this->assertTrue($firstService->meta_data == $service->meta_data);
+        $this->assertTrue($firstService->phone_number == $service->phone_number);
+
+        $this->assertNotNull($provider->Services()->first());
+    }
+
+    public function test_if_service_create_request_contain_null_image_input_the_system_should_put_default_image()
+    {
+        $provider = ServiceProvider::factory()->create();
+        $service = Service::factory()->make();
+        $response = $this->actingAs($provider->user, 'provider')->postJson('api/services', [
             'title' => $service->title,
             'description' => $service->description,
             'array_of_fields' => $service->array_of_fields,
             'category_id' => $service->category_id,
             // 'image' =>  $service->image,
             'meta_data' => $service->meta_data,
-        ])->assertStatus(201)->assertJson(['message' => 'service successfully created']);
-        // dd($response->json());
-    }
-
-    public function test_if_service_create_request_contain_null_image_input_the_system_should_put_default_image()
-    {
-    }
-
-    public function test_services_retrived_should_came_with_category_field()
-    {
+        ]);
+        $this->assertTrue($provider->Services()->first()->image != null);
     }
 
     public function test_Provider_can_submit_requst_to_create_service_and_the_admins_can_accepting_it()
@@ -142,4 +157,5 @@ class servicesTest extends TestCase
             'meta_data' =>  $updateTo->meta_data,
         ])->assertStatus(200);
     }
+
 }

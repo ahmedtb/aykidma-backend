@@ -24,11 +24,7 @@ class Service extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['category'];
-
-    public function getCategoryAttribute(){
-        return $this->category()->first();
-    }
+    protected $hidden = ['phone_number'];
 
     public function ServiceProvider()
     {
@@ -47,15 +43,15 @@ class Service extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Order::class)->where('status','done')->select(['comment','rating']);
+        return $this->hasMany(Order::class)->where('status', 'done')->select(['comment', 'rating']);
     }
 
     public function averageRating()
     {
-        
     }
 
-    public function scopeApproved($query, $bool = true){
+    public function scopeApproved($query, $bool = true)
+    {
         return $query->where('approved', $bool);
     }
 }

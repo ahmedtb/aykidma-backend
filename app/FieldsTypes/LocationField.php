@@ -16,15 +16,17 @@ class LocationField extends FieldType
         'latitude' => null,
         'longitude' =>  null
     ];
+    public bool $required = true;
 
     public static function fromArray(array $array)
     {
-        return new self($array['label'], $array['value']);
+        return new self($array['label'], $array['value'], $array['required']);
     }
 
-    public function __construct(string $label, array $value = ['latitude' => null, 'longitude' =>  null])
+    public function __construct(string $label, array $value = ['latitude' => null, 'longitude' =>  null], ?bool $required = true)
     {
         $this->label = $label;
+        $this->required = $required;
 
         if ($value['latitude'] && $value['longitude'])
             $this->setValue($value);
@@ -53,7 +55,9 @@ class LocationField extends FieldType
         return array(
             'class' => static::class,
             'label' => $this->label,
-            'value' => $this->value
+            'value' => $this->value,
+            'required' => $this->required
+
         );
     }
 
@@ -71,5 +75,7 @@ class LocationField extends FieldType
             throw new FieldTypeException('field is not an LocationField');
         else if ($field->label != $this->label)
             throw new FieldTypeException('LocationField label is not equal');
+        else if ($this->required && $field->value['latitude'] == null || $field->value['longitude'] == null)
+            throw new FieldTypeException('options field value is required');
     }
 }

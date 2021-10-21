@@ -26,12 +26,18 @@ class OrdersController extends Controller
     public function getServiceOrders(Request $request, $service_id)
     {
         // could be provider or a user...does not matter since both has orders() function
-        return Auth::user()->orders('user')->where('service_id', $service_id)->with(['service', 'service.ServiceProvider'])->get();
+        return Auth::user()->orders()->where('service_id', $service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
     public function userOrders()
     {
-        return Auth::user()->orders('user')->with(['service', 'service.ServiceProvider'])->get();
+        $orders = Auth::user('user')->orders()->with(['service', 'service.ServiceProvider'])->get();
+        foreach ($orders as $order) {
+            if ($order->status == 'resumed') {
+                $order->service->makeVisible(['phone_number']);
+            }
+        }
+        return $orders;
     }
 
     public function providerOrders()
@@ -51,10 +57,13 @@ class OrdersController extends Controller
         $request->validate([
             'array_of_fields' => ['required', new ArrayOfFieldsRule($service->array_of_fields)],
         ]);
+        if ($request->user('user')->provider && $request->user('user')->provider->id == $service->ServiceProvider->id)
+            throw ValidationException::withMessages(['user' => 'you can not submit to your service provider services!!']);
+
 
         Order::create([
             'service_id' => $request->service_id,
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user('user')->id,
             'array_of_fields' => ArrayOfFields::fromArray($request->array_of_fields),
             'status' => 'new'
         ]);

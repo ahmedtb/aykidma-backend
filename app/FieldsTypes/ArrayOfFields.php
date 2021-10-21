@@ -92,7 +92,7 @@ class ArrayOfFields implements JsonSerializable, Countable
     {
         // dd($this);
         foreach ($this->getFields() as $index => $field) {
-            $array_of_fields->getFields()[$index]->isCompatibleField($field);
+            $field->isCompatibleField($array_of_fields->getFields()[$index]);
         }
     }
 }

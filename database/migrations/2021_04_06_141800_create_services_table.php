@@ -25,6 +25,7 @@ class CreateServicesTable extends Migration
             $table->mediumText('image');
             $table->json('meta_data')->nullable();
             $table->unsignedSmallInteger('price')->nullable();
+            $table->string('phone_number')->nullable();
             $table->timestamps();
         });
     }
