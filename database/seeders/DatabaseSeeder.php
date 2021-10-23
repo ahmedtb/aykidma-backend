@@ -10,6 +10,7 @@ use App\Models\ServiceProvider;
 use Illuminate\Database\Seeder;
 use App\Models\UserNotification;
 use App\Models\ProviderNotification;
+use App\Models\Review;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -37,7 +38,9 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        Order::factory(10)->create();
+        Order::factory(20)->create();
+        Review::factory(40)->create();
+
         UserNotification::factory(100)->create();
         ProviderNotification::factory(100)->create();
     }

@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasManyThrough(Review::class, Order::class);
+    }
+
     public function notifications()
     {
         return $this->hasMany(UserNotification::class);
@@ -91,7 +96,8 @@ class User extends Authenticatable
         return $this->tokens()->pluck('expo_token')->unique();
     }
 
-    public function provider(){
-        return $this->hasOne(ServiceProvider::class,'user_id');
+    public function provider()
+    {
+        return $this->hasOne(ServiceProvider::class, 'user_id');
     }
 }

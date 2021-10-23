@@ -52,7 +52,7 @@ class ServiceFactory extends Factory
         ];
         return [
             "service_provider_id" => \App\Models\ServiceProvider::activated(true)->inRandomOrder()->first() ?? \App\Models\ServiceProvider::factory()->create(['activated' => true])->id,
-            // 'approved' => $this->faker->boolean(), // has a default value of false
+            'approved' => $this->faker->boolean(),
             "title" => $this->faker->sentence(),
             'description' => $this->faker->text(),
             'array_of_fields' => $array_of_fields,
@@ -65,11 +65,11 @@ class ServiceFactory extends Factory
         ];
     }
 
-    public function approved()
+    public function approved($bool = true)
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($bool) {
             return [
-                'approved' => true,
+                'approved' => $bool,
             ];
         });
     }

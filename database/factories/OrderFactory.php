@@ -56,20 +56,18 @@ class OrderFactory extends Factory
             'user_id' => \App\Models\User::inRandomOrder()->first() ?? \App\Models\User::factory()->create()->id,
             'status' => $states[array_rand($states)],
             'array_of_fields' => ($array_of_fields),
-            'comment' => $this->faker->sentence(),
-            'rating' => random_int(0, 5),
             'cost' => random_int(0, 65535),
             'meta_data' => $meta_data
         ];
     }
-    public function withReview()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => 'done',
-                'comment' => $this->faker->sentence(),
-                'rating' => random_int(0, 5),
-            ];
-        });
-    }
+    // public function withReview()
+    // {
+    //     return $this->state(function (array $attributes) {
+    //         return [
+    //             'status' => 'done',
+    //             'comment' => $this->faker->sentence(),
+    //             'rating' => random_int(0, 5),
+    //         ];
+    //     });
+    // }
 }

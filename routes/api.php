@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AdminController;
-use App\Http\Controllers\API\OffersController;
 use App\Http\Controllers\API\OrdersController;
-use App\Http\Controllers\API\SearchsController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\SearchesController;
 use App\Http\Controllers\API\ServicesController;
@@ -13,6 +10,7 @@ use App\Http\Controllers\API\Auth\ProviderAuthController;
 use App\Http\Controllers\API\UserNotificationsController;
 use App\Http\Controllers\API\ProviderNotificationsController;
 use App\Http\Controllers\API\ReportsController;
+use App\Http\Controllers\API\ReviewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,26 +31,12 @@ Route::get('user/image', [AuthController::class, 'myImage'])->middleware('auth:u
 Route::post('user/edit', [AuthController::class, 'editProfile'])->middleware('auth:user');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:user');
-Route::get('userNotificationTest', function () {
-    $user = App\Models\User::where('id', 1)->first();
-    $user->notify(new App\Notifications\MessageNotification('title', 'body', 'user'));
-    return 'notify success';
-});
-
-// Route::post('/loginProvider', [ProviderAuthController::class, 'login']);
-// Route::delete('/logoutProvider', [ProviderAuthController::class, 'logout'])->middleware(['auth:provider']);
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider'])->middleware(['auth:user']);
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:user']);
 Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:user');
 Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:user');
 
 Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:provider']);
-Route::get('providerNotificationTest', function () {
-    $user = App\Models\User::where('id', 2)->first();
-    $user->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'provider'));
-    return 'notify success';
-});
-
 
 Route::resource('category', CategoryController::class);
 
@@ -62,6 +46,8 @@ Route::post('services', [ServicesController::class, 'create'])->middleware(['aut
 Route::put('services/{id}', [ServicesController::class, 'edit'])->middleware(['auth:provider']);
 Route::get('myServices', [ServicesController::class, 'myServices'])->middleware(['auth:provider']);
 Route::get('service/{id}/PhoneNumber', [ServicesController::class, 'showPhoneNumber'])->middleware(['auth:user']);
+
+Route::get('service/{id}/reviews', [ReviewsController::class, 'fetchReviews']);
 
 Route::get('userOrders', [OrdersController::class, 'userOrders'])->middleware('auth:user');
 Route::get('providerOrders', [OrdersController::class, 'providerOrders'])->middleware('auth:provider');

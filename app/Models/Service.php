@@ -43,7 +43,13 @@ class Service extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Order::class)->where('status', 'done')->select(['comment', 'rating']);
+        return $this->hasManyThrough(Review::class,Order::class)->with(['user:id,name']);
+        // return $this->hasMany(Order::class)->where('status', 'done')->with(['user:id,name'])->select(['service_id','comment', 'rating', 'user_id']);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function averageRating()

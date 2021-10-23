@@ -14,6 +14,7 @@ use App\Models\ServiceProvider;
 use App\Rules\ArrayOfFieldsRule;
 use App\FieldsTypes\ArrayOfFields;
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\MessageNotification;
@@ -105,11 +106,13 @@ class OrdersController extends Controller
 
         if ($order) {
             $order->status = 'done';
-            if ($request->comment) {
-                $order->comment = $request->comment;
-            }
-            if ($request->rating) {
-                $order->rating = $request->rating;
+            if ($request->comment && $request->rating) {
+                Review::create([
+                    'user_id' => $request->user('user')->id,
+                    'order_id' => $request->order_id,
+                    'comment' => $request->comment,
+                    'rating' => $request->rating,
+                ]);
             }
             $order->provider->notify(new MessageNotification('your order is done by user', 'order: ' . $order->id, 'provider'));
             $order->save();
@@ -118,28 +121,7 @@ class OrdersController extends Controller
             return response(['failed' => 'there is no a resumed order that belongs to you with this id'], 400);
     }
 
-    public function editReview(Request $request)
-    {
-        $request->validate([
-            'order_id' => 'required|integer',
-            'comment' => 'required_without:rating|string',
-            'rating' => 'required_without:comment|min:0|max:5'
-        ]);
-
-        $order = $request->user('user')->Orders()->where(['orders.id' => $request->order_id, 'status' => 'done'])->first();
-
-        if ($order) {
-            if ($request->comment) {
-                $order->comment = $request->comment;
-            }
-            if ($request->rating) {
-                $order->rating = $request->rating;
-            }
-            $order->save();
-            return response(['success' => 'review edited']);
-        } else
-            return response(['failed' => 'there is no a done order that belongs to you with this id'], 400);
-    }
+ 
 
     /**
      * Store a newly created resource in storage.

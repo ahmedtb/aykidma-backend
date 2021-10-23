@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Review;
 use App\Models\Service;
 use App\Models\ServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -121,18 +122,20 @@ class ServicesTest extends TestCase
     {
         // $offer = Offer::factory()->create([]);
 
-        Service::factory()->create();
+        Service::factory()->approved(false)->create();
         $response = $this->getJson('api/services');
+        // dd($response->json());
         $this->assertEquals(sizeof($response->json()), 0);
 
         Service::factory()->approved()->create();
         $response = $this->getJson('api/services');
+        // dd($response->json());
         $this->assertEquals(sizeof($response->json()), 1);
     }
 
     public function test_user_can_fetch_approved_services_with_category_id()
     {
-        $service = Service::factory()->create();
+        $service = Service::factory()->approved(false)->create();
         $response = $this->get('api/services/' . $service->category_id);
         $this->assertEquals(sizeof($response->json()), 0);
         $response->assertStatus(200);
@@ -158,4 +161,22 @@ class ServicesTest extends TestCase
         ])->assertStatus(200);
     }
 
+    public function test_user_can_fetch_service_reviews()
+    {
+        $service = Service::factory()->approved()->create();
+        $orders = Order::factory(10)->create([
+            'service_id' => $service->id
+        ]);
+        $reviews = Review::factory(10)->create();
+        // dd($service->orders()->with('user')->select(['user'])->get());
+
+        $response = $this->getJson('api/service/' . $service->id . '/reviews');
+        // dd($response->json());
+        $response->assertOk();
+        $response->assertJsonCount(10);
+        $response->assertJsonStructure(['*' => ['comment', 'rating', 'user' => ['name']]]);
+
+        $response = $this->getJson('api/services');
+        // dd($response->json()[0]['reviews']);
+    }
 }

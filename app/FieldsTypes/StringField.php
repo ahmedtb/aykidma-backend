@@ -13,9 +13,9 @@ class StringField extends FieldType
     public ?string $value = null;
     public bool $required = true;
 
-    public static function fromArray(array $arrayForm)
+    public static function fromArray(array $array)
     {
-        $instance = new self($arrayForm['label'], $arrayForm['value'], $arrayForm['required']);
+        $instance = new self($array['label'], $array['value'], $array['required']);
         return $instance;
     }
 
@@ -50,7 +50,7 @@ class StringField extends FieldType
 
         );
     }
-    
+
 
     public function generateMockedValue()
     {

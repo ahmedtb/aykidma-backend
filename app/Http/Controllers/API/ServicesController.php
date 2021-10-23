@@ -53,7 +53,7 @@ class ServicesController extends Controller
 
     public function allApprovedServices()
     {
-        return Service::where('approved', true)->with('ServiceProvider')->get();
+        return Service::where('approved', true)->with(['ServiceProvider','reviews'])->get();
     }
 
 
@@ -63,7 +63,7 @@ class ServicesController extends Controller
             'category_id' => 'required|integer'
         ])->validate();
 
-        return Service::where('approved', true)->where('category_id', $category_id)->with('ServiceProvider')->get();
+        return Service::where('approved', true)->where('category_id', $category_id)->with(['ServiceProvider','reviews'])->get();
     }
 
     public function edit(Request $request, $id)
@@ -94,4 +94,5 @@ class ServicesController extends Controller
             throw ValidationException::withMessages(['orders' => 'you dont have resumed orders for this service']);
         }
     }
+
 }

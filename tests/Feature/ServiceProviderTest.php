@@ -58,8 +58,6 @@ class ServiceProviderTest extends TestCase
                                 ->etc()
                         )
                         ->whereType('meta_data', 'array')
-                        ->whereType('comment', 'string')
-                        ->whereType('rating', 'integer')
                         ->whereType('cost', 'integer')
                         ->whereType('service', 'array')
                         ->whereType('created_at', 'string')

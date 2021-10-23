@@ -31,12 +31,13 @@ Route::delete('order/deleteReview', [App\Http\Controllers\Dashboard\AdminControl
 
 Route::resource('category', CategoryController::class);
 
-// Route::get('adminLogin',function () {
-//     return view('adminLogin');
-// });
-// Route::post('adminLogin',[App\Http\Controllers\Dashboard\LoginController::class,'login'])->name('adminLogin');
-// Route::post('adminLogout',[App\Http\Controllers\Dashboard\LoginController::class,'logout']);
-
-// Route::get('adminOnly',function () {
-//     return 'admins only';
-// })->middleware('auth:admin');
+Route::get('userNotificationTest', function () {
+    $user = App\Models\User::where('id', 1)->first();
+    $user->notify(new App\Notifications\MessageNotification('title', 'body', 'user'));
+    return 'notify success';
+});
+Route::get('providerNotificationTest', function () {
+    $user = App\Models\User::where('id', 2)->first();
+    $user->notify(new App\Notifications\MessageNotification('titleP', 'bodyP', 'provider'));
+    return 'notify success';
+});
