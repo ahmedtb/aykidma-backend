@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 class ReportsController extends Controller
 {
 
-    public function reportComment(Request $request)
+    public function reportReview(Request $request)
     {
         $request->validate([
             'review_id' => 'required|exists:reviews,id',

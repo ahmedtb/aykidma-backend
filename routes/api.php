@@ -71,7 +71,7 @@ Route::middleware(['auth:provider'])->group(function () {
     Route::get('provider/search/doneOrders/{q}', [SearchesController::class, 'providerDoneOrdersSearch']);
 });
 
-Route::post('reportComment', [ReportsController::class, 'reportComment']);
+Route::post('reportReview', [ReportsController::class, 'reportReview']);
 Route::post('reportSP', [ReportsController::class, 'reportSP']);
 Route::post('reportService', [ReportsController::class, 'reportService']);
 

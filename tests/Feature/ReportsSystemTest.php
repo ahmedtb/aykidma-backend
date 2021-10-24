@@ -20,11 +20,11 @@ class ReportsSystemTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_user_can_report_about_inapproperite_comment_or_SP_profile_or_service(){
+    public function test_user_can_report_about_inapproperite_review_or_SP_profile_or_service(){
         $user = User::factory()->create();
         
         $review = Review::factory()->create();
-        $response = $this->actingAs($user,'user')->postJson('api/reportComment',[
+        $response = $this->actingAs($user,'user')->postJson('api/reportReview',[
             'review_id' => $review->id,
             'body' => 'aaaaaaaaaaaaaaaaaaa'
         ]);
