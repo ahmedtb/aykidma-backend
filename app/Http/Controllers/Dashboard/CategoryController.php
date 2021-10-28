@@ -85,7 +85,7 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'  => 'sometimes|min:3|max:255|string',
-            'image' => ['sometimes', new base64(8000000)]
+            'image' => ['sometimes', new Base64Rule(8000000)]
         ]);
 
         $category->update($validatedData);

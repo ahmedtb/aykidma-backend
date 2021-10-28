@@ -23,7 +23,8 @@ class ServiceProvider extends Authenticatable
 
     protected $hidden = [
         'password',
-        'image'
+        'image',
+        'user_id'
     ];
 
     protected $guarded = [];
@@ -31,6 +32,10 @@ class ServiceProvider extends Authenticatable
     public function Services()
     {
         return $this->hasMany(Service::class);
+    }
+    public function approvedServices()
+    {
+        return $this->hasMany(Service::class)->where('approved', true);
     }
 
     public function orders()

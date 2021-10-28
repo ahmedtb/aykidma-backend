@@ -66,4 +66,39 @@ class ServiceProviderTest extends TestCase
                 )
             );
     }
+
+    public function test_anyone_can_fetch_the_provider_profile_and_his_activated_services()
+    {
+        $service_provider = ServiceProvider::factory()->activated()->create();
+        $services = Service::factory(15)->approved(false)->forProvider($service_provider)->create();
+        $services = Service::factory(5)->approved(true)->forProvider($service_provider)->create();
+
+        $response = $this->getJson('api/provider/' . $service_provider->id);
+        // dd($response->json());
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'activated',
+            'coverage' => ['*' => ['city', 'area']],
+            'image',
+            'meta_data'
+        ]);
+        $response = $this->getJson('api/provider/' . $service_provider->id . '/services');
+        // dd($response->json());
+        $response->assertJsonStructure([
+            [
+                'id',
+                'title',
+                'description',
+                'array_of_fields' => [
+                    'class',
+                    'fields' => ['*' => ['class', 'value', 'required']]
+                ],
+                'approved',
+                'category_id',
+                'meta_data',
+            ]
+        ]);
+        $response->assertJsonCount(5);
+    }
 }

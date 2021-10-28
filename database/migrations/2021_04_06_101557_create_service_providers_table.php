@@ -18,9 +18,9 @@ class CreateServiceProvidersTable extends Migration
             $table->string('name');
             $table->foreignId('user_id')->uniqid();
             $table->boolean('activated');
-            // $table->string('phone_number')->unique();
+            // $table->string('phone_number')->unique()->nullable();
             // $table->timestamp('phone_number_verified_at')->nullable();
-            // $table->string('email')->unique();
+            // $table->string('email')->unique()->nullable();
             // $table->timestamp('email_verified_at')->nullable();
             // $table->string('password');
             // $table->json('address');

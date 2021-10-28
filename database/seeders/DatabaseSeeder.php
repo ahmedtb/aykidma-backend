@@ -34,11 +34,11 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(10)->create();
         foreach ($users as $user) {
             $provider = ServiceProvider::factory()->activated()->forUser($user)->create();
-            Service::factory()->approved()->forProvider($provider)->create();
+            Service::factory(3)->approved()->forProvider($provider)->create();
         }
 
 
-        Order::factory(20)->create();
+        Order::factory(40)->create();
         Review::factory(40)->create();
 
         UserNotification::factory(100)->create();
