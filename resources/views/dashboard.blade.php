@@ -21,10 +21,9 @@
     </header>
 
     <div class="container-fluid">
-        <div class="row">
-            <div id="dashboard"></div>
+        <div id='dashboard'></div>
 
-            <div class="bg-gray col-10">
+        {{-- <div class="bg-gray col-10">
 
                 <div class="row">
                     @foreach ($services as $service)
@@ -32,9 +31,8 @@
                     @endforeach
                 </div>
 
-            </div>
+            </div> --}}
 
-        </div>
     </div>
 </body>
 

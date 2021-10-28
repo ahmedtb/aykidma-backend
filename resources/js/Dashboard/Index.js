@@ -1,27 +1,22 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import ServicesApproveal from './components/ServicesApproveal'
 import SideMenue from './components/SideMenue'
-// import { Provider } from 'react-redux';
-// import store from './redux/store';
 
-// import AllowedRoutes from './routing/AllowedRoutes'
-
-function Index() {
+export default function Index() {
 
     return (
         <BrowserRouter>
-
-            {/* <Provider store={store}> */}
+            <div className="row">
                 <SideMenue />
-                {/* <main className="container-fluid"> */}
-                    {/* <AllowedRoutes /> */}
-                {/* </main> */}
-            {/* </Provider> */}
+                <ServicesApproveal />
+            </div>
 
         </BrowserRouter>
     )
 
 }
+
 if (document.getElementById('dashboard'))
     ReactDOM.render(<Index />, document.getElementById('dashboard'))

@@ -15,10 +15,12 @@ use Illuminate\Validation\ValidationException;
 class AdminController extends Controller
 {
     //
-    public function listOfNotApprovedServices()
+    public function listOfNotApprovedServices(Request $request)
     {
-        $services = Service::where('approved', false)->with(['ServiceProvider'])->get();
-        return view('dashboard', ['services' => $services]);
+        if ($request->wantsJson())
+            return Service::where('approved', false)->with(['ServiceProvider'])->get();
+
+        return view('dashboard');
     }
 
     public function approveService(Request $request)
@@ -95,7 +97,8 @@ class AdminController extends Controller
         return ['success' => 'the provider enrollment request has been approved'];
     }
 
-    public function activateProvider($id){
+    public function activateProvider($id)
+    {
         Validator::validate([
             'id' => $id
         ], [
@@ -109,7 +112,6 @@ class AdminController extends Controller
         $provider->user->notify(new MessageNotification('provider activated', 'congratulation, your provider account is active now', 'user'));
 
         return ['success' => 'the provider has been activated'];
-
     }
 
     public function deleteReview(Request $request)

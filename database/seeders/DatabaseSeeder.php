@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             Service::factory(3)->approved()->forProvider($provider)->create();
         }
 
+        Service::factory(10)->approved(false)->create();
 
         Order::factory(40)->create();
         Review::factory(40)->create();
