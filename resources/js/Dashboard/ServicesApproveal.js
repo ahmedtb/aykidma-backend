@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import ArrayOfFieldsRender from './ArrayOfFieldsRender'
+import ArrayOfFieldsRender from './components/ArrayOfFieldsRender'
 
 export default function ServicesApproveal(props) {
     const [services, setservices] = React.useState([])
     async function fetchServices() {
         const response = await axios.get('/dashboard')
-        console.log('ServicesApproveal', response.data)
+        // console.log('ServicesApproveal', response.data)
         setservices(response.data)
     }
 
