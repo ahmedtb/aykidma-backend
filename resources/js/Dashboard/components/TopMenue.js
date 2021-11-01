@@ -8,18 +8,20 @@ function AuthComponent(props) {
 
     async function isLoggedIn() {
         try {
-            const response = await axios.get(ApiEndpoints.getAdmin)
+            // axios.defaults.headers.common['Accept'] = 'application/json';
+            const response = await axios.get(ApiEndpoints.fetchAdmin)
             props.refreshUser(response.data)
             // console.log('/api/user',response.data)
         } catch (error) {
-            logError(error)
+            console.log('isLoggedIn: false');
+            props.refreshUser(null)
+            // logError(error)
         }
     }
 
     async function logout() {
         try {
-            axios.defaults.headers.common['Accept'] = 'application/json';
-            const response = await axios.post(ApiEndpoints.logoutAdmin)
+            const response = await axios.delete(ApiEndpoints.logoutAdmin)
             // console.log('logout', (response.data));
             props.refreshUser(null)
         } catch (error) {
@@ -40,7 +42,7 @@ function AuthComponent(props) {
                     <>
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {props.user.name}
                             </a>
 

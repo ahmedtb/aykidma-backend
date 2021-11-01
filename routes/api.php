@@ -81,9 +81,9 @@ Route::post('reportReview', [ReportsController::class, 'reportReview']);
 Route::post('reportSP', [ReportsController::class, 'reportSP']);
 Route::post('reportService', [ReportsController::class, 'reportService']);
 
-Route::post('/dashboard/login', [App\Http\Controllers\Dashboard\LoginController::class, 'loginAdmin']);
-Route::get('/dashboard/admin', [App\Http\Controllers\Dashboard\LoginController::class, 'admin']);
-Route::delete('/dashboard/logoutAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'logoutAdmin']);
+Route::post('/dashboard/loginAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'login']);
+Route::get('/dashboard/fetchAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'fetchAdmin'])->middleware('auth:admin');
+Route::delete('/dashboard/logoutAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'logout']);
 Route::prefix('dashboard')->middleware(['auth:admin'])->group(function () {
     Route::put('/approve/service', [App\Http\Controllers\Dashboard\AdminController::class, 'approveService']);
     Route::delete('/reject/service', [App\Http\Controllers\Dashboard\AdminController::class, 'rejectService']);

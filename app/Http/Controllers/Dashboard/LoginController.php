@@ -39,7 +39,7 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'fetchAdmin']);
     }
 
     public function username()
@@ -88,19 +88,20 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
+        // dd($this->guard('admin'));
         return $this->guard('admin')->attempt(
             $this->credentials($request),
             $request->filled('remember')
         );
     }
-    public function admin(Request $request)
+    public function fetchAdmin(Request $request)
     {
         if ($request->user('admin')) {
             $admin = $request->user('admin');
             // $admin->role = 'admin';
             return $admin;
-        } 
-        
+        }
+
         return null;
     }
 }

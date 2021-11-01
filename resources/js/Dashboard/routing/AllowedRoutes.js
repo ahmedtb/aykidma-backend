@@ -8,6 +8,8 @@ function AllowedRoutes(props) {
     const [allowedRoutes, setallowedRoutes] = React.useState([])
     React.useEffect(() => {
         console.log('AllowedRoutes', props.allowedRoutes)
+        console.log('AllowedRoutes', props.user)
+
         setallowedRoutes(props.allowedRoutes)
     }, [props.allowedRoutes])
 
