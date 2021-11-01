@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Admin::factory()->create();
+        Admin::factory()->create([
+            'phone_number' => '0914354173',
+        ]);
         $user = User::factory()->create([
             'name' => 'ahmed tb',
             'phone_number' => '0914354173',

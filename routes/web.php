@@ -19,17 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices'])->middleware('auth:admin');
-Route::get('/dashboard/{path}',[App\Http\Controllers\Dashboard\AdminController::class,'listOfNotApprovedServices'])->where('path', '([A-z\d\-\/_.]+)?')->middleware('auth:admin');
-
-Route::put('approve/service', [App\Http\Controllers\Dashboard\AdminController::class,'approveService'])->middleware('auth:admin');
-Route::delete('reject/service', [App\Http\Controllers\Dashboard\AdminController::class,'rejectService'])->middleware('auth:admin');
-Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider'])->middleware(['auth:admin']);
-Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider'])->middleware(['auth:admin']);
-Route::delete('order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview'])->middleware(['auth:admin']);
+Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard']);
+Route::get('/dashboard/{path}',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard'])->where('path', '([A-z\d\-\/_.]+)?');
 
 Route::resource('category', CategoryController::class);
 

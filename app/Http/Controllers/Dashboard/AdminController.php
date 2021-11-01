@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 class AdminController extends Controller
 {
     //
-    public function listOfNotApprovedServices(Request $request)
+    public function dashboard(Request $request)
     {
         if ($request->wantsJson())
             return Service::where('approved', false)->with(['ServiceProvider'])->get();

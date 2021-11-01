@@ -1,27 +1,28 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import ServicesApproveal from './ServicesApproveal'
-import SideMenue from './components/SideMenue'
-import Routes from './utility/Routes'
-import Home from './Home'
-import NotFound from './NotFound'
+
+import AllowedRoutes from './routing/AllowedRoutes'
+import store from './redux/store';
+import { Provider } from 'react-redux';
+import TopMenue from './components/TopMenue'
 
 export default function Index() {
 
     return (
         <BrowserRouter>
-            <div className="row">
-                <SideMenue />
+            <Provider store={store}>
+                    <TopMenue />
 
-                <Switch>
-                    <Route exact={true} title={'Home'} path={Routes.dashboard} component={Home} />
+                    <AllowedRoutes />
+                    {/* <Route exact={true} title={'Home'} path={Routes.dashboard} component={Home} />
                     <Route exact={true} title={'ServicesApproveal'} path={Routes.servicesApproveal} component={ServicesApproveal} />
+                <Route exact={true} title={'LoginPage'} path={Routes.loginPage} component={LoginPage} /> */}
 
-                    <Route component={NotFound} />
+                    {/* <Route component={NotFound} /> */}
 
-                </Switch>
-            </div>
+
+            </Provider>
 
         </BrowserRouter>
     )

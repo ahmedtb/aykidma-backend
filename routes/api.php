@@ -67,7 +67,7 @@ Route::put('order/editReview', [OrdersController::class, 'editReview'])->middlew
 Route::get('providerOrders', [OrdersController::class, 'getProviderOrders'])->middleware(['auth:provider']);
 Route::delete('userOrder/{id}', [OrdersController::class, 'userDelete'])->middleware('auth:user');
 Route::delete('providerOrder/{id}', [OrdersController::class, 'providerDelete'])->middleware('auth:provider');
-Route::delete('order/{id}', [OrdersController::class, 'adminDelete'])->middleware('auth:admin');
+Route::delete('order/{id}', [OrdersController::class, 'adminDelete']);
 
 Route::get('search/services/{q}', [SearchesController::class, 'servicesSearch']);
 Route::get('search/services/{category_id}/{q}', [SearchesController::class, 'servicesCategorySearch']);
@@ -80,3 +80,14 @@ Route::middleware(['auth:provider'])->group(function () {
 Route::post('reportReview', [ReportsController::class, 'reportReview']);
 Route::post('reportSP', [ReportsController::class, 'reportSP']);
 Route::post('reportService', [ReportsController::class, 'reportService']);
+
+Route::post('/dashboard/login', [App\Http\Controllers\Dashboard\LoginController::class, 'loginAdmin']);
+Route::get('/dashboard/admin', [App\Http\Controllers\Dashboard\LoginController::class, 'admin']);
+Route::delete('/dashboard/logoutAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'logoutAdmin']);
+Route::prefix('dashboard')->middleware(['auth:admin'])->group(function () {
+    Route::put('/approve/service', [App\Http\Controllers\Dashboard\AdminController::class, 'approveService']);
+    Route::delete('/reject/service', [App\Http\Controllers\Dashboard\AdminController::class, 'rejectService']);
+    Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider']);
+    Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider']);
+    Route::delete('/order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview']);
+});

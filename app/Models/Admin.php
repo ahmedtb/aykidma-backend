@@ -22,6 +22,15 @@ class Admin extends Authenticatable
         'password'
     ];
 
+    protected $appends = [
+        'role'
+    ];
+
+    public function getRoleAttribute()
+    {
+        return ['admin'];
+    }
+
     public function getAuthPassword()
     {
         return $this->password;

@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import ArrayOfFieldsRender from './components/ArrayOfFieldsRender'
-
+import ApiEndpoints from './utility/ApiEndpoints'
+import logError from './utility/logError'
 export default function ServicesApproveal(props) {
     const [services, setservices] = React.useState([])
     async function fetchServices() {
@@ -12,23 +13,21 @@ export default function ServicesApproveal(props) {
 
     async function rejectService(id) {
         try {
-
-            const response = await axios.delete('/reject/service/', { service_id: id })
+            const response = await axios.delete(ApiEndpoints.rejectService, { service_id: id })
             console.log('ServicesApproveal rejectService', response.data)
             fetchServices()
         } catch (error) {
-            console.error('ServicesApproveal rejectService error', error)
+            logError(error, 'ServicesApproveal rejectService error')
         }
     }
 
     async function approveService(id) {
         try {
-
-            const response = await axios.delete('/approve/service/', { service_id: id })
+            const response = await axios.put(ApiEndpoints.approveService, { service_id: id })
             console.log('ServicesApproveal approveService', response.data)
             fetchServices()
         } catch (error) {
-            console.error('ServicesApproveal approveService error', error)
+            logError(error, 'ServicesApproveal approveService error')
         }
     }
 
@@ -76,16 +75,13 @@ export default function ServicesApproveal(props) {
 
                 <div className=" d-flex flex-row justify-content-around">
 
-                    <form onSubmit={() => rejectService(service.id)}>
-                        <input type='hidden' name='service_id' value={service.id} />
-                        <input type='submit' className="btn btn-secondary" value="رفض عرض الخدمة" />
-                    </form>
-
-                    <form onSubmit={() => approveService(service.id)}>
-                        <input type='hidden' name='service_id' value={service.id} />
-                        <input type='submit' className="btn btn-success" value="موافقة على تقديم الخدمة" />
-                    </form>
-
+                    <button className="btn btn-secondary" onClick={() => rejectService(service.id)}>
+                        رفض عرض الخدمة
+                    </button>
+                    
+                    <button className="btn btn-success" onClick={() => approveService(service.id)}>
+                    موافقة على عرض الخدمة
+                    </button>
                 </div>
             </div >
         ))
