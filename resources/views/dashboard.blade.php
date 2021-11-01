@@ -14,12 +14,7 @@
 </head>
 
 <body>
-   
-    
-
-    <div class="container-fluid">
-        <div id='dashboard'></div>
-    </div>
+    <div id='dashboard'></div>
 </body>
 
 </html>

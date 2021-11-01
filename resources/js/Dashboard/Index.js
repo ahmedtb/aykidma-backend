@@ -12,15 +12,12 @@ export default function Index() {
     return (
         <BrowserRouter>
             <Provider store={store}>
-                    <TopMenue />
+
+                <TopMenue />
+                <div class="container-fluid">
 
                     <AllowedRoutes />
-                    {/* <Route exact={true} title={'Home'} path={Routes.dashboard} component={Home} />
-                    <Route exact={true} title={'ServicesApproveal'} path={Routes.servicesApproveal} component={ServicesApproveal} />
-                <Route exact={true} title={'LoginPage'} path={Routes.loginPage} component={LoginPage} /> */}
-
-                    {/* <Route component={NotFound} /> */}
-
+                </div>
 
             </Provider>
 
