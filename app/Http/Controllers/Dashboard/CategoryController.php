@@ -18,6 +18,9 @@ class CategoryController extends Controller
     {
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
+        if(request()->wantsJson())
+            return $categories;
+
         return view('categories.index')->with([
             'categories'  => $categories
         ]);
@@ -44,7 +47,7 @@ class CategoryController extends Controller
         $validatedData = $this->validate($request, [
             'name' => 'required|min:3|max:255|string',
             'image' => ['required', new Base64Rule(8000000)],
-            'parent_id' => 'sometimes|nullable|numeric'
+            'parent_id' => 'sometimes|nullable|exists:categories,id'
         ]);
 
         Category::create($validatedData);
@@ -85,7 +88,8 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'  => 'sometimes|min:3|max:255|string',
-            'image' => ['sometimes', new Base64Rule(8000000)]
+            'image' => ['sometimes', new Base64Rule(8000000)],
+            'parent_id' => ['sometimes', 'nullable', 'exits:categories,id']
         ]);
 
         $category->update($validatedData);

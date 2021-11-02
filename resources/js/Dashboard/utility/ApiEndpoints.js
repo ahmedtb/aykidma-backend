@@ -9,4 +9,8 @@ export default {
     activateProvider: '/api/dashboard/activateProvider/:id',
     deleteReview: '/api/dashboard/order/deleteReview',
 
+    fetchCategories: '/api/dashboard/category',
+    destroyCategory: '/api/dashboard/category/:id',
+    createCategory: '/api/dashboard/category',
+    editcategory: '/api/dashboard/category/:id',
 }

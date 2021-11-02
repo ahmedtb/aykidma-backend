@@ -12,7 +12,7 @@ export default function ArrayOfFieldsRender(props) {
                 <div className="border border-dark rounded d-flex flex-row justify-content-around">
                     {/* {
                         field.titles.map((title, index) => (
-                            <p key={index} class='mb-0'>{title} </p>
+                            <p key={index} className='mb-0'>{title} </p>
                         ))
                     } */}
                 </div>

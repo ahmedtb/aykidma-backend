@@ -90,4 +90,5 @@ Route::prefix('dashboard')->middleware(['auth:admin'])->group(function () {
     Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider']);
     Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider']);
     Route::delete('/order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview']);
+    Route::resource('category', CategoryController::class);
 });

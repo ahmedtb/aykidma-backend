@@ -1,13 +1,6 @@
 import React from 'react'
-import {
-    Text,
-    TextInput,
-    button,
-    View,
-    Pressable
-} from 'react-native'
 
-import { Entypo, AntDesign } from '@expo/vector-icons';
+import {BsCardList} from 'react-icons/bs'
 // import ListOptions from '../components/ListOptions'
 // import ModalWrapper from '../components/ModalWrapper'
 export const OptionsFieldClass = 'App\\FieldsTypes\\OptionsField'
@@ -51,7 +44,8 @@ export function OptionsFieldFormView(props) {
         marginVertical: 5,
     }}>
         <div style={{ flexDirection: 'row', borderBottomWidth: 0.5, }}>
-            <Entypo name="list" size={24} color="grey" />
+        <BsCardList size={24} />
+
             <div style={{ marginLeft: 5, flex: 1, }}>
                 <div style={{ color: 'black', fontSize: 17, flex: 1, fontWeight: 'bold' }}>{field.label}</div>
                 <div style={{ color: 'grey', fontSize: 10, }}>حقل اختيارات</div>

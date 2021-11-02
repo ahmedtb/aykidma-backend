@@ -154,12 +154,15 @@ function TopMenue(props) {
                             dashboard
                         </AllowedLink>
 
-                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.servicesApproveal}>
+                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.ServicesApprovealScreen}>
                             <FaUserCheck />
-                            servicesApproveal
+                            ServicesApprovealScreen
                         </AllowedLink>
 
-
+                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.CategoriesScreen}>
+                            <FaUserCheck />
+                            CategoriesScreen
+                        </AllowedLink>
                     </ul>
 
                     <ul className="navbar-nav ml-auto">

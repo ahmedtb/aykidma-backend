@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    Text,
-    input,
-    TouchableOpacity,
-    div,
-    Image
-} from 'react-native'
+
 import convertFileToBase64 from '../utility/convertFileToBase64'
 import { BsCameraFill } from 'react-icons/bs'
 import { AiFillFileImage } from 'react-icons/ai'

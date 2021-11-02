@@ -3,8 +3,9 @@ import Roles from './Roles'
 
 import Home from '../Home'
 import LoginPage from '../LoginPage'
-import ServicesApproveal from '../ServicesApproveal'
+import ServicesApprovealScreen from '../ServicesApprovealScreen'
 
+import CategoriesScreen from '../CategoriesScreen'
 
 export default [
     {
@@ -26,9 +27,18 @@ export default [
         exact: true,
     },
     {
-        component: ServicesApproveal,
-        path: Routes.servicesApproveal,
-        title: 'ServicesApproveal',
+        component: ServicesApprovealScreen,
+        path: Routes.ServicesApprovealScreen,
+        title: 'ServicesApprovealScreen',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: CategoriesScreen,
+        path: Routes.CategoriesScreen,
+        title: 'CategoriesScreen',
         permission: [
             Roles.ADMIN,
         ],

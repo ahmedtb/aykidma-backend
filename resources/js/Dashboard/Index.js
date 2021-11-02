@@ -14,7 +14,7 @@ export default function Index() {
             <Provider store={store}>
 
                 <TopMenue />
-                <div class="container-fluid">
+                <div className="container-fluid">
 
                     <AllowedRoutes />
                 </div>

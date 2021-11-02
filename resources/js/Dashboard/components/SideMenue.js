@@ -32,7 +32,7 @@ export default function SideMenue(props) {
                     </Link>
                 </li>
                 <li>
-                    <Link to={Routes.servicesApproveal} className={(currentPath == Routes.servicesApproveal) ? "nav-link active" : "nav-link link-dark"}>
+                    <Link to={Routes.ServicesApprovealScreen} className={(currentPath == Routes.ServicesApprovealScreen) ? "nav-link active" : "nav-link link-dark"}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             className="bi bi-keyboard-fill mr-2" viewBox="0 0 16 16">
                             <path

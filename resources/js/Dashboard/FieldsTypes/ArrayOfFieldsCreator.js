@@ -36,7 +36,7 @@ export default function ArrayOfFieldsCreator(props) {
                     <select
                         onChange={(e) => {
                             console.log(e.target.value)
-                        }} class="form-select" aria-label="Default select example">
+                        }} className="form-select" aria-label="Default select example">
                         <option selected>اختر نوع الحقل</option>
                         {
                             Object.keys(fieldsTypes).map(function (key, index) {

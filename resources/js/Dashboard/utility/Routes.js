@@ -1,8 +1,8 @@
 const Routes = {
     dashboard: '/dashboard',
-    servicesApproveal: '/dashboard/servicesApproveal',
+    ServicesApprovealScreen: '/dashboard/ServicesApprovealScreen',
     loginPage: '/dashboard/loginPage',
-
+    CategoriesScreen: '/dashboard/CategoriesScreen'
 }
 export default Routes;
 

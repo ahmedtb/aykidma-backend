@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    Text,
-    TextInput,
-    Button,
-    View,
-    Image
-} from 'react-native'
+
 import { AiFillFileImage } from 'react-icons/ai';
 // import LocationModal from '../components/LocationModal'
 export const LocationFieldClass = 'App\\FieldsTypes\\LocationField'
@@ -56,9 +50,9 @@ export function LocationFieldFormView(props) {
                     <div style={{ color: 'grey', fontSize: 10, }}>حقل اختيار صورة</div>
                 </div>
             </div>
-            <Button style={{ flex: 1, backgroundColor: '#d1c5c5' }} onPress={() => setLocationModalVisibility(true)}>
+            <button style={{ flex: 1, backgroundColor: '#d1c5c5' }} onPress={() => setLocationModalVisibility(true)}>
                 <div style={{ color: 'blue', fontSize: 20, textAlign: 'center' }}>{value}</div>
-            </Button>
+            </button>
             {/* <LocationModal
                 visible={[locationModalVisibility, setLocationModalVisibility]}
                 latitude={field.value.latitude} longitude={field.value.longitude}

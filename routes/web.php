@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard']);
 Route::get('/dashboard/{path}',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard'])->where('path', '([A-z\d\-\/_.]+)?');
 
-Route::resource('category', CategoryController::class);
+// Route::resource('category', CategoryController::class);
 
 Route::get('userNotificationTest', function () {
     $user = App\Models\User::where('id', 1)->first();

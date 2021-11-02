@@ -21,9 +21,11 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        $withparent = random_int(1, 5) == 5;
         return [
             'name' => $this->faker->word(),
-            'image' => getBase64DefaultImage()
+            'image' => getBase64DefaultImage(),
+            'parent_id' => ($withparent) ? (Category::inRandomOrder()->first() ?? Category::factory()->create()) : null
         ];
     }
 }
