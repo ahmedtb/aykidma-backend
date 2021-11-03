@@ -141,7 +141,7 @@ function TopMenue(props) {
     return (
         <nav className="navbar navbar-expand-xl navbar-dark bg-dark shadow-sm">
             <div className="container-fluid">
-                <AllowedLink hide={true} className="navbar-brand" to={routes.dashboard}>منظومة الموارد البشرية</AllowedLink>
+                <AllowedLink hide={true} className="navbar-brand" to={routes.dashboard}>لوحة تحكم تطبيق خدمات</AllowedLink>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -151,17 +151,17 @@ function TopMenue(props) {
 
                         <AllowedLink hide={true} className="nav-link mx-2" to={routes.dashboard}>
                             <FaUserTie />
-                            dashboard
+                            لوحة التحكم
                         </AllowedLink>
 
                         <AllowedLink hide={true} className="nav-link mx-2" to={routes.ServicesApprovealScreen}>
                             <FaUserCheck />
-                            ServicesApprovealScreen
+                            الموافقة على الخدمات
                         </AllowedLink>
 
                         <AllowedLink hide={true} className="nav-link mx-2" to={routes.CategoriesScreen}>
                             <FaUserCheck />
-                            CategoriesScreen
+                            التصنيفات
                         </AllowedLink>
                     </ul>
 

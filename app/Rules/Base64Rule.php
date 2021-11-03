@@ -28,14 +28,14 @@ class Base64Rule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (strlen($value) >= $this->maxSize) {
+        if (!strlen($value) >= $this->maxSize) {
             $this->message = 'the base64 string exceedes the max size';
-            return true;
-        } else if (base64_encode(base64_decode($value)) === $value) {
-            $this->message = 'the string is not valid base64 string';
-            return true;
-        } else {            // dd('failure!');
             return false;
+        } else if (!isValidBase64($value)) {
+            $this->message = 'the string is not valid base64 string';
+            return false;
+        } else {            // dd('failure!');
+            return true;
         }
     }
 

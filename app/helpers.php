@@ -31,6 +31,18 @@ function deletePublicFile($path)
     return Storage::delete('public/' . $fileName);
 }
 
+function fileExtension($s)
+{
+    $n = strrpos($s, ".");
+    return ($n === false) ? "" : substr($s, $n + 1);
+}
+
+function isValidBase64($base64) {
+    $n = strpos($base64,",");
+    $data =  ($n===false) ? "" : substr($base64,$n+1);
+    return base64_encode(base64_decode($data)) === $data;
+}
+
 function getBase64DefaultImage()
 {
 
@@ -47,7 +59,8 @@ function getBase64DefaultImage()
         public_path('assets\profile.png'),
         public_path('assets\worker.jpg'),
     ];
-    return base64_encode(file_get_contents( $paths[array_rand($paths)] ));
-
-    
+    $randomPath = $paths[array_rand($paths)];
+    $fileExtention = fileExtension($randomPath);
+    // dd($fileExtention);
+    return 'data:image/' . $fileExtention . ';base64,' . base64_encode(file_get_contents($randomPath));
 }

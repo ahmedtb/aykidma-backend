@@ -138,7 +138,7 @@ class AuthUserTest extends TestCase
 
         // assert it is valid base64 image
         $image = $response->content();
-        $this->assertTrue(base64_encode(base64_decode($image)) === $image);
+        $this->assertTrue(isValidBase64($image));
     }
 
     public function test_user_can_edit_his_profile()

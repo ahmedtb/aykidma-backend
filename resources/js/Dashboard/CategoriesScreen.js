@@ -9,6 +9,7 @@ function EditModal(props) {
 
     const editcategory = props.editcategory
     const seteditcategory = props.seteditcategory
+    const submitEdit = props.submitEdit
 
     const show = editcategory?.show
     const handleClose = () => {
@@ -18,18 +19,14 @@ function EditModal(props) {
         seteditcategory({ category: { ...editcategory.category, name: name }, show: true })
     }
 
-    async function submitEdit() {
-        try {
-            const response = await axios.put(ApiEndpoints.editcategory.replace(':id', editcategory.category.id), {
-                name: editcategory?.category?.name,
-                image: editcategory?.category?.name,
-                parent_id: editcategory?.category?.name,
-            })
-            console.log('EditModal', response.data)
-        } catch (error) {
-            logError(error, 'EditModal')
-        }
+    function submit() {
+        const id = editcategory.category.id
+        const name = editcategory.category.name
+        const image = editcategory.category.image
+        const parent_id = editcategory.category.parent_id
+        submitEdit(id, name, image, parent_id)
     }
+
 
     return <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -42,7 +39,7 @@ function EditModal(props) {
             <Button variant="secondary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary" onClick={submitEdit}>
+            <Button variant="primary" onClick={submit}>
                 Save Changes
             </Button>
         </Modal.Footer>
@@ -51,17 +48,14 @@ function EditModal(props) {
 
 function NewCategoryCreator(props) {
     const categories = props.categories
+    const createCategory = props.createCategory
 
     const [newcategoryname, setnewcategoryname] = React.useState('')
     const [parent_id, setparent_id] = React.useState(null)
     const [image, setimage] = React.useState(null)
 
-    async function createCategory() {
-        try {
-            const response = await axios.post(ApiEndpoints.createCategory, { name: newcategoryname, image: image, parent_id: parent_id })
-            console.log('CategoriesScreen', response.data)
-            setup()
-        } catch (error) { logError(error, 'CategoriesScreen') }
+    function submit(){
+        createCategory(newcategoryname, image, parent_id )
     }
 
     return (<div className="col-md-4">
@@ -88,7 +82,7 @@ function NewCategoryCreator(props) {
                 </div>
                 <ImagePicker setimage={setimage} />
                 <div className="form-group">
-                    <button onClick={createCategory} className="btn btn-primary">Create</button>
+                    <button onClick={submit} className="btn btn-primary">Create</button>
                 </div>
             </div>
         </div>
@@ -99,26 +93,44 @@ export default function CategoriesScreen(props) {
 
     const [categories, setcategories] = React.useState([])
 
-
-    async function setup() {
+    async function fetchCategories() {
         try {
-
-            const response = await axios.get(ApiEndpoints.fetchCategories)
-            // console.log('CategoriesScreen', response.data)
+            const response = await ApiEndpoints.fetchCategories()
+            console.log('fetchCategories', response.data)
             setcategories(response.data)
-        } catch (error) { logError(error, 'CategoriesScreen') }
+        } catch (error) { logError(error, 'fetchCategories') }
     }
 
     async function destroyCategory(id) {
         try {
-            const response = await axios.delete(ApiEndpoints.destroyCategory.replace(':id', id))
+            const response = await ApiEndpoints.destroyCategory(id)
+            console.log('destroyCategory', response)
+            fetchCategories()
+        } catch (error) { logError(error, 'destroyCategory') }
+    }
+
+    async function submitEdit(id, name, image, parent_id) {
+        try {
+            // console.log('EditModal',image)
+            const response = await ApiEndpoints.editcategory(id, name, image, parent_id)
+            console.log('EditModal', response.data)
+            fetchCategories()
+        } catch (error) {
+            logError(error, 'EditModal')
+        }
+    }
+
+    async function createCategory(name, image, parent_id) {
+        try {
+            const response = await ApiEndpoints.createCategory( name, image, parent_id )
             console.log('CategoriesScreen', response.data)
-            setup()
+            fetchCategories()
         } catch (error) { logError(error, 'CategoriesScreen') }
     }
 
+
     React.useEffect(() => {
-        setup()
+        fetchCategories()
     }, [])
 
 
@@ -126,7 +138,7 @@ export default function CategoriesScreen(props) {
 
     return (
         <div>
-            <EditModal seteditcategory={seteditcategory} editcategory={editcategory} />
+            <EditModal submitEdit={submitEdit} seteditcategory={seteditcategory} editcategory={editcategory} />
             <div className="row">
                 <div className="col-md-8">
 
@@ -140,7 +152,7 @@ export default function CategoriesScreen(props) {
                                     <li key={index} className="list-group-item">
                                         <div className="d-flex justify-content-between">
                                             {category.name}
-
+                                            <img src={category.image} width={'100'} />
                                             <div className="button-group d-flex">
 
                                                 <button onClick={() => seteditcategory({ category: category, show: true })} className="btn btn-sm btn-primary">Edit</button>
@@ -155,9 +167,10 @@ export default function CategoriesScreen(props) {
                                                     <li key={index} className="list-group-item">
                                                         <div className="d-flex justify-content-between">
                                                             {child.name}
+                                                            <img src={child.image} width={'100'} />
 
                                                             <div className="button-group d-flex">
-                                                                <button onClick={() => editModal()} className="btn btn-sm btn-primary">Edit</button>
+                                                                <button onClick={() => seteditcategory({ category: child, show: true })} className="btn btn-sm btn-primary">Edit</button>
 
                                                                 <button onClick={() => destroyCategory(child.id)} className="btn btn-sm btn-danger">Delete</button>
                                                             </div>
@@ -174,7 +187,7 @@ export default function CategoriesScreen(props) {
                     </div>
                 </div>
 
-                <NewCategoryCreator categories={categories}/>
+                <NewCategoryCreator createCategory={createCategory} categories={categories} />
             </div>
         </div>
     )

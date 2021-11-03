@@ -81,14 +81,17 @@ Route::post('reportReview', [ReportsController::class, 'reportReview']);
 Route::post('reportSP', [ReportsController::class, 'reportSP']);
 Route::post('reportService', [ReportsController::class, 'reportService']);
 
-Route::post('/dashboard/loginAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'login']);
-Route::get('/dashboard/fetchAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'fetchAdmin'])->middleware('auth:admin');
-Route::delete('/dashboard/logoutAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'logout']);
-Route::prefix('dashboard')->middleware(['auth:admin'])->group(function () {
-    Route::put('/approve/service', [App\Http\Controllers\Dashboard\AdminController::class, 'approveService']);
-    Route::delete('/reject/service', [App\Http\Controllers\Dashboard\AdminController::class, 'rejectService']);
-    Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider']);
-    Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider']);
-    Route::delete('/order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview']);
-    Route::resource('category', CategoryController::class);
+
+Route::prefix('dashboard')->group(function () {
+    Route::post('/dashboard/loginAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'login']);
+    Route::delete('/dashboard/logoutAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'logout']);
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard/fetchAdmin', [App\Http\Controllers\Dashboard\LoginController::class, 'fetchAdmin']);
+        Route::put('/approve/service', [App\Http\Controllers\Dashboard\AdminController::class, 'approveService']);
+        Route::delete('/reject/service', [App\Http\Controllers\Dashboard\AdminController::class, 'rejectService']);
+        Route::get('/approve/providerEnrollment/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'approveProvider']);
+        Route::get('/activateProvider/{id}', [App\Http\Controllers\Dashboard\AdminController::class, 'activateProvider']);
+        Route::delete('/order/deleteReview', [App\Http\Controllers\Dashboard\AdminController::class, 'deleteReview']);
+        Route::resource('category', App\Http\Controllers\Dashboard\CategoryController::class);
+    });
 });

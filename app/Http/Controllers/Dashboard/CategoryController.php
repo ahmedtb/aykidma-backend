@@ -12,18 +12,13 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
-        if(request()->wantsJson())
-            return $categories;
-
-        return view('categories.index')->with([
-            'categories'  => $categories
-        ]);
+        return $categories;
     }
 
     /**
@@ -45,14 +40,21 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'name' => 'required|min:3|max:255|string',
-            'image' => ['required', new Base64Rule(8000000)],
+            'name'      => 'required|min:3|max:255|string',
+            'image' => ['required', new Base64Rule(12000000)],
             'parent_id' => 'sometimes|nullable|exists:categories,id'
         ]);
 
-        Category::create($validatedData);
+        // $imagePath = storeBase64PngFile($request->image);
 
-        return redirect()->route('category.index')->withSuccess('You have successfully created a Category!');
+        Category::create([
+            'name'      => $request->name,
+            // 'image' => $imagePath,
+            'image' => $request->image,
+            'parent_id' => $request->parent_id
+        ]);
+
+        return response(['success' => 'You have successfully created a Category!']);
     }
 
     /**
@@ -88,13 +90,12 @@ class CategoryController extends Controller
     {
         $validatedData = $this->validate($request, [
             'name'  => 'sometimes|min:3|max:255|string',
-            'image' => ['sometimes', new Base64Rule(8000000)],
-            'parent_id' => ['sometimes', 'nullable', 'exits:categories,id']
+            'image' =>  ['required', new Base64Rule(12000000)]
         ]);
 
         $category->update($validatedData);
 
-        return redirect()->route('category.index')->withSuccess('You have successfully updated a Category!');
+        return response(['success' => 'You have successfully updated a Category!']);
     }
 
     /**
@@ -105,11 +106,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-
-
+        // dd($category);
         $category->children()->delete();
         $category->delete();
 
-        return redirect()->route('category.index')->withSuccess('You have successfully deleted a Category!');
+        return response()->json(['success' => 'You have successfully deleted a Category!']);
     }
 }
