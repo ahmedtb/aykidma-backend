@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import routes from '../utility/Routes'
+import Routes from '../utility/Routes'
 import ApiEndpoints from '../utility/ApiEndpoints'
 import logError from '../utility/logError'
 
@@ -56,7 +56,7 @@ function AuthComponent(props) {
                 ) : (
                     <>
                         <li className="nav-item">
-                            <AllowedLink hide={true} className="nav-link mx-2" to={routes.loginPage}>{'تسجيل الدخول'}</AllowedLink>
+                            <AllowedLink hide={true} className="nav-link mx-2" to={Routes.LoginPageScreen}>{'تسجيل الدخول'}</AllowedLink>
                         </li >
 
                         {/* <li className="nav-item">
@@ -121,7 +121,7 @@ function TopMenue(props) {
 
             FilteredLinks.length ?
                 <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle d-flex flex-row align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <a className="nav-link dropdown-toggle d-flex flex-row align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {label}
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -141,7 +141,7 @@ function TopMenue(props) {
     return (
         <nav className="navbar navbar-expand-xl navbar-dark bg-dark shadow-sm">
             <div className="container-fluid">
-                <AllowedLink hide={true} className="navbar-brand" to={routes.dashboard}>لوحة تحكم تطبيق خدمات</AllowedLink>
+                <AllowedLink hide={true} className="navbar-brand" to={Routes.dashboard}>لوحة تحكم تطبيق خدمات</AllowedLink>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -149,20 +149,36 @@ function TopMenue(props) {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
 
-                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.dashboard}>
+                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.dashboard}>
                             <FaUserTie />
                             لوحة التحكم
                         </AllowedLink>
 
-                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.ServicesApprovealScreen}>
+                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.ServicesApprovealScreen}>
                             <FaUserCheck />
                             الموافقة على الخدمات
                         </AllowedLink>
 
-                        <AllowedLink hide={true} className="nav-link mx-2" to={routes.CategoriesScreen}>
+                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.CategoriesScreen}>
                             <FaUserCheck />
                             التصنيفات
                         </AllowedLink>
+
+                        <AllowedMenue 
+                            label={'الخدمات'}
+                            links={[
+                                { label: 'خدمات مفعلة', to: Routes.approvedServicesIndex() },
+                                { label: 'خدمات مقترحه', to: Routes.notApprovedServicesIndex() },
+                            ]}
+                        />
+                        <AllowedMenue 
+                            label={'الطلبات'}
+                            links={[
+                                { label: 'طلبات جديد', to: Routes.newOrders() },
+                                { label: 'طلبات مستانفة', to: Routes.resumedOrders() },
+                                { label: 'طلبات مكتملة', to: Routes.doneOrders() },
+                            ]}
+                        />
                     </ul>
 
                     <ul className="navbar-nav ml-auto">

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {BsCardList} from 'react-icons/bs'
+import { BsCardList } from 'react-icons/bs'
 // import ListOptions from '../components/ListOptions'
 // import ModalWrapper from '../components/ModalWrapper'
 export const OptionsFieldClass = 'App\\FieldsTypes\\OptionsField'
@@ -24,10 +24,11 @@ export function OptionsFieldInput(props) {
 
 export function OptionsFieldRender(props) {
     const field = props.field
-    return <div style={{ marginVertical: 5 }}>
-        <div style={{ fontSize: 20, fontWeight: 'bold' }}>{field.label}</div>
+    return <div>
+        <div style={{fontWeight: 'bold' }}>{field.label}</div>
+        <div>الاختيارات المتاحة</div>
         {field.options.map((title, index) => (
-            <div key={index} style={{ fontSize: 15, textAlign: 'center' }}>
+            <div key={index}>
                 {title}
             </div>
         ))}
@@ -44,7 +45,7 @@ export function OptionsFieldFormView(props) {
         marginVertical: 5,
     }}>
         <div style={{ flexDirection: 'row', borderBottomWidth: 0.5, }}>
-        <BsCardList size={24} />
+            <BsCardList size={24} />
 
             <div style={{ marginLeft: 5, flex: 1, }}>
                 <div style={{ color: 'black', fontSize: 17, flex: 1, fontWeight: 'bold' }}>{field.label}</div>

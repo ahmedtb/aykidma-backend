@@ -5,7 +5,7 @@ import ApiEndpoints from './utility/ApiEndpoints';
 import {Redirect} from 'react-router-dom'
 import Routes from './utility/Routes';
 
-function LoginPage(props) {
+function LoginPageScreen(props) {
     const [phone_number, setphone_number] = React.useState('')
     const [password, setpassword] = React.useState('')
 
@@ -72,4 +72,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPageScreen)

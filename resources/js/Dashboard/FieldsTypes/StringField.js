@@ -21,11 +21,11 @@ export function StringFieldInput(props) {
 export function StringFieldRender(props) {
     const field = props.field
     return <div >
-        <div style={{ fontSize: 12 }}>{field.label}</div>
+        <div>{field.label}</div>
         <input
             style={{ borderWidth: 1, borderRadius: 10, marginVertical: 5 }}
-            onChangeText={(text) => { }}
-            value={field.value}
+            value={field.value??''}
+            disabled
         />
     </div>
 }

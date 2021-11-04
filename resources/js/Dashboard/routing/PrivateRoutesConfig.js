@@ -1,15 +1,21 @@
 import Routes from '../utility/Routes'
 import Roles from './Roles'
 
-import Home from '../Home'
-import LoginPage from '../LoginPage'
+import HomeScreen from '../HomeScreen'
+import LoginPageScreen from '../LoginPageScreen'
 import ServicesApprovealScreen from '../ServicesApprovealScreen'
 
 import CategoriesScreen from '../CategoriesScreen'
+import ServiceProviderShow from '../serviceprovider/ServiceProviderShow'
+import ApprovedServicesIndex from '../services/ApprovedServicesIndex'
+import { NotApprovedServicesIndex } from '../services/NotApprovedServicesIndex'
+import NewOrdersIndex from '../orders/NewOrdersIndex'
+import ResumedOrdersIndex from '../orders/ResumedOrdersIndex'
+import DoneOrdersIndex from '../orders/DoneOrdersIndex'
 
 export default [
     {
-        component: Home,
+        component: HomeScreen,
         path: Routes.dashboard,
         title: 'dashboard',
         permission: [
@@ -18,9 +24,9 @@ export default [
         exact: true,
     },
     {
-        component: LoginPage,
-        path: Routes.loginPage,
-        title: 'LoginPage',
+        component: LoginPageScreen,
+        path: Routes.LoginPageScreen,
+        title: 'LoginPageScreen',
         permission: [
             // Roles.ADMIN,
         ],
@@ -39,6 +45,63 @@ export default [
         component: CategoriesScreen,
         path: Routes.CategoriesScreen,
         title: 'CategoriesScreen',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: ServiceProviderShow,
+        path: Routes.ServiceProviderShow(),
+        title: 'ServiceProviderShow',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: ApprovedServicesIndex,
+        path: Routes.approvedServicesIndex(),
+        title: 'ApprovedServicesIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: NotApprovedServicesIndex,
+        path: Routes.notApprovedServicesIndex(),
+        title: 'NotApprovedServicesIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: NewOrdersIndex,
+        path: Routes.newOrders(),
+        title: 'NewOrdersIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: ResumedOrdersIndex,
+        path: Routes.resumedOrders(),
+        title: 'ResumedOrdersIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: DoneOrdersIndex,
+        path: Routes.doneOrders(),
+        title: 'DoneOrdersIndex',
         permission: [
             Roles.ADMIN,
         ],

@@ -42,6 +42,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
+            Route::prefix('dashboard')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/dashboard.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)

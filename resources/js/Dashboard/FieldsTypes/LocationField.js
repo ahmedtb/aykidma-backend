@@ -22,11 +22,11 @@ export function LocationFieldInput(props) {
 export function LocationFieldRender(props) {
     const field = props.field
 
-    return <div style={{ marginVertical: 5 }}>
-        <div style={{ margin: 8 }}>
-            <div style={{ fontSize: 20, textAlign: 'center', fontWeight: 'bold' }}>{field.label}</div>
+    return <div className='my-2'>
+        <div className='m-1'>
+            <div className='text-center' style={{ fontWeight: 'bold' }}>{field.label}</div>
         </div>
-        <img src={('/assets/MapIcon.png')} style={{ width: 100, height: 100, alignSelf: 'center', }} />
+        <img src={('/assets/MapIcon.png')} height={100} />
     </div>
 }
 

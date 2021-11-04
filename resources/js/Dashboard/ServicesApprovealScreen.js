@@ -1,11 +1,14 @@
 import React from 'react'
 import axios from 'axios'
-// import ArrayOfFieldsRender from './components/ArrayOfFieldsRender'
 import ApiEndpoints from './utility/ApiEndpoints'
 import logError from './utility/logError'
 import ArrayOfFieldsRender from './FieldsTypes/ArrayOfFieldsRender'
+import Routes from './utility/Routes'
+import { Link } from 'react-router-dom'
+
 export default function ServicesApprovealScreen(props) {
     const [services, setservices] = React.useState([])
+
     async function fetchServices() {
         const response = await axios.get('/dashboard')
         // console.log('ServicesApprovealScreen', response.data)
@@ -37,55 +40,54 @@ export default function ServicesApprovealScreen(props) {
     }, [])
 
     return (
-        <div className='row'>
+        <div className='row justify-content-center'>
             {
                 services.map((service, index) => (
-                    <div key={index} className="col-5 border border-primary">
+                    <div key={index} className="col-5 p-1 m-1 border border-primary rounded">
 
-                        <div className="border border-dark">
-
-                            <strong className="">مزود الخدمة</strong>
-                            <div className="row">
-
-                                <img src={'data:image/jpg;base64,' + service.service_provider.image} className="img-thumbnail w-50 p-1" alt="صورة مزود الخدمة" />
-                                <div className="w-50 p-1">
-                                    <strong className="">{service.service_provider.name}</strong>
-                                    <div>{service.service_provider.phone_number}</div>
-                                    <div>{service.service_provider.email}</div>
-
-                                    <div className="row">
-                                        <strong>اماكن التخطية</strong>
-                                        {
-                                            service.service_provider.coverage.map((coverage, index) => (
-                                                <div key={index} className="m-1">{coverage['city']}</div>
-                                            ))
-                                        }
-                                    </div>
-                                </div>
+                        <div className="col-12">
+                            <Link to={Routes.ServiceProviderShow(service.service_provider.id)}>
+                                <div className="text-center"><strong>{service.service_provider.name}</strong></div>
+                            </Link>
+                            <div className="my-2">
+                                <div className="text-center">عنوان الخدمة المقترحة</div>
+                                <div className="text-center">{service.id}: {service.title}</div>
                             </div>
 
+                            <img src={service.service_provider.image} height={'200'} className="rounded mx-auto d-block" alt="صورة مزود الخدمة" />
+
+                            <div className="d-flex flex-row">
+                                <div>اماكن تخطية الخدمة</div>
+                                {
+                                    service.service_provider.coverage.map((coverage, index) => (
+                                        <div key={index} className="m-1">{coverage['city']} {coverage['area']}</div>
+                                    ))
+                                }
+                            </div>
+
+
+
+
+                            <div className="border border-dark rounded">وصف الخدمة المقترحة: {service.description}</div>
+
+                            <p>تركيبة حقول الخدمة المقترحة: </p>
+                            <div className='col-8 mx-auto'>
+                                <ArrayOfFieldsRender array_of_fields={service.array_of_fields} />
+                            </div>
+
+
+                            <div className=" d-flex flex-row justify-content-around">
+
+                                <button className="btn btn-secondary" onClick={() => rejectService(service.id)}>
+                                    رفض عرض الخدمة
+                                </button>
+
+                                <button className="btn btn-success" onClick={() => approveService(service.id)}>
+                                    موافقة على عرض الخدمة
+                                </button>
+                            </div>
                         </div>
 
-
-                        <p>This is service {service.id}</p>
-                        <p>{service.title}</p>
-                        <p>the structure of the fields of the serivce preposed are</p>
-
-                        <div className="border border-dark rounded">{service.description}</div>
-
-                        <ArrayOfFieldsRender array_of_fields={service.array_of_fields} />
-
-
-                        <div className=" d-flex flex-row justify-content-around">
-
-                            <button className="btn btn-secondary" onClick={() => rejectService(service.id)}>
-                                رفض عرض الخدمة
-                            </button>
-
-                            <button className="btn btn-success" onClick={() => approveService(service.id)}>
-                                موافقة على عرض الخدمة
-                            </button>
-                        </div>
                     </div >
 
                 ))

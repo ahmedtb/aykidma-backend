@@ -27,10 +27,9 @@ export function TextAreaFieldRender(props) {
         <div style={{ fontSize: 20, fontWeight: 'bold' }}>{field.label}</div>
         {(field.subLabel) ? (<div style={{ fontSize: 12 }}>{field.subLabel}</div>) : (null)}
 
-        <input
-            multiline={true} numberOfLines={4} style={{ borderWidth: 1, borderRadius: 10, marginVertical: 5 }}
-            onChangeText={(text) => { }}
-            value={field.value}
+        <textarea
+            value={field.value??''}
+            disabled
         />
     </div>
 }
