@@ -13,7 +13,7 @@ class OrdersController extends Controller
     public function index(Request $request, OrderFilters $filters)
     {
 
-        return Order::filter($filters)->get();
+        return Order::filter($filters)->with($request->with)->get();
     }
 
     public function newOrders(Request $request)

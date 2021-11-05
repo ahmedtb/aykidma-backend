@@ -1,9 +1,9 @@
 
 import axios from "axios";
-import { random } from "lodash";
+import { identity, random } from "lodash";
 
-export function getRandomKey(){
-    return random(0,10000000)
+export function getRandomKey() {
+    return random(0, 10000000)
 }
 
 export function convertFileToBase64(file) {
@@ -34,12 +34,12 @@ export function logError(error, sourceName = null) {
     console.log(error.stack)
 }
 
-export async function post(url, params = null, callerIdentifier = null, setData = null) {
+export async function post(url, params = null, setData = null, callerIdentifier = null, logData = false) {
     try {
         const response = await axios.post(url, params)
         if (setData)
             setData(response.data)
-        if (callerIdentifier)
+        if (callerIdentifier && logData)
             console.log(callerIdentifier, response.data)
         return response
     } catch (error) {
@@ -47,15 +47,29 @@ export async function post(url, params = null, callerIdentifier = null, setData 
     }
 }
 
-export async function get(url, params = null, callerIdentifier = null, setData = null) {
+export async function get(url, params = null, setData = null, callerIdentifier = null, logData = false) {
     try {
         const response = await axios.get(url, params)
         if (setData)
             setData(response.data)
-        if (callerIdentifier)
+        if (callerIdentifier && logData)
             console.log(callerIdentifier, response.data)
         return response
     } catch (error) {
         logError(error, callerIdentifier)
+    }
+}
+
+
+export async function ApiCallHandler(ApiEndpoint, setData = null, Identifier = null, logData = false) {
+    try {
+        const response = await ApiEndpoint()
+        if (setData)
+            setData(response.data)
+        if (Identifier && logData)
+            console.log(Identifier, response.data)
+    } catch (error) {
+        if (Identifier)
+            logError(error, Identifier)
     }
 }

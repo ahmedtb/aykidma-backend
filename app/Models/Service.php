@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\casts\Json;
+use App\Filters\ServiceFilters;
 use App\Casts\CastsArrayOfFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,5 +60,10 @@ class Service extends Model
     public function scopeApproved($query, $bool = true)
     {
         return $query->where('approved', $bool);
+    }
+    
+    public function scopeFilter($query, ServiceFilters $filters)
+    {
+        return $filters->apply($query);
     }
 }

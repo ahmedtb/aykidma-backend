@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router";
 import ApiEndpoints from '../utility/ApiEndpoints'
 import {logError} from '../utility/helpers';
+
 export default function ServiceProviderShow(props) {
     const { id } = useParams()
     const [provider, setprovider] = React.useState(null)

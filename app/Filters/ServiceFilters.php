@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-class OrderFilters extends Filters
+class ServiceFilters extends Filters
 {
     /**
      * Registered filters to operate upon.
@@ -10,12 +10,12 @@ class OrderFilters extends Filters
      * @var array
      */
     protected $filters = [
-        'status',
+        'approved',
     ];
 
-    protected function status($status)
+    protected function approved($bool)
     {
-        return $this->builder->where('status', $status);
+        return $this->builder->where('approved', $bool == 'true');
     }
     
 }

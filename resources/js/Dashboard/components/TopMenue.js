@@ -153,12 +153,7 @@ function TopMenue(props) {
                             <FaUserTie />
                             لوحة التحكم
                         </AllowedLink>
-
-                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.ServicesApprovealScreen}>
-                            <FaUserCheck />
-                            الموافقة على الخدمات
-                        </AllowedLink>
-
+                        
                         <AllowedLink hide={true} className="nav-link mx-2" to={Routes.CategoriesScreen}>
                             <FaUserCheck />
                             التصنيفات

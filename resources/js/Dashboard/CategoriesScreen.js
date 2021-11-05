@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import ApiEndpoints from './utility/ApiEndpoints'
-import {logError} from './utility/helpers'
+import {logError, ApiCallHandler} from './utility/helpers'
 import ImagePicker from './components/ImagePicker'
 import { Modal, Button } from 'react-bootstrap'
 
@@ -94,38 +94,52 @@ export default function CategoriesScreen(props) {
     const [categories, setcategories] = React.useState([])
 
     async function fetchCategories() {
-        try {
-            const response = await ApiEndpoints.fetchCategories()
-            console.log('fetchCategories', response.data)
-            setcategories(response.data)
-        } catch (error) { logError(error, 'fetchCategories') }
+        ApiCallHandler(
+            async () => await ApiEndpoints.fetchCategories(), setcategories,
+            'fetchCategories',
+            true
+        )
     }
 
     async function destroyCategory(id) {
-        try {
-            const response = await ApiEndpoints.destroyCategory(id)
-            console.log('destroyCategory', response)
-            fetchCategories()
-        } catch (error) { logError(error, 'destroyCategory') }
+        // try {
+        //     const response = await ApiEndpoints.destroyCategory(id)
+        //     console.log('destroyCategory', response)
+        //     fetchCategories()
+        // } catch (error) { logError(error, 'destroyCategory') }
+        ApiCallHandler(
+            async () => await ApiEndpoints.destroyCategory(id), fetchCategories,
+            'destroyCategory',
+            true
+        )
     }
 
     async function submitEdit(id, name, image, parent_id) {
-        try {
-            // console.log('EditModal',image)
-            const response = await ApiEndpoints.editcategory(id, name, image, parent_id)
-            console.log('EditModal', response.data)
-            fetchCategories()
-        } catch (error) {
-            logError(error, 'EditModal')
-        }
+        // try {
+        //     const response = await ApiEndpoints.editcategory(id, name, image, parent_id)
+        //     console.log('EditModal', response.data)
+        //     fetchCategories()
+        // } catch (error) {
+        //     logError(error, 'EditModal')
+        // }
+        ApiCallHandler(
+            async () => await ApiEndpoints.editcategory(id, name, image, parent_id), fetchCategories,
+            'EditModal',
+            true
+        )
     }
 
     async function createCategory(name, image, parent_id) {
-        try {
-            const response = await ApiEndpoints.createCategory( name, image, parent_id )
-            console.log('CategoriesScreen', response.data)
-            fetchCategories()
-        } catch (error) { logError(error, 'CategoriesScreen') }
+        // try {
+        //     const response = await ApiEndpoints.createCategory( name, image, parent_id )
+        //     console.log('CategoriesScreen', response.data)
+        //     fetchCategories()
+        // } catch (error) { logError(error, 'CategoriesScreen') }
+        ApiCallHandler(
+            async () => await ApiEndpoints.createCategory( name, image, parent_id ), fetchCategories,
+            'CategoriesScreen',
+            true
+        )
     }
 
 

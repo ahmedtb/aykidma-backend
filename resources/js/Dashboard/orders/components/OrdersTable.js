@@ -8,23 +8,18 @@ import AllowedLink from '../../components/AllowedLink'
 
 export default function OrdersTable(props) {
     const orders = props.orders
-    const service = props.service
-    const service_provider = props.service_provider
-
-
     const [show, setShow] = React.useState(null);
     const handleClose = () => setShow(null);
     const handleShow = (id) => setShow(id);
-
     return (
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{service?.title}</Modal.Title>
+                    <Modal.Title>{orders[show]?.service.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <h3 className='text-center'>تركيبة الحقول</h3>
-                    <ArrayOfFieldsRender array_of_fields={orders ? orders[show]?.array_of_fields : null} />
+                    <ArrayOfFieldsRender array_of_fields={orders[show]?.array_of_fields} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -35,7 +30,6 @@ export default function OrdersTable(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <h1 className='text-center'>طلبات جديدة</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -48,24 +42,27 @@ export default function OrdersTable(props) {
                 </thead>
                 <tbody>
                     {
-                        orders?.map(order =>
+                        orders.map(order =>
                             <tr key={getRandomKey()} onClick={() => handleShow(order.id)}>
                                 <td>{order.id}</td>
                                 <td>{order.status}</td>
                                 <td>
-                                    {service?.title}
+                                    <AllowedLink to={Routes.showService(order.service.id)}>
+                                        {order.service.title}
+                                    </AllowedLink>
                                 </td>
                                 <td>
-                                    <AllowedLink to={Routes.showProvider(service_provider.id)}>
-                                        {service_provider?.name}
+                                    <AllowedLink to={Routes.showProvider(order.service.service_provider.id)}>
+                                        {order.service.service_provider.name}
                                     </AllowedLink>
                                 </td>
                                 <td>{order.cost} $</td>
-                            </tr>)
+                            </tr>
+                        )
                     }
                 </tbody>
             </Table>
-
         </div>
+
     )
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios';
-import {logError} from './utility/helpers'
+import { logError, ApiCallHandler } from './utility/helpers'
 import ApiEndpoints from './utility/ApiEndpoints';
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Routes from './utility/Routes';
 
 function LoginPageScreen(props) {
@@ -11,27 +11,35 @@ function LoginPageScreen(props) {
 
 
     async function handleLogin(phone_number, password) {
-        try {
-            await axios.get('/sanctum/csrf-cookie')
-            const response = await axios.post(ApiEndpoints.login, { phone_number: phone_number, password: password })
-            props.refreshUser(response.data)
-            setredirect(Routes.dashboard)
+        // try {
+        //     await axios.get('/sanctum/csrf-cookie')
+        //     const response = await axios.post(ApiEndpoints.login, { phone_number: phone_number, password: password })
+        //     props.refreshUser(response.data)
+        //     setredirect(Routes.dashboard)
 
-        } catch (error) {
-            logError(error)
-        }
+        // } catch (error) {
+        //     logError(error)
+        // }
+
+        ApiCallHandler(
+            async () => await axios.post(ApiEndpoints.login, { phone_number: phone_number, password: password }),
+            (data) => {
+                props.refreshUser(data);
+                setredirect(Routes.dashboard)
+            }
+        )
     }
-    
+
     React.useEffect(() => {
-        if(props.user){
-            setredirect(Routes.dashboard)  
+        if (props.user) {
+            setredirect(Routes.dashboard)
         }
     }, [props.user])
 
     const [redirect, setredirect] = React.useState(null);
 
-    if(redirect){
-        return <Redirect to={redirect}/>
+    if (redirect) {
+        return <Redirect to={redirect} />
     }
 
     return (
@@ -45,7 +53,7 @@ function LoginPageScreen(props) {
                     <input type='phone_number' className='form-control' onChange={e => setphone_number(e.target.value)} />
                     <label>كلمة المرور</label>
                     <input type='password' className='form-control' onChange={e => setpassword(e.target.value)} />
-                    
+
                     <button type="button" className="btn btn-success" onClick={() => handleLogin(phone_number, password)}>دخول</button>
 
                 </div>

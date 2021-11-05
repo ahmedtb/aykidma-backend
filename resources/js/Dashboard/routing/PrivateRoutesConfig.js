@@ -3,12 +3,11 @@ import Roles from './Roles'
 
 import HomeScreen from '../HomeScreen'
 import LoginPageScreen from '../LoginPageScreen'
-import ServicesApprovealScreen from '../ServicesApprovealScreen'
 
 import CategoriesScreen from '../CategoriesScreen'
 import ServiceProviderShow from '../serviceprovider/ServiceProviderShow'
 import ApprovedServicesIndex from '../services/ApprovedServicesIndex'
-import { NotApprovedServicesIndex } from '../services/NotApprovedServicesIndex'
+import NotApprovedServicesIndex from '../services/NotApprovedServicesIndex'
 import NewOrdersIndex from '../orders/NewOrdersIndex'
 import ResumedOrdersIndex from '../orders/ResumedOrdersIndex'
 import DoneOrdersIndex from '../orders/DoneOrdersIndex'
@@ -34,15 +33,6 @@ export default [
         exact: true,
     },
     {
-        component: ServicesApprovealScreen,
-        path: Routes.ServicesApprovealScreen,
-        title: 'ServicesApprovealScreen',
-        permission: [
-            Roles.ADMIN,
-        ],
-        exact: true,
-    },
-    {
         component: CategoriesScreen,
         path: Routes.CategoriesScreen,
         title: 'CategoriesScreen',
@@ -53,7 +43,7 @@ export default [
     },
     {
         component: ServiceProviderShow,
-        path: Routes.ServiceProviderShow(),
+        path: Routes.showProvider(),
         title: 'ServiceProviderShow',
         permission: [
             Roles.ADMIN,

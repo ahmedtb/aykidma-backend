@@ -1,9 +1,8 @@
 const Routes = {
     dashboard: '/dashboard',
-    ServicesApprovealScreen: '/dashboard/ServicesApprovealScreen',
+
     LoginPageScreen: '/dashboard/LoginPageScreen',
     CategoriesScreen: '/dashboard/CategoriesScreen',
-    ServiceProviderShow: (id) => id ? '/dashboard/ServiceProviderShow/' + id : '/dashboard/ServiceProviderShow/:id',
 
     serviceProvidersIndex: () => '/dashboard/providers',
     notApprovedServicesIndex: () => '/dashboard/notApprovedServices',
@@ -14,7 +13,7 @@ const Routes = {
     doneOrders: () => '/dashboard/doneorders/',
 
     showService: (id) => id ? '/dashboard/services/' + id : '/dashboard/services/:id',
-
+    showProvider: (id) => id ? '/dashboard/providers/' + id : '/dashboard/providers/:id',
 }
 export default Routes;
 

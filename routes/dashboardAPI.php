@@ -24,5 +24,6 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('orders', [OrdersController::class, 'index']);
 
     Route::get('services/{id}', [ServicesController::class, 'show']);
+    Route::get('services/', [ServicesController::class, 'index']);
 
 });

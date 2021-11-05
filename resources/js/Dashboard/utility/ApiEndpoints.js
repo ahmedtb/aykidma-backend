@@ -5,8 +5,8 @@ export default {
     fetchAdmin: '/dashboardAPI/fetchAdmin',
     logoutAdmin: '/dashboardAPI/logoutAdmin',
 
-    approveService: '/dashboardAPI/approve/service',
-    rejectService: '/dashboardAPI/reject/service',
+    approveService: async (id) => await axios.put('/dashboardAPI/approve/service', { service_id: id }),
+    rejectService: async (id) => await axios.delete('/dashboardAPI/reject/service', { params:{ service_id: id } }) ,
     approveProviderEnrollment: '/dashboardAPI/approve/providerEnrollment/:id',
     activateProvider: '/dashboardAPI/activateProvider/:id',
     deleteReview: '/dashboardAPI/order/deleteReview',
@@ -21,19 +21,28 @@ export default {
             parent_id: parent_id,
         })
     },
-
+    fetchProviders: async (activated = null, withs = []) => await axios.get('/dashboardAPI/providers/', {
+        params: {
+            activated: activated ? activated : undefined,
+            with: withs,
+        }
+    }),
     fetchProvider: async (id) => await axios.get('/dashboardAPI/providers/' + id),
 
-    fetchOrders: async (status = null, withUser = false, withProvider = false, withService = false) => await axios.get('/dashboardAPI/orders/', {
+    fetchOrders: async (status = null, withs = []) => await axios.get('/dashboardAPI/orders/', {
         params: {
             status: status ? status : undefined,
-            user: withUser ? true : undefined,
-            provider: withProvider ? true : undefined,
-            service: withService ? true : undefined,
+            with: withs,
         }
     }),
 
-    fetchService: async(id, withs = [] ) => await axios.get('/dashboardAPI/services/' + id, {
+    fetchServices: async (approved = null, withs = []) => await axios.get('/dashboardAPI/services/', {
+        params: {
+            approved: approved ? approved : undefined,
+            with: withs,
+        }
+    }),
+    fetchService: async (id, withs = []) => await axios.get('/dashboardAPI/services/' + id, {
         params: {
             with: withs,
         }
