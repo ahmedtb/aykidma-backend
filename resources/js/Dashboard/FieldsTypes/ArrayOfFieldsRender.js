@@ -13,7 +13,7 @@ export default function ArrayOfFieldsRender(props) {
     return (
         <div>
             {
-                array_of_fields.fields.map((field, index) => {
+                array_of_fields?.fields.map((field, index) => {
                     if (field.class == StringFieldClass) {
                         return <StringFieldRender
                             key={index}

@@ -6,7 +6,7 @@ use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\OrdersController;
 use App\Http\Controllers\Dashboard\ProvidersController;
-
+use App\Http\Controllers\Dashboard\ServicesController;
 
 Route::post('/loginAdmin', [LoginController::class, 'login']);
 Route::delete('/logoutAdmin', [LoginController::class, 'logout']);
@@ -22,5 +22,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('providers/{id}', [ProvidersController::class, 'show']);
 
     Route::get('orders', [OrdersController::class, 'index']);
+
+    Route::get('services/{id}', [ServicesController::class, 'show']);
 
 });

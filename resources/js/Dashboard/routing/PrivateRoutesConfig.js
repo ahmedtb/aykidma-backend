@@ -12,6 +12,7 @@ import { NotApprovedServicesIndex } from '../services/NotApprovedServicesIndex'
 import NewOrdersIndex from '../orders/NewOrdersIndex'
 import ResumedOrdersIndex from '../orders/ResumedOrdersIndex'
 import DoneOrdersIndex from '../orders/DoneOrdersIndex'
+import ServiceShow from '../services/ServiceShow'
 
 export default [
     {
@@ -102,6 +103,15 @@ export default [
         component: DoneOrdersIndex,
         path: Routes.doneOrders(),
         title: 'DoneOrdersIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: ServiceShow,
+        path: Routes.showService(),
+        title: 'ServiceShow',
         permission: [
             Roles.ADMIN,
         ],

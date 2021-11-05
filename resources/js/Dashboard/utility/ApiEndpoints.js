@@ -1,37 +1,42 @@
 import { logError } from './/helpers'
 import axios from "axios"
 export default {
-    login: '/dashboard/loginAdmin',
-    fetchAdmin: '/dashboard/fetchAdmin',
-    logoutAdmin: '/dashboard/logoutAdmin',
+    login: '/dashboardAPI/loginAdmin',
+    fetchAdmin: '/dashboardAPI/fetchAdmin',
+    logoutAdmin: '/dashboardAPI/logoutAdmin',
 
-    approveService: '/dashboard/approve/service',
-    rejectService: '/dashboard/reject/service',
-    approveProviderEnrollment: '/dashboard/approve/providerEnrollment/:id',
-    activateProvider: '/dashboard/activateProvider/:id',
-    deleteReview: '/dashboard/order/deleteReview',
+    approveService: '/dashboardAPI/approve/service',
+    rejectService: '/dashboardAPI/reject/service',
+    approveProviderEnrollment: '/dashboardAPI/approve/providerEnrollment/:id',
+    activateProvider: '/dashboardAPI/activateProvider/:id',
+    deleteReview: '/dashboardAPI/order/deleteReview',
 
-    fetchCategories: async () => { return await axios.get('/dashboard/category') },
-    destroyCategory: async (id) => { return await axios.delete('/dashboard/category/' + id) },
-    createCategory: async (name, image, parent_id) => { return await axios.post('/dashboard/category', { name: name, image: image, parent_id: parent_id }) },
+    fetchCategories: async () => { return await axios.get('/dashboardAPI/category') },
+    destroyCategory: async (id) => { return await axios.delete('/dashboardAPI/category/' + id) },
+    createCategory: async (name, image, parent_id) => { return await axios.post('/dashboardAPI/category', { name: name, image: image, parent_id: parent_id }) },
     editcategory: async (id, name, image, parent_id) => {
-        return await axios.put('/dashboard/category/' + id, {
+        return await axios.put('/dashboardAPI/category/' + id, {
             name: name,
             image: image,
             parent_id: parent_id,
         })
     },
 
-    fetchProvider: async (id) => await axios.get('/dashboard/providers/' + id),
+    fetchProvider: async (id) => await axios.get('/dashboardAPI/providers/' + id),
 
-    fetchOrders: async (status = null, withUser = false, withProvider = false, withService = false) => await axios.get('/dashboard/orders/', {
+    fetchOrders: async (status = null, withUser = false, withProvider = false, withService = false) => await axios.get('/dashboardAPI/orders/', {
         params: {
             status: status ? status : undefined,
             user: withUser ? true : undefined,
-            provider: withProvider ? true :  undefined,
+            provider: withProvider ? true : undefined,
             service: withService ? true : undefined,
         }
     }),
-    
+
+    fetchService: async(id, withs = [] ) => await axios.get('/dashboardAPI/services/' + id, {
+        params: {
+            with: withs,
+        }
+    })
 
 }
