@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import ApiEndpoints from './utility/ApiEndpoints'
-import logError from './utility/logError'
+import {logError} from './utility/helpers'
 import ArrayOfFieldsRender from './FieldsTypes/ArrayOfFieldsRender'
 import Routes from './utility/Routes'
 import { Link } from 'react-router-dom'

@@ -1,5 +1,5 @@
 import React from 'react'
-import convertFileToBase64 from '../utility/convertFileToBase64'
+import {convertFileToBase64} from '../utility/helpers'
 
 export default function ImagePicker(props) {
     const fromURL = props.fromURL

@@ -1,4 +1,4 @@
-import logError from "./logError"
+import { logError } from './/helpers'
 import axios from "axios"
 export default {
     login: '/dashboard/loginAdmin',
@@ -23,4 +23,15 @@ export default {
     },
 
     fetchProvider: async (id) => await axios.get('/dashboard/providers/' + id),
+
+    fetchOrders: async (status = null, withUser = false, withProvider = false, withService = false) => await axios.get('/dashboard/orders/', {
+        params: {
+            status: status ? status : undefined,
+            user: withUser ? true : undefined,
+            provider: withProvider ? true :  undefined,
+            service: withService ? true : undefined,
+        }
+    }),
+    
+
 }

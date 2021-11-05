@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import ApiEndpoints from './utility/ApiEndpoints'
-import logError from './utility/logError'
+import {logError} from './utility/helpers'
 import ImagePicker from './components/ImagePicker'
 import { Modal, Button } from 'react-bootstrap'
 

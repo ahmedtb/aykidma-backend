@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import Routes from '../utility/Routes'
 import ApiEndpoints from '../utility/ApiEndpoints'
-import logError from '../utility/logError'
+import {logError} from '../utility/helpers'
 
 function AuthComponent(props) {
 

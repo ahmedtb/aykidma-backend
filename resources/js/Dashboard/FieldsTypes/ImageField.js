@@ -1,6 +1,6 @@
 import React from 'react'
 
-import convertFileToBase64 from '../utility/convertFileToBase64'
+import {convertFileToBase64} from '../utility/helpers'
 import { BsCameraFill } from 'react-icons/bs'
 import { AiFillFileImage } from 'react-icons/ai'
 

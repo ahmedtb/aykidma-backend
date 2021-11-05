@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import logError from './utility/logError'
+import {logError} from './utility/helpers'
 import ApiEndpoints from './utility/ApiEndpoints';
 import {Redirect} from 'react-router-dom'
 import Routes from './utility/Routes';

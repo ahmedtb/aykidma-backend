@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\casts\Json;
+use App\Filters\OrderFilters;
 use App\Casts\CastsArrayOfFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use PDO;
 
 class Order extends Model
 {
@@ -35,6 +35,10 @@ class Order extends Model
 
     public function provider(){
         return $this->service->ServiceProvider();
+    }
 
+    public function scopeFilter($query, OrderFilters $filters)
+    {
+        return $filters->apply($query);
     }
 }

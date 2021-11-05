@@ -30,7 +30,7 @@ class ImageField extends FieldType
 
     public function setValue($value)
     {
-        if (gettype($value) != 'string' || isValidBase64($value))
+        if (gettype($value) != 'string' || !isValidBase64($value))
             throw new FieldTypeException('not valid value base64 string..');
 
         $this->value = $value;

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\OrdersController;
 use App\Http\Controllers\Dashboard\ProvidersController;
 
 
@@ -19,4 +20,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/order/deleteReview', [AdminController::class, 'deleteReview']);
     Route::resource('category', CategoryController::class);
     Route::get('providers/{id}', [ProvidersController::class, 'show']);
+
+    Route::get('orders', [OrdersController::class, 'index']);
+
 });
