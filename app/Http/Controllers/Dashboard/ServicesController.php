@@ -13,12 +13,12 @@ class ServicesController extends Controller
     public function index(Request $request, ServiceFilters $filters)
     {
         // return $request->all();
-        return Service::filter($filters)->with($request->with)->get();
+        return Service::filter($filters)->with($request->with)->get()->makeVisible('phone_number');
     }
 
     public function show(Request $request, $id)
     {
 
-        return Service::where('id', $id)->with($request->with)->first();
+        return Service::where('id', $id)->with($request->with)->first()->makeVisible('phone_number');
     }
 }

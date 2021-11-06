@@ -158,6 +158,11 @@ function TopMenue(props) {
                             <FaUserCheck />
                             التصنيفات
                         </AllowedLink>
+                        
+                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.serviceProvidersIndex()}>
+                            <FaUserCheck />
+                            مزودي الخدمات
+                        </AllowedLink>
 
                         <AllowedMenue 
                             label={'الخدمات'}

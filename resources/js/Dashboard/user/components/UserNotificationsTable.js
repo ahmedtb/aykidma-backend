@@ -1,0 +1,39 @@
+import React from 'react'
+import { Table } from 'react-bootstrap'
+import { getRandomKey } from '../../utility/helpers'
+import AllowedLink from '../../components/AllowedLink'
+import Routes from '../../utility/Routes'
+
+export default function UserNotificationsTable(props) {
+
+    const userNotifications = props.userNotifications
+
+    return (
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>رقم الهاتف</th>
+                    <th>صورة</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    userNotifications?.map(notification =>
+                        <tr key={getRandomKey()} onClick={() => handleShow(notification.id)}>
+                            <td>{notification.id}</td>
+                            <td>{notification.name}</td>
+                            <td>{notification.phone_number}</td>
+                            <td>
+                                <img src={notification.image} height={100} />
+                            </td>
+
+                        </tr>
+                    )
+                }
+            </tbody>
+        </Table>
+    )
+
+}

@@ -6,7 +6,7 @@ export default {
     logoutAdmin: '/dashboardAPI/logoutAdmin',
 
     approveService: async (id) => await axios.put('/dashboardAPI/approve/service', { service_id: id }),
-    rejectService: async (id) => await axios.delete('/dashboardAPI/reject/service', { params:{ service_id: id } }) ,
+    rejectService: async (id) => await axios.delete('/dashboardAPI/reject/service', { params: { service_id: id } }),
     approveProviderEnrollment: '/dashboardAPI/approve/providerEnrollment/:id',
     activateProvider: '/dashboardAPI/activateProvider/:id',
     deleteReview: '/dashboardAPI/order/deleteReview',
@@ -42,10 +42,14 @@ export default {
             with: withs,
         }
     }),
-    fetchService: async (id, withs = []) => await axios.get('/dashboardAPI/services/' + id, {
-        params: {
-            with: withs,
-        }
-    })
+    fetchService: async (id, withs = []) => await axios.get('/dashboardAPI/services/' + id, { params: { with: withs, } }),
+
+    fetchUsers: async (withs = []) => await axios.get('/dashboardAPI/users', { params: { with: withs } }),
+    fetchUser: async (id, withs = []) => await axios.get('/dashboardAPI/users/' + id, { params: { with: withs } }),
+
+    fetchReports: async (withs = []) => await axios.get('/dashboardAPI/reports', { params: { with: withs } }),
+    fetchReport: async (id, withs = []) => await axios.get('/dashboardAPI/reports/' + id, { params: { with: withs } }),
+
+    fetchUserNotifications: async (withs = []) => await axios.get('/dashboardAPI/userNotifications', { params: { with: withs } }),
 
 }

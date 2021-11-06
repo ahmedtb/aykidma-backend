@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\casts\Json;
+use App\Models\Order;
+use App\Models\Service;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\NewAccessToken;
 use App\Models\ProviderNotification;
+use App\Filters\ServiceProviderFilters;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -82,5 +85,10 @@ class ServiceProvider extends Authenticatable
     public function scopeActivated($query, $bool = true)
     {
         return $query->where('activated', $bool);
+    }
+
+    public function scopeFilter($query, ServiceProviderFilters $filters)
+    {
+        return $filters->apply($query);
     }
 }

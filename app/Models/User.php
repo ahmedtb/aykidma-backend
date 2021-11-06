@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use App\Filters\UserFilters;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
 use Illuminate\Notifications\Notifiable;
@@ -37,7 +38,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'image',
+        // 'image',
         // 'phone_number'
     ];
 
@@ -99,5 +100,9 @@ class User extends Authenticatable
     public function provider()
     {
         return $this->hasOne(ServiceProvider::class, 'user_id');
+    }
+    public function scopeFilter($query, UserFilters $filters)
+    {
+        return $filters->apply($query);
     }
 }

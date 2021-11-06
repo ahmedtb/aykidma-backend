@@ -19,11 +19,15 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/activateProvider/{id}', [AdminController::class, 'activateProvider']);
     Route::delete('/order/deleteReview', [AdminController::class, 'deleteReview']);
     Route::resource('category', CategoryController::class);
+
     Route::get('providers/{id}', [ProvidersController::class, 'show']);
+    Route::get('providers', [ProvidersController::class, 'index']);
 
     Route::get('orders', [OrdersController::class, 'index']);
 
     Route::get('services/{id}', [ServicesController::class, 'show']);
     Route::get('services/', [ServicesController::class, 'index']);
 
+    Route::get('users/{id}', [UsersController::class, 'show']);
+    Route::get('users/', [UsersController::class, 'index']);
 });

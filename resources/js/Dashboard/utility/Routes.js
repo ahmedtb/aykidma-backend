@@ -14,9 +14,13 @@ const Routes = {
 
     showService: (id) => id ? '/dashboard/services/' + id : '/dashboard/services/:id',
     showProvider: (id) => id ? '/dashboard/providers/' + id : '/dashboard/providers/:id',
+    
+    usersIndex: () => '/dashboard/users',
+    showUser: (id) => id ? '/dashboard/users/' + id : '/dashboard/users/:id',
+       
+    reportsIndex: () => '/dashboard/reports',
+    showReport: (id) => id ? '/dashboard/reports/' + id : '/dashboard/reports/:id',
+
+    userNotificationsIndex: () => '/dashboard/userNotifications',
 }
 export default Routes;
-
-// export function currentRoute(){
-//     return Object.keys(Routes).find(key => Routes[key] === window.location.pathname);
-// }

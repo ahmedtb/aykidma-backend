@@ -5,13 +5,19 @@ import HomeScreen from '../HomeScreen'
 import LoginPageScreen from '../LoginPageScreen'
 
 import CategoriesScreen from '../CategoriesScreen'
+
 import ServiceProviderShow from '../serviceprovider/ServiceProviderShow'
+import ServiceProvidersIndex from '../serviceProvider/ServiceProvidersIndex'
+
 import ApprovedServicesIndex from '../services/ApprovedServicesIndex'
 import NotApprovedServicesIndex from '../services/NotApprovedServicesIndex'
 import NewOrdersIndex from '../orders/NewOrdersIndex'
 import ResumedOrdersIndex from '../orders/ResumedOrdersIndex'
 import DoneOrdersIndex from '../orders/DoneOrdersIndex'
 import ServiceShow from '../services/ServiceShow'
+import UsersIndex from '../user/UsersIndex'
+import UserShow from '../user/UserShow'
+import UserNotificationsIndex from '../user/UserNotificationIndex'
 
 export default [
     {
@@ -50,6 +56,17 @@ export default [
         ],
         exact: true,
     },
+    {
+        component: ServiceProvidersIndex,
+        path: Routes.serviceProvidersIndex(),
+        title: 'ServiceProvidersIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+
+    
     
     {
         component: ApprovedServicesIndex,
@@ -102,6 +119,55 @@ export default [
         component: ServiceShow,
         path: Routes.showService(),
         title: 'ServiceShow',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: UsersIndex,
+        path: Routes.usersIndex(),
+        title: 'UsersIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: UserShow,
+        path: Routes.showUser(),
+        title: 'UserShow',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+
+    {
+        component: ReportsIndex,
+        path: Routes.reportsIndex(),
+        title: 'ReportsIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    
+    {
+        component: ReportShow,
+        path: Routes.showReport(),
+        title: 'ReportShow',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: UserNotificationsIndex,
+        path: Routes.userNotificationsIndex(),
+        title: 'UserNotificationsIndex',
         permission: [
             Roles.ADMIN,
         ],
