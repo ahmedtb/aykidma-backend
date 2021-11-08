@@ -1,10 +1,12 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import { getRandomKey } from '../../utility/helpers'
 import AllowedLink from '../../components/AllowedLink'
 import Routes from '../../utility/Routes'
-export default function ReportsTable(props) {
 
-    const reports = props.reports
+export default function ProviderNotificationsTable(props) {
+
+    const providerNotifications = props.providerNotifications
 
     return (
         <Table striped bordered hover>
@@ -18,13 +20,13 @@ export default function ReportsTable(props) {
             </thead>
             <tbody>
                 {
-                    reports?.map((report, index) =>
-                        <tr key={index} onClick={() => handleShow(report.id)}>
-                            <td>{report.id}</td>
-                            <td>{report.name}</td>
-                            <td>{report.phone_number}</td>
+                    providerNotifications?.map(notification =>
+                        <tr key={getRandomKey()} onClick={() => handleShow(notification.id)}>
+                            <td>{notification.id}</td>
+                            <td>{notification.name}</td>
+                            <td>{notification.phone_number}</td>
                             <td>
-                                <img src={report.image} height={100} />
+                                <img src={notification.image} height={100} />
                             </td>
 
                         </tr>

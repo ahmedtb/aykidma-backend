@@ -6,27 +6,34 @@ import Routes from '../../utility/Routes'
 
 export default function UserNotificationsTable(props) {
 
-    const userNotifications = props.userNotifications
+    const notifications = props.notifications
 
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>الاسم</th>
-                    <th>رقم الهاتف</th>
-                    <th>صورة</th>
+                    <th>عناون</th>
+                    <th>بدن الاشعار</th>
+                    <th>النوع</th>
+                    <th>اسم المستخدم</th>
+
                 </tr>
             </thead>
             <tbody>
                 {
-                    userNotifications?.map(notification =>
-                        <tr key={getRandomKey()} onClick={() => handleShow(notification.id)}>
+                    notifications?.map((notification, index) =>
+                        <tr key={index} onClick={() => handleShow(notification.id)}>
                             <td>{notification.id}</td>
-                            <td>{notification.name}</td>
-                            <td>{notification.phone_number}</td>
+                            <td>{notification.title}</td>
+                            <td>{notification.body}</td>
                             <td>
-                                <img src={notification.image} height={100} />
+                                {notification.type}
+                            </td>
+                            <td>
+                                <AllowedLink to={Routes.showUser(notification.user_id) }>
+                                    {notification.user.name}
+                                </AllowedLink>
                             </td>
 
                         </tr>

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Order;
+use App\Filters\ReviewFilters;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
@@ -22,5 +24,10 @@ class Review extends Model
     public function service()
     {
         return $this->order->service();
+    }
+    
+    public function scopeFilter($query, ReviewFilters $filters)
+    {
+        return $filters->apply($query);
     }
 }

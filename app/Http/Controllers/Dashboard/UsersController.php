@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\User;
 use App\Filters\UserFilters;
 use Illuminate\Http\Request;
+use App\Models\UserNotification;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Filters\UserNotificationFilters;
 
 class UsersController extends Controller
 {
@@ -20,5 +22,11 @@ class UsersController extends Controller
     {
 
         return User::where('id', $id)->with($request->with)->first();
+    }
+
+    public function notifications(Request $request, UserNotificationFilters $filters)
+    {
+        // return $request->all();
+        return UserNotification::filter($filters)->with($request->with ?? [])->get();
     }
 }

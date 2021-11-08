@@ -18,6 +18,11 @@ import ServiceShow from '../services/ServiceShow'
 import UsersIndex from '../user/UsersIndex'
 import UserShow from '../user/UserShow'
 import UserNotificationsIndex from '../user/UserNotificationIndex'
+import ProviderNotificationsIndex from '../serviceProvider/ProviderNotificationIndex'
+import ReviewsIndex from '../orders/ReviewIndex'
+import OrderShow from '../orders/OrderShow'
+import ReportsIndex from '../report/ReportsIndex'
+import ReportShow from '../report/ReportShow'
 
 export default [
     {
@@ -116,6 +121,24 @@ export default [
         exact: true,
     },
     {
+        component: ReviewsIndex,
+        path: Routes.reviewsIndex(),
+        title: 'ReviewsIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: OrderShow,
+        path: Routes.showOrder(),
+        title: 'OrderShow',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
         component: ServiceShow,
         path: Routes.showService(),
         title: 'ServiceShow',
@@ -168,6 +191,15 @@ export default [
         component: UserNotificationsIndex,
         path: Routes.userNotificationsIndex(),
         title: 'UserNotificationsIndex',
+        permission: [
+            Roles.ADMIN,
+        ],
+        exact: true,
+    },
+    {
+        component: ProviderNotificationsIndex,
+        path: Routes.providerNotificationsIndex(),
+        title: 'ProviderNotificationsIndex',
         permission: [
             Roles.ADMIN,
         ],

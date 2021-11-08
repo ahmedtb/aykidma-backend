@@ -52,4 +52,7 @@ export default {
 
     fetchUserNotifications: async (withs = []) => await axios.get('/dashboardAPI/userNotifications', { params: { with: withs } }),
 
+    fetchProviderNotifications: async (withs = []) => await axios.get('/dashboardAPI/providerNotifications', { params: { with: withs } }),
+
+    fetchReviews: async (withs = []) => await axios.get('/dashboardAPI/reviews', { params: { with: withs } }),
 }

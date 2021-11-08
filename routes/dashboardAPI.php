@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\OrdersController;
 use App\Http\Controllers\Dashboard\ProvidersController;
 use App\Http\Controllers\Dashboard\ServicesController;
+use App\Http\Controllers\Dashboard\UsersController;
 
 Route::post('/loginAdmin', [LoginController::class, 'login']);
 Route::delete('/logoutAdmin', [LoginController::class, 'logout']);
@@ -24,10 +25,14 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('providers', [ProvidersController::class, 'index']);
 
     Route::get('orders', [OrdersController::class, 'index']);
+    Route::get('reviews/', [OrdersController::class, 'reviewsIndex']);
 
     Route::get('services/{id}', [ServicesController::class, 'show']);
     Route::get('services/', [ServicesController::class, 'index']);
 
     Route::get('users/{id}', [UsersController::class, 'show']);
     Route::get('users/', [UsersController::class, 'index']);
+    Route::get('userNotifications', [UsersController::class, 'notifications']);
+
+
 });

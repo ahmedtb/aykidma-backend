@@ -7,7 +7,7 @@ export default function UserNotificationsIndex() {
     const [userNotifications, setuserNotifications] = React.useState([])
     function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchUserNotifications(),
+            async () => await ApiEndpoints.fetchUserNotifications(['user']),
             setuserNotifications,
             'UserNotificationsIndex',
             true
@@ -19,7 +19,7 @@ export default function UserNotificationsIndex() {
 
     return (
         <div>
-            <UserNotificationsTable services={userNotifications}/>
+            <UserNotificationsTable notifications={userNotifications}/>
         </div>
     )
 }
