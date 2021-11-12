@@ -28,13 +28,24 @@ class HomeController extends Controller
             'usersCount' => User::count(),
             'adminsCount' => Admin::count(),
             'categoriesCount' => Category::count(),
+
             'ordersCount' => Order::count(),
             'latestOrders'=> Order::latest()->take(5)->get(),
+
             'reviewsCount' => Review::count(),
+            'latestReviews'=> Review::latest()->take(5)->get(),
+
             'providerEnrollmentRequestsCount' => ProviderEnrollmentRequest::count(),
+            // 'latestProviderEnrollmentRequests'=> ProviderEnrollmentRequest::latest()->take(5)->get(),
+
             'providerNotificationsCount' => ProviderNotification::count(),
+
             'reportsCount' => Report::count(),
-            'servicesCount' => Service::count(),
+            'latestReports'=> Report::latest()->take(5)->get(),
+
+            'approvedServicesCount' => Service::approved()->count(),
+            'notApprovedServicesCount' => Service::approved(false)->count(),
+
             'userNotificationsCount' => UserNotification::count(),
         ];
     }

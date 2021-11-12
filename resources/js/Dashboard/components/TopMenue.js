@@ -164,6 +164,7 @@ function TopMenue(props) {
                             links={[
                                 { label: 'قائمة المزودين', to: Routes.serviceProvidersIndex() },
                                 { label: 'الاشعارات', to: Routes.providerNotificationsIndex() },
+                                { label: 'طلبات التسجيل كمزود خدمات', to: Routes.providerEnrollmentRequestsIndex() },
                             ]}
                         />
                         

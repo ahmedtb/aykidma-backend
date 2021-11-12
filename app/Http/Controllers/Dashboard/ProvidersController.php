@@ -9,6 +9,7 @@ use App\Filters\ServiceProviderFilters;
 use App\Models\ProviderEnrollmentRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\MessageNotification;
+use App\Filters\ProviderEnrollmentRequestFilters;
 
 class ProvidersController extends Controller
 {
@@ -18,7 +19,13 @@ class ProvidersController extends Controller
     }
     public function index(Request $request, ServiceProviderFilters $filters)
     {
-        return ServiceProvider::filter($filters)->with($request->with)->get();
+        return ServiceProvider::filter($filters)->get();
+    }
+
+    public function enrollmentRequest(Request $request, ProviderEnrollmentRequestFilters $filters)
+    {
+        return ProviderEnrollmentRequest::filter($filters)->get();
+
     }
 
     public function approveProvider($id)

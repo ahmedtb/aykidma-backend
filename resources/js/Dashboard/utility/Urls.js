@@ -8,6 +8,8 @@ export const Routes = {
     CategoriesScreen: '/dashboard/CategoriesScreen',
 
     serviceProvidersIndex: () => '/dashboard/providers',
+    providerEnrollmentRequestsIndex: () => '/dashboard/providerEnrollmentRequests',
+
     notApprovedServicesIndex: () => '/dashboard/notApprovedServices',
     approvedServicesIndex: () => '/dashboard/approvedServicesIndex',
 
@@ -61,6 +63,7 @@ export const Api = {
         }
     }),
     fetchProvider: async (id) => await axios.get('/dashboardAPI/providers/' + id),
+    fetchProviderEnrollmentRequests: async () => await axios.get('/dashboardAPI/providerEnrollmentRequests'),
 
     fetchOrders: async (status = null, withs = []) => await axios.get('/dashboardAPI/orders/', {
         params: {

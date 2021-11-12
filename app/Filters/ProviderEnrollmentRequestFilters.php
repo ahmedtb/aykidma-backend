@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-class ServiceProviderFilters extends Filters
+class ProviderEnrollmentRequestFilters extends Filters
 {
     /**
      * Registered filters to operate upon.
@@ -10,14 +10,8 @@ class ServiceProviderFilters extends Filters
      * @var array
      */
     protected $filters = [
-        'activated',
         'with'
     ];
-
-    protected function activated($bool)
-    {
-        return $this->builder->where('activated', $bool == 'true');
-    }
 
     protected function with($with)
     {

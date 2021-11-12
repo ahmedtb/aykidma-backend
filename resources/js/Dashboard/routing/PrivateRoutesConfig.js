@@ -1,4 +1,4 @@
-import {Routes} from '../utility/Urls'
+import { Routes } from '../utility/Urls'
 import Roles from './Roles'
 
 import HomeScreen from '../HomeScreen'
@@ -8,6 +8,7 @@ import CategoriesScreen from '../CategoriesScreen'
 
 import ServiceProviderShow from '../serviceprovider/ServiceProviderShow'
 import ServiceProvidersIndex from '../serviceProvider/ServiceProvidersIndex'
+import providerEnrollmentRequestsIndex from '../serviceProvider/ProviderEnrollmentRequestIndex'
 
 import ApprovedServicesIndex from '../services/ApprovedServicesIndex'
 import NotApprovedServicesIndex from '../services/NotApprovedServicesIndex'
@@ -62,6 +63,15 @@ export default [
         exact: true,
     },
     {
+        component: providerEnrollmentRequestsIndex,
+        path: Routes.providerEnrollmentRequestsIndex(),
+        title: 'providerEnrollmentRequestsIndex',
+        permission: [
+            Roles.ADMIN
+        ],
+        exact: true
+    },
+    {
         component: ServiceProvidersIndex,
         path: Routes.serviceProvidersIndex(),
         title: 'ServiceProvidersIndex',
@@ -71,8 +81,8 @@ export default [
         exact: true,
     },
 
-    
-    
+
+
     {
         component: ApprovedServicesIndex,
         path: Routes.approvedServicesIndex(),
@@ -82,7 +92,7 @@ export default [
         ],
         exact: true,
     },
-    
+
     {
         component: NotApprovedServicesIndex,
         path: Routes.notApprovedServicesIndex(),
@@ -92,7 +102,7 @@ export default [
         ],
         exact: true,
     },
-    
+
     {
         component: NewOrdersIndex,
         path: Routes.newOrders(),
@@ -147,7 +157,7 @@ export default [
         ],
         exact: true,
     },
-    
+
     {
         component: UsersIndex,
         path: Routes.usersIndex(),
@@ -157,7 +167,7 @@ export default [
         ],
         exact: true,
     },
-    
+
     {
         component: UserShow,
         path: Routes.showUser(),
@@ -177,7 +187,7 @@ export default [
         ],
         exact: true,
     },
-    
+
     {
         component: ReportShow,
         path: Routes.showReport(),

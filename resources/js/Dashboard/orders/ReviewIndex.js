@@ -1,7 +1,7 @@
 import React from "react";
 import {Api} from "../utility/Urls";
 import { ApiCallHandler } from "../utility/helpers";
-import ReviewsTable from './components/ReviewsTable'
+import ReviewsTable from '../components/ReviewsTable'
 
 export default function ReviewsIndex(props) {
     const [reviews, setreviews] = React.useState([])
