@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React from 'react'
-import ApiEndpoints from './utility/ApiEndpoints'
+import {Api} from './utility/Urls'
 import {logError, ApiCallHandler} from './utility/helpers'
 import ImagePicker from './components/ImagePicker'
 import { Modal, Button } from 'react-bootstrap'
@@ -95,7 +95,7 @@ export default function CategoriesScreen(props) {
 
     async function fetchCategories() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchCategories(), setcategories,
+            async () => await Api.fetchCategories(), setcategories,
             'fetchCategories',
             true
         )
@@ -103,12 +103,12 @@ export default function CategoriesScreen(props) {
 
     async function destroyCategory(id) {
         // try {
-        //     const response = await ApiEndpoints.destroyCategory(id)
+        //     const response = await Api.destroyCategory(id)
         //     console.log('destroyCategory', response)
         //     fetchCategories()
         // } catch (error) { logError(error, 'destroyCategory') }
         ApiCallHandler(
-            async () => await ApiEndpoints.destroyCategory(id), fetchCategories,
+            async () => await Api.destroyCategory(id), fetchCategories,
             'destroyCategory',
             true
         )
@@ -116,14 +116,14 @@ export default function CategoriesScreen(props) {
 
     async function submitEdit(id, name, image, parent_id) {
         // try {
-        //     const response = await ApiEndpoints.editcategory(id, name, image, parent_id)
+        //     const response = await Api.editcategory(id, name, image, parent_id)
         //     console.log('EditModal', response.data)
         //     fetchCategories()
         // } catch (error) {
         //     logError(error, 'EditModal')
         // }
         ApiCallHandler(
-            async () => await ApiEndpoints.editcategory(id, name, image, parent_id), fetchCategories,
+            async () => await Api.editcategory(id, name, image, parent_id), fetchCategories,
             'EditModal',
             true
         )
@@ -131,12 +131,12 @@ export default function CategoriesScreen(props) {
 
     async function createCategory(name, image, parent_id) {
         // try {
-        //     const response = await ApiEndpoints.createCategory( name, image, parent_id )
+        //     const response = await Api.createCategory( name, image, parent_id )
         //     console.log('CategoriesScreen', response.data)
         //     fetchCategories()
         // } catch (error) { logError(error, 'CategoriesScreen') }
         ApiCallHandler(
-            async () => await ApiEndpoints.createCategory( name, image, parent_id ), fetchCategories,
+            async () => await Api.createCategory( name, image, parent_id ), fetchCategories,
             'CategoriesScreen',
             true
         )

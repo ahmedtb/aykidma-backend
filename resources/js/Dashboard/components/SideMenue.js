@@ -1,7 +1,7 @@
 import React from 'react'
-import { currentRoute } from '../utility/Routes'
+import { currentRoute } from '../utility/Urls'
 import { Link } from 'react-router-dom'
-import Routes from '../utility/Routes'
+import {Routes} from '../utility/Urls'
 
 export default function SideMenue(props) {
 

@@ -1,12 +1,12 @@
 import React from "react";
-import ApiEndpoints from "../utility/ApiEndpoints";
+import {Api} from "../utility/Urls";
 import { ApiCallHandler } from "../utility/helpers";
 import ServicesTable from "./components/ServicesTable";
 export default function ApprovedServicesIndex() {
     const [approvedservices, setapprovedservices] = React.useState([])
     async function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchServices('true', ['ServiceProvider','category']),
+            async () => await Api.fetchServices('true', ['ServiceProvider','category']),
             setapprovedservices,
             'ApprovedServicesIndex',
             true

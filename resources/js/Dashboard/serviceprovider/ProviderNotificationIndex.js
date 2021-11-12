@@ -1,5 +1,5 @@
 import React from "react";
-import ApiEndpoints from "../utility/ApiEndpoints";
+import {Api} from "../utility/Urls";
 import { ApiCallHandler } from "../utility/helpers";
 import ProviderNotificationsTable from "./components/ProviderNotificationsTable";
 
@@ -7,7 +7,7 @@ export default function ProviderNotificationsIndex() {
     const [providerNotifications, setproviderNotifications] = React.useState([])
     function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchProviderNotifications(),
+            async () => await Api.fetchProviderNotifications(),
             setproviderNotifications,
             'ProviderNotificationsIndex',
             true

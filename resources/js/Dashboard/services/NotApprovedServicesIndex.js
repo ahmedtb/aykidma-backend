@@ -1,20 +1,19 @@
 import React from "react";
-import ApiEndpoints from "../utility/ApiEndpoints";
+import {Routes} from "../utility/Urls";
 import { logError, ApiCallHandler } from "../utility/helpers";
 import AllowedLink from '../components/AllowedLink'
-import Routes from "../utility/Routes";
 import ArrayOfFieldsRender from "../FieldsTypes/ArrayOfFieldsRender";
 
 export default function NotApprovedServicesIndex() {
     const [notapprovedservices, setnotapprovedservices] = React.useState([])
     async function setup() {
         // try {
-        //     const response = await ApiEndpoints.fetchServices('false', ['ServiceProvider'])
+        //     const response = await Api.fetchServices('false', ['ServiceProvider'])
         //     setnotapprovedservices(response.data)
         //     console.log('NotApprovedServicesIndex', response.data)
         // } catch (error) { logError(error, 'NotApprovedServicesIndex') }
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchServices('false', ['ServiceProvider']), setnotapprovedservices,
+            async () => await Api.fetchServices('false', ['ServiceProvider']), setnotapprovedservices,
             'NotApprovedServicesIndex',
             true
         )
@@ -24,7 +23,7 @@ export default function NotApprovedServicesIndex() {
     }, [])
     async function rejectService(id) {
         try {
-            const response = await ApiEndpoints.rejectService(id)
+            const response = await Api.rejectService(id)
             console.log('ServicesApprovealScreen rejectService', response.data)
             setup()
         } catch (error) {
@@ -34,7 +33,7 @@ export default function NotApprovedServicesIndex() {
 
     async function approveService(id) {
         try {
-            const response = await ApiEndpoints.approveService(id)
+            const response = await Api.approveService(id)
             console.log('ServicesApprovealScreen approveService', response.data)
             setup()
         } catch (error) {

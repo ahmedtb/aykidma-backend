@@ -3,7 +3,7 @@ import React from "react";
 import { Table, Modal, Button } from "react-bootstrap";
 import { getRandomKey } from '../../utility/helpers'
 import ArrayOfFieldsRender from '../../FieldsTypes/ArrayOfFieldsRender'
-import Routes from '../../utility/Routes'
+import {Routes} from '../../utility/Urls'
 import AllowedLink from '../../components/AllowedLink'
 
 export default function OrdersTable(props) {

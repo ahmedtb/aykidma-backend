@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import ApiEndpoints from '../utility/ApiEndpoints'
+import {Api} from '../utility/Urls'
 import { ApiCallHandler } from '../utility/helpers';
 
 export default function UserShow(props) {
@@ -8,7 +8,7 @@ export default function UserShow(props) {
     const [user, setuser] = React.useState(null)
     async function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchUser(id),
+            async () => await Api.fetchUser(id),
             setuser,
             'UserShow',
             true

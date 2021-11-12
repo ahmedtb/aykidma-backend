@@ -1,5 +1,5 @@
 import React from "react";
-import ApiEndpoints from "../utility/ApiEndpoints";
+import {Api} from "../utility/Urls";
 import { ApiCallHandler } from "../utility/helpers";
 import ReportsTable from "./components/ReportsTable";
 
@@ -7,7 +7,7 @@ export default function ReportsIndex() {
     const [reports, setreports] = React.useState([])
     function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchReports(),
+            async () => await Api.fetchReports(),
             setreports,
             'ReportsIndex',
             true

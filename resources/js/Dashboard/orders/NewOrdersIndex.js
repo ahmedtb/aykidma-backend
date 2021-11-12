@@ -1,14 +1,14 @@
 import React from "react";
 import { logError } from '../utility/helpers'
-import ApiEndPoints from '../utility/ApiEndpoints'
-import OrdersTable from "./components/OrdersTable";
+import {Api} from '../utility/Urls'
+import OrdersTable from "../components/OrdersTable";
 
 export default function NewOrdersIndex() {
     const [neworders, setneworders] = React.useState([])
 
     async function setup() {
         try {
-            const response = await ApiEndPoints.fetchOrders('new', ['user', 'service.ServiceProvider', 'service'])
+            const response = await Api.fetchOrders('new', ['user', 'service.ServiceProvider', 'service'])
             console.log('NewOrdersIndex setup', response.data)
             setneworders(response.data)
         } catch (error) { logError(error) }

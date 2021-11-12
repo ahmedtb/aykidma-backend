@@ -1,9 +1,9 @@
 import React from 'react'
 import axios from 'axios';
 import { logError, ApiCallHandler } from './utility/helpers'
-import ApiEndpoints from './utility/ApiEndpoints';
+import {Api} from './utility/Urls';
 import { Redirect } from 'react-router-dom'
-import Routes from './utility/Routes';
+import { Routes } from './utility/Urls';
 
 function LoginPageScreen(props) {
     const [phone_number, setphone_number] = React.useState('')
@@ -13,7 +13,7 @@ function LoginPageScreen(props) {
     async function handleLogin(phone_number, password) {
         // try {
         //     await axios.get('/sanctum/csrf-cookie')
-        //     const response = await axios.post(ApiEndpoints.login, { phone_number: phone_number, password: password })
+        //     const response = await axios.post(Api.login, { phone_number: phone_number, password: password })
         //     props.refreshUser(response.data)
         //     setredirect(Routes.dashboard)
 
@@ -22,7 +22,7 @@ function LoginPageScreen(props) {
         // }
 
         ApiCallHandler(
-            async () => await axios.post(ApiEndpoints.login, { phone_number: phone_number, password: password }),
+            async () => await axios.post(Api.login, { phone_number: phone_number, password: password }),
             (data) => {
                 props.refreshUser(data);
                 setredirect(Routes.dashboard)

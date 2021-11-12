@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import ApiEndpoints from '../utility/ApiEndpoints'
+import {Api} from '../utility/Urls'
 import {logError} from '../utility/helpers';
 
 export default function ServiceProviderShow(props) {
@@ -9,7 +9,7 @@ export default function ServiceProviderShow(props) {
     async function setup() {
         try {
 
-            const response = await ApiEndpoints.fetchProvider(id)
+            const response = await Api.fetchProvider(id)
             console.log('ServiceProviderShow',response.data)
             setprovider(response.data)
         } catch (error) { logError(error,'ServiceProviderShow') }

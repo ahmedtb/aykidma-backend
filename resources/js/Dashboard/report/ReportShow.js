@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import ApiEndpoints from '../utility/ApiEndpoints'
+import {Api} from '../utility/Urls'
 import { ApiCallHandler } from '../utility/helpers';
 
 export default function ReportShow(props) {
@@ -8,7 +8,7 @@ export default function ReportShow(props) {
     const [report, setreport] = React.useState(null)
     async function setup() {
         ApiCallHandler(
-            async () => await ApiEndpoints.fetchReport(id),
+            async () => await Api.fetchReport(id),
             setreport,
             'ReportShow',
             true

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 import AllowedLink from '../../components/AllowedLink'
-import Routes from '../../utility/Routes'
+import {Routes} from '../../utility/Urls'
 import { getRandomKey } from '../../utility/helpers'
 export default function ServicesTable(props) {
     const services = props.services

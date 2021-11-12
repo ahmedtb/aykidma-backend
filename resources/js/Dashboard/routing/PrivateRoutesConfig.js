@@ -1,4 +1,4 @@
-import Routes from '../utility/Routes'
+import {Routes} from '../utility/Urls'
 import Roles from './Roles'
 
 import HomeScreen from '../HomeScreen'

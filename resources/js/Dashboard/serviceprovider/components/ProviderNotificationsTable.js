@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from 'react-bootstrap'
 import { getRandomKey } from '../../utility/helpers'
 import AllowedLink from '../../components/AllowedLink'
-import Routes from '../../utility/Routes'
+import {Routes} from '../../utility/Urls'
 
 export default function ProviderNotificationsTable(props) {
 

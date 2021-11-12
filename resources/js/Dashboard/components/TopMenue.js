@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Routes from '../utility/Routes'
-import ApiEndpoints from '../utility/ApiEndpoints'
+import {Routes} from '../utility/Urls'
+import {Api} from '../utility/Urls'
 import {logError} from '../utility/helpers'
 
 function AuthComponent(props) {
@@ -9,7 +9,7 @@ function AuthComponent(props) {
     async function isLoggedIn() {
         try {
             // axios.defaults.headers.common['Accept'] = 'application/json';
-            const response = await axios.get(ApiEndpoints.fetchAdmin)
+            const response = await axios.get(Api.fetchAdmin)
             props.refreshUser(response.data)
             // console.log('/api/user',response.data)
         } catch (error) {
@@ -21,7 +21,7 @@ function AuthComponent(props) {
 
     async function logout() {
         try {
-            const response = await axios.delete(ApiEndpoints.logoutAdmin)
+            const response = await axios.delete(Api.logoutAdmin)
             // console.log('logout', (response.data));
             props.refreshUser(null)
         } catch (error) {

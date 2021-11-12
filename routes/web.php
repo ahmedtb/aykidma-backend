@@ -21,8 +21,8 @@ Route::get('/', function () {
 
 // Auth::routes();
 
-Route::get('/dashboard',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard']);
-Route::get('/dashboard/{path}',[App\Http\Controllers\Dashboard\AdminController::class,'dashboard'])->where('path', '([A-z\d\-\/_.]+)?');
+Route::view('/dashboard','dashboard');
+Route::view('/dashboard/{path}','dashboard')->where('path', '([A-z\d\-\/_.]+)?');
 
 // Route::resource('category', CategoryController::class);
 

@@ -1,15 +1,15 @@
 import React from 'react'
 import { useParams } from 'react-router'
-import ApiEndpoints from '../utility/ApiEndpoints'
+import {Api} from '../utility/Urls'
 import moment from 'moment'
-import OrdersTable from './components/OrdersTable'
+import OrdersTable from '../components/OrdersTable'
 
 export default function ServiceShow() {
     const { id } = useParams()
     const [service, setservice] = React.useState(null)
 
     async function setup() {
-        const response = await ApiEndpoints.fetchService(id, ['ServiceProvider', 'reviews', 'orders', 'category'])
+        const response = await Api.fetchService(id, ['ServiceProvider', 'reviews', 'orders', 'category'])
         setservice(response.data)
         console.log('ServiceShow show', response.data)
     }

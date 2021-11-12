@@ -1,14 +1,14 @@
 import React from "react";
 import { logError } from '../utility/helpers'
-import ApiEndPoints from '../utility/ApiEndpoints'
-import OrdersTable from "./components/OrdersTable";
+import {Api} from '../utility/Urls'
+import OrdersTable from "../components/OrdersTable";
 
 export default function ResumedOrdersIndex() {
     const [resumedorders, setresumedorders] = React.useState([])
 
     async function setup() {
         try {
-            const response = await ApiEndPoints.fetchOrders('resumed', ['user', 'service.ServiceProvider', 'service'])
+            const response = await Api.fetchOrders('resumed', ['user', 'service.ServiceProvider', 'service'])
             console.log('resumedOrdersIndex setup', response.data)
             setresumedorders(response.data)
         } catch (error) { logError(error) }

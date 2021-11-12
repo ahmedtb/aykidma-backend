@@ -1,12 +1,12 @@
 import React from "react";
-import ApiEndpoints from "../utility/ApiEndpoints";
+import {Api} from "../utility/Urls";
 import { ApiCallHandler } from "../utility/helpers";
 import ReviewsTable from './components/ReviewsTable'
 
 export default function ReviewsIndex(props) {
     const [reviews, setreviews] = React.useState([])
     async function setup() {
-        ApiCallHandler(async () => await ApiEndpoints.fetchReviews(['user']),
+        ApiCallHandler(async () => await Api.fetchReviews(['user']),
             setreviews,
             'ReviewsIndex',
             true
