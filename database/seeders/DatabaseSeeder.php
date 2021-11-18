@@ -26,12 +26,11 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '0914354173',
         ]);
         $user = User::factory()->create([
-            'name' => 'ahmed tb',
             'phone_number' => '0914354173',
             'password' => Hash::make('password')
         ]);
-        $provider = ServiceProvider::factory()->activated()->forUser($user)->create();
-        Service::factory()->approved()->forProvider($provider)->create();
+        // $provider = ServiceProvider::factory()->activated()->forUser($user)->create();
+        // Service::factory()->approved()->forProvider($provider)->create();
 
         $users = User::factory(10)->create();
         foreach ($users as $user) {

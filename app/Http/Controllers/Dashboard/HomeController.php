@@ -26,6 +26,10 @@ class HomeController extends Controller
         
         return [
             'usersCount' => User::count(),
+            
+            'ProvidersCount' => ServiceProvider::count(),
+            'activatedProvidersCount' => ServiceProvider::activated()->count(),
+
             'adminsCount' => Admin::count(),
             'categoriesCount' => Category::count(),
 

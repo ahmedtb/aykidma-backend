@@ -119,6 +119,10 @@ class ProviderAuthTest extends TestCase
         // dd($response->json());
     }
 
+    public function test_user_can_not_send_two_provider_enrollment_requests(){
+        
+    }
+
     public function test_users_can_not_access_providers_routes()
     {
         $user = User::factory()->create();
@@ -134,4 +138,6 @@ class ProviderAuthTest extends TestCase
             'name', 'coverage', 'meta_data', 'updated_at', 'created_at', 'id'
         ]);
     }
+
+
 }

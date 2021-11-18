@@ -6,14 +6,36 @@ import { Api, Routes } from '../utility/Urls'
 export default function ProviderEnrollmentRequestIndex(props) {
     const [providerEnrollmentRequests, setProviderEnrollmentRequests] = React.useState()
 
-    React.useEffect(() => {
+    function fetchRequests(){
         ApiCallHandler(
             async () => await Api.fetchProviderEnrollmentRequests(),
             setProviderEnrollmentRequests,
             'ProviderEnrollmentRequestIndex',
             true
         )
+    }
+
+    React.useEffect(() => {
+        fetchRequests()
     }, [])
-    
-    return <ProviderEnrollmentRequestsTable requests={providerEnrollmentRequests} />
+
+    function accept(id) {
+        ApiCallHandler(
+            async () => await Api.approveProviderEnrollment(id),
+            fetchRequests,
+            'ProviderEnrollmentRequestIndex accept',
+            true
+        )
+    }
+
+    function reject(id) {
+        ApiCallHandler(
+            async () => await Api.rejectProviderEnrollment(id),
+            fetchRequests,
+            'ProviderEnrollmentRequestIndex reject',
+            true
+        )
+    }
+
+    return <ProviderEnrollmentRequestsTable requests={providerEnrollmentRequests} accept={accept} reject={reject} />
 }

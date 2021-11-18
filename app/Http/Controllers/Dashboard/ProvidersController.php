@@ -10,6 +10,7 @@ use App\Models\ProviderEnrollmentRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\MessageNotification;
 use App\Filters\ProviderEnrollmentRequestFilters;
+use Illuminate\Validation\ValidationException;
 
 class ProvidersController extends Controller
 {
@@ -25,20 +26,15 @@ class ProvidersController extends Controller
     public function enrollmentRequest(Request $request, ProviderEnrollmentRequestFilters $filters)
     {
         return ProviderEnrollmentRequest::filter($filters)->get();
-
     }
 
-    public function approveProvider($id)
+    public function approveProviderEnrollment($id)
     {
 
-        Validator::validate([
-            'id' => $id
-        ], [
-            'id' => 'required|exists:provider_enrollment_requests,id'
-        ]);
-
         $enrollmentRequest = ProviderEnrollmentRequest::where('id', $id)->first();
-
+        if (!$enrollmentRequest)
+            throw ValidationException::withMessages(['error' => 'there is no Provider Enrollment Request with id ' . $id]);
+            
         $provider = ServiceProvider::where('id', $enrollmentRequest->user_id)->first();
 
         if (!$provider)
@@ -52,12 +48,23 @@ class ProvidersController extends Controller
             $provider->update([
                 'name' => $enrollmentRequest->name,
                 'coverage' => $enrollmentRequest->coverage,
-                'activated' => true
+                'user_id' => $enrollmentRequest->user_id,
+                'activated' => true,
             ]);
         $enrollmentRequest->delete();
         $provider->user->notify(new MessageNotification('provider enrollement', 'congratulation, your provider account enrollment is accepeted', 'user'));
 
         return ['success' => 'the provider enrollment request has been approved'];
+    }
+
+    public function rejectProviderEnrollment($id)
+    {
+        $enrollmentRequest = ProviderEnrollmentRequest::where('id', $id)->first();
+        if (!$enrollmentRequest)
+            throw ValidationException::withMessages(['error' => 'there is no Provider Enrollment Request with id ' . $id]);
+        $enrollmentRequest->delete();
+
+        return ['success' => 'Provider Enrollment Request is rejected'];
     }
 
     public function activateProvider($id)

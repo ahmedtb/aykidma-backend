@@ -16,22 +16,23 @@ export function convertFileToBase64(file) {
 }
 
 
-export function logError(error, sourceName = null) {
-    if (sourceName)
-        console.log('error from: ', sourceName)
+export function logError(error, sourceName = '') {
+    // if (sourceName)
+    //     console.log('error from: ', sourceName)
     if (error.response) {
         // Request made and server responded
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        console.log(sourceName, error.response.data);
+        console.log(sourceName, error.response.status);
+        console.log(sourceName, error.response.headers);
+        console.log(sourceName, 'url' + error.response.request.responseURL);
     } else if (error.request) {
         // The request was made but no response was received
-        console.log(error.request);
+        console.log(sourceName, error.request);
     } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
     }
-    console.log(error.stack)
+    console.log(sourceName, error.stack)
 }
 
 export async function post(url, params = null, setData = null, callerIdentifier = null, logData = false) {
@@ -61,7 +62,7 @@ export async function get(url, params = null, setData = null, callerIdentifier =
 }
 
 
-export async function ApiCallHandler(ApiEndpoint, setData = null, Identifier = null, logData = false) {
+export async function ApiCallHandler(ApiEndpoint, setData = null, Identifier = '', logData = false) {
     try {
         const response = await ApiEndpoint()
         if (setData)
@@ -69,7 +70,6 @@ export async function ApiCallHandler(ApiEndpoint, setData = null, Identifier = n
         if (Identifier && logData)
             console.log(Identifier, response.data)
     } catch (error) {
-        if (Identifier)
-            logError(error, Identifier)
+        logError(error, Identifier)
     }
 }

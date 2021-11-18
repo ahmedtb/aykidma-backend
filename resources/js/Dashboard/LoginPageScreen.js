@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { logError, ApiCallHandler } from './utility/helpers'
-import {Api} from './utility/Urls';
+import { Api } from './utility/Urls';
 import { Redirect } from 'react-router-dom'
 import { Routes } from './utility/Urls';
 
@@ -22,11 +22,12 @@ function LoginPageScreen(props) {
         // }
 
         ApiCallHandler(
-            async () => await axios.post(Api.login, { phone_number: phone_number, password: password }),
+            async () => await Api.login(phone_number, password),
             (data) => {
                 props.refreshUser(data);
                 setredirect(Routes.dashboard)
-            }
+            },
+            'LoginPageScreen handleLogin'
         )
     }
 

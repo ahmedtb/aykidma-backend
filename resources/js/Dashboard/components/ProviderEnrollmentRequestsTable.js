@@ -6,6 +6,8 @@ import AllowedLink from './AllowedLink'
 
 export default function ProviderEnrollmentRequestsTable(props) {
     const requests = props.requests
+    const accept = props.accept
+    const reject = props.reject
 
     function hasUser(Object, OR = null) {
         if (requests[0]?.user)
@@ -13,7 +15,19 @@ export default function ProviderEnrollmentRequestsTable(props) {
         else
             return OR
     }
-    
+    function hasAccept(Object, OR = null) {
+        if (accept)
+            return Object
+        else
+            return OR
+    }
+    function hasReject(Object, OR = null) {
+        if (reject)
+            return Object
+        else
+            return OR
+    }
+
     if (requests)
         return (
 
@@ -23,7 +37,9 @@ export default function ProviderEnrollmentRequestsTable(props) {
                         <th>#</th>
                         <th>الاسم</th>
                         {hasUser(<th>المستخدم</th>, <th>user id</th>)}
-                        {/* <th>السعر</th> */}
+                        {hasAccept(<th></th>)}
+                        {hasReject(<th></th>)}
+
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +61,13 @@ export default function ProviderEnrollmentRequestsTable(props) {
                                     </td>
                                 )}
 
-                                {/* <td>{request.coverage} $</td> */}
+                                {hasAccept(<th>
+                                    <Button onClick={() => accept(request.id)} >قبول</Button>
+                                </th>)}
+                                {hasReject(<th>
+                                    <Button onClick={() => reject(request.id)}>رفض</Button>
+                                </th>)}
+
                             </tr>
                         )
                     }

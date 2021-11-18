@@ -23,7 +23,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('providers', [ProvidersController::class, 'index']);
     Route::get('providerEnrollmentRequests', [ProvidersController::class, 'enrollmentRequest']);
     
-    Route::get('/approve/providerEnrollment/{id}', [ProvidersController::class, 'approveProvider']);
+    Route::get('/approve/providerEnrollment/{id}', [ProvidersController::class, 'approveProviderEnrollment']);
+    Route::delete('/reject/providerEnrollment/{id}', [ProvidersController::class, 'rejectProviderEnrollment']);
+
     Route::get('/activateProvider/{id}', [ProvidersController::class, 'activateProvider']);
 
     Route::get('orders', [OrdersController::class, 'index']);

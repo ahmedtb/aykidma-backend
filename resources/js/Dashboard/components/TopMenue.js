@@ -1,21 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import {Routes} from '../utility/Urls'
-import {Api} from '../utility/Urls'
-import {logError} from '../utility/helpers'
+import { Routes } from '../utility/Urls'
+import { Api } from '../utility/Urls'
+import { logError } from '../utility/helpers'
 
 function AuthComponent(props) {
 
     async function isLoggedIn() {
         try {
             // axios.defaults.headers.common['Accept'] = 'application/json';
-            const response = await axios.get(Api.fetchAdmin)
+            const response = await Api.fetchAdmin()
             props.refreshUser(response.data)
             // console.log('/api/user',response.data)
         } catch (error) {
             console.log('isLoggedIn: false');
             props.refreshUser(null)
-            // logError(error)
+            logError(error)
         }
     }
 
@@ -148,18 +148,18 @@ function TopMenue(props) {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
-                        
+
                         <AllowedLink hide={true} className="nav-link mx-2" to={Routes.CategoriesScreen}>
                             <FaUserCheck />
                             التصنيفات
                         </AllowedLink>
-                        
+
                         <AllowedLink hide={true} className="nav-link mx-2" to={Routes.reportsIndex()}>
                             <FaUserCheck />
                             التقارير
                         </AllowedLink>
-                        
-                        <AllowedMenue 
+
+                        <AllowedMenue
                             label={'مزودي الخدمات'}
                             links={[
                                 { label: 'قائمة المزودين', to: Routes.serviceProvidersIndex() },
@@ -167,8 +167,8 @@ function TopMenue(props) {
                                 { label: 'طلبات التسجيل كمزود خدمات', to: Routes.providerEnrollmentRequestsIndex() },
                             ]}
                         />
-                        
-                        <AllowedMenue 
+
+                        <AllowedMenue
                             label={'المستخدمين'}
                             links={[
                                 { label: 'قائمة المستخدمين', to: Routes.usersIndex() },
@@ -176,14 +176,14 @@ function TopMenue(props) {
                             ]}
                         />
 
-                        <AllowedMenue 
+                        <AllowedMenue
                             label={'الخدمات'}
                             links={[
                                 { label: 'خدمات مفعلة', to: Routes.approvedServicesIndex() },
                                 { label: 'خدمات مقترحه', to: Routes.notApprovedServicesIndex() },
                             ]}
                         />
-                        <AllowedMenue 
+                        <AllowedMenue
                             label={'الطلبات'}
                             links={[
                                 { label: 'طلبات جديد', to: Routes.newOrders() },

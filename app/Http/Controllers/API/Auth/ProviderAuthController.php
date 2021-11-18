@@ -67,7 +67,7 @@ class ProviderAuthController extends Controller
     public function provider(Request $request)
     {
         // dd($request->user('sanctum'));
-        return $request->user('sanctum')->provider;
+        return $request->user()->provider;
     }
 
     public function myImage(Request $request)

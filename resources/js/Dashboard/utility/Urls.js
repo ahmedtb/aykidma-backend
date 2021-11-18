@@ -35,14 +35,16 @@ export const Routes = {
 
 
 export const Api = {
-    login: '/dashboardAPI/loginAdmin',
-    fetchAdmin: '/dashboardAPI/fetchAdmin',
+    login: async (phone_number, password) => await axios.post('/dashboardAPI/loginAdmin', { phone_number: phone_number, password: password }),
+    fetchAdmin: async () => await axios.get('/dashboardAPI/fetchAdmin'),
     logoutAdmin: '/dashboardAPI/logoutAdmin',
     home: async () => await axios.get('/dashboardAPI/home'),
 
     approveService: async (id) => await axios.put('/dashboardAPI/approve/service', { service_id: id }),
     rejectService: async (id) => await axios.delete('/dashboardAPI/reject/service', { params: { service_id: id } }),
-    approveProviderEnrollment: '/dashboardAPI/approve/providerEnrollment/:id',
+    approveProviderEnrollment: async (id) => id ? await axios.get(`/dashboardAPI/approve/providerEnrollment/${id}`) : await axios.get('/dashboardAPI/approve/providerEnrollment/:id'),
+    rejectProviderEnrollment: async (id) => id ? await axios.delete(`/dashboardAPI/reject/providerEnrollment/${id}`) : await axios.delete('/dashboardAPI/reject/providerEnrollment/:id'),
+
     activateProvider: '/dashboardAPI/activateProvider/:id',
     deleteReview: '/dashboardAPI/order/deleteReview',
 

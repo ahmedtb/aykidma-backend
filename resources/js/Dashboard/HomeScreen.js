@@ -22,6 +22,9 @@ export default function HomeScreen(props) {
             <Row>
                 <Col xs={3}>
                     <div>عدد المستخدمين {data?.usersCount}</div>
+                    <div>عدد المزوديين {data?.ProvidersCount}</div>
+                    <div>عدد المزوديين المفعليين {data?.activatedProvidersCount}</div>
+
                     <div>عدد المدراء {data?.adminsCount}</div>
                     <div>عدد التصنيفات {data?.categoriesCount}</div>
                     <div>عدد الطلبات {data?.ordersCount}</div>
@@ -33,14 +36,13 @@ export default function HomeScreen(props) {
                     <div>عدد الخدمات المقترحة {data?.notApprovedServicesCount}</div>
                     <div>عدد اشعارات المستخدمين {data?.userNotificationsCount}</div>
                 </Col>
-                <Col xs={4}>
-                    <h4>اخر 5 الطلبات</h4>
+                <Col xs={9}>
+                    <h4>اخر {data?.latestOrders.length} الطلبات</h4>
                     <OrdersTable orders={data?.latestOrders} />
-                    <h4>اخر 5 تقارير</h4>
+                    <h4>اخر {data?.latestReports.length} تقارير</h4>
                     <ReportsTable reports={data?.latestReports} />
-                </Col>
-                <Col xs={4}>
-                    <h4>اخر 5 تقييمات</h4>
+                
+                    <h4>اخر {data?.latestReviews.length} تقييمات</h4>
                     <ReviewsTable reviews={data?.latestReviews} />
                 </Col>
             </Row>
