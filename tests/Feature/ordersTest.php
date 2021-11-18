@@ -245,7 +245,6 @@ class OrdersTest extends TestCase
 
     public function test_provider_can_see_user_phone_number_who_make_order_to_his_service()
     {
-
     }
 
     public function test_service_phone_number_is_revealed_to_the_user_only_when_he_have_resumed_order_is_for_the_service()
@@ -291,5 +290,10 @@ class OrdersTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertNotEmpty($response->content());
+    }
+
+    public function test_user_can_edit_his_new_order()
+    {
+    
     }
 }

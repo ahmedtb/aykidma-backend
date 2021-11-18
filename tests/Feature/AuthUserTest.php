@@ -166,7 +166,7 @@ class AuthUserTest extends TestCase
         $user = User::factory()->create();
         $response = $this->actingAs($user, 'user')->getJson('api/user')->assertOk();
         $response->assertJsonStructure([
-            'name','phone_number','phone_number_verified_at','updated_at','created_at','id'
+            'name','phone_number','updated_at','created_at','id'
         ]);
     }
 }

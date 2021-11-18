@@ -11,7 +11,7 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $guared = [];
+    protected $guarded = [];
 
     public function order()
     {
