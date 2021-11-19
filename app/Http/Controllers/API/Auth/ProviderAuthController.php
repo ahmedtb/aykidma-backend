@@ -80,7 +80,7 @@ class ProviderAuthController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'sometimes|string',
-            'phone_number' => 'sometimes|string',
+            // 'phone_number' => 'sometimes|string',
             'image' => ['sometimes', new Base64Rule(100000)]
         ]);
         $user = $request->user();

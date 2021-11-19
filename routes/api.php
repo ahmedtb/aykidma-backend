@@ -34,7 +34,7 @@ Route::post('user/edit', [AuthController::class, 'editProfile'])->middleware('au
 Route::post('enrollProvider', [ProviderAuthController::class, 'enrollProvider'])->middleware(['auth:user']);
 Route::get('provider', [ProviderAuthController::class, 'provider'])->middleware(['auth:user']);
 Route::get('provider/image', [ProviderAuthController::class, 'myImage'])->middleware('auth:user');
-Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:user');
+Route::post('provider/edit', [ProviderAuthController::class, 'editProfile'])->middleware('auth:provider');
 
 Route::get('userNotifications', [UserNotificationsController::class, 'index'])->middleware('auth:user');
 Route::get('providerNotifications', [ProviderNotificationsController::class, 'index'])->middleware(['auth:provider']);
