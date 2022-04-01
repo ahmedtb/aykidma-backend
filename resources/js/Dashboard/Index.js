@@ -7,6 +7,7 @@ import store from './redux/store';
 import { Provider } from 'react-redux';
 import TopMenue from './components/TopMenue'
 import SideMenue from './components/SideMenue';
+import { Row, Col } from 'react-bootstrap'
 
 export default function Index() {
 
@@ -18,7 +19,9 @@ export default function Index() {
                 <div className="container-fluid">
                     <Row>
                         <SideMenue />
-                        <AllowedRoutes />
+                        <Col xs={9}>
+                            <AllowedRoutes />
+                        </Col>
                     </Row>
                 </div>
 

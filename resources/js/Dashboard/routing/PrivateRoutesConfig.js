@@ -28,7 +28,7 @@ import ReportShow from '../report/ReportShow'
 export default [
     {
         component: HomeScreen,
-        path: Routes.dashboard,
+        path: Routes.dashboard(),
         title: 'dashboard',
         permission: [
             // Roles.ADMIN,
@@ -37,7 +37,7 @@ export default [
     },
     {
         component: LoginPageScreen,
-        path: Routes.LoginPageScreen,
+        path: Routes.LoginPageScreen(),
         title: 'LoginPageScreen',
         permission: [
             // Roles.ADMIN,
@@ -46,7 +46,7 @@ export default [
     },
     {
         component: CategoriesScreen,
-        path: Routes.CategoriesScreen,
+        path: Routes.CategoriesScreen(),
         title: 'CategoriesScreen',
         permission: [
             Roles.ADMIN,

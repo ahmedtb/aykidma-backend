@@ -73,16 +73,7 @@ function AuthComponent(props) {
 
 import AllowedLink from '../components/AllowedLink';
 import {
-    FaUserTie,
     FaUserCheck,
-    FaWpforms,
-    FaChalkboardTeacher,
-    FaSuitcase,
-    FaGraduationCap,
-    FaChartLine,
-    FaBuilding,
-    FaNetworkWired,
-    FaLaptop
 } from 'react-icons/fa'
 
 
@@ -141,7 +132,7 @@ function TopMenue(props) {
     return (
         <nav className="navbar navbar-expand-xl navbar-dark bg-dark shadow-sm">
             <div className="container-fluid">
-                <AllowedLink hide={true} className="navbar-brand" to={Routes.dashboard}>لوحة تحكم التطبيق</AllowedLink>
+                <AllowedLink hide={true} className="navbar-brand" to={Routes.dashboard()}>لوحة تحكم التطبيق</AllowedLink>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -149,50 +140,6 @@ function TopMenue(props) {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
 
-                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.CategoriesScreen}>
-                            <FaUserCheck />
-                            التصنيفات
-                        </AllowedLink>
-
-                        <AllowedLink hide={true} className="nav-link mx-2" to={Routes.reportsIndex()}>
-                            <FaUserCheck />
-                            التقارير
-                        </AllowedLink>
-
-                        <AllowedMenue
-                            label={'مزودي الخدمات'}
-                            links={[
-                                { label: 'قائمة المزودين', to: Routes.serviceProvidersIndex() },
-                                { label: 'الاشعارات', to: Routes.providerNotificationsIndex() },
-                                { label: 'طلبات التسجيل كمزود خدمات', to: Routes.providerEnrollmentRequestsIndex() },
-                            ]}
-                        />
-
-                        <AllowedMenue
-                            label={'المستخدمين'}
-                            links={[
-                                { label: 'قائمة المستخدمين', to: Routes.usersIndex() },
-                                { label: 'الاشعارات', to: Routes.userNotificationsIndex() },
-                            ]}
-                        />
-
-                        <AllowedMenue
-                            label={'الخدمات'}
-                            links={[
-                                { label: 'خدمات مفعلة', to: Routes.approvedServicesIndex() },
-                                { label: 'خدمات مقترحه', to: Routes.notApprovedServicesIndex() },
-                            ]}
-                        />
-                        <AllowedMenue
-                            label={'الطلبات'}
-                            links={[
-                                { label: 'طلبات جديد', to: Routes.newOrders() },
-                                { label: 'طلبات مستانفة', to: Routes.resumedOrders() },
-                                { label: 'طلبات مكتملة', to: Routes.doneOrders() },
-                                { label: 'التعليقات', to: Routes.reviewsIndex() },
-
-                            ]}
-                        />
                     </ul>
 
                     <ul className="navbar-nav ml-auto">

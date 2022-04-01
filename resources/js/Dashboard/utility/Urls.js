@@ -2,10 +2,10 @@ import { logError } from './helpers'
 import axios from "axios"
 
 export const Routes = {
-    dashboard: '/dashboard',
+    dashboard: () => '/dashboard',
 
-    LoginPageScreen: '/dashboard/LoginPageScreen',
-    CategoriesScreen: '/dashboard/CategoriesScreen',
+    LoginPageScreen: () => '/dashboard/LoginPageScreen',
+    CategoriesScreen: () => '/dashboard/CategoriesScreen',
 
     serviceProvidersIndex: () => '/dashboard/providers',
     providerEnrollmentRequestsIndex: () => '/dashboard/providerEnrollmentRequests',

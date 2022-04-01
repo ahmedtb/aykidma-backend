@@ -15,7 +15,7 @@ function LoginPageScreen(props) {
         //     await axios.get('/sanctum/csrf-cookie')
         //     const response = await axios.post(Api.login, { phone_number: phone_number, password: password })
         //     props.refreshUser(response.data)
-        //     setredirect(Routes.dashboard)
+        //     setredirect(Routes.dashboard())
 
         // } catch (error) {
         //     logError(error)
@@ -25,7 +25,7 @@ function LoginPageScreen(props) {
             async () => await Api.login(phone_number, password),
             (data) => {
                 props.refreshUser(data);
-                setredirect(Routes.dashboard)
+                setredirect(Routes.dashboard())
             },
             'LoginPageScreen handleLogin'
         )
@@ -33,7 +33,7 @@ function LoginPageScreen(props) {
 
     React.useEffect(() => {
         if (props.user) {
-            setredirect(Routes.dashboard)
+            setredirect(Routes.dashboard())
         }
     }, [props.user])
 
