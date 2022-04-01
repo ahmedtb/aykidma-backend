@@ -6,6 +6,7 @@ import AllowedRoutes from './routing/AllowedRoutes'
 import store from './redux/store';
 import { Provider } from 'react-redux';
 import TopMenue from './components/TopMenue'
+import SideMenue from './components/SideMenue';
 
 export default function Index() {
 
@@ -15,8 +16,10 @@ export default function Index() {
 
                 <TopMenue />
                 <div className="container-fluid">
-
-                    <AllowedRoutes />
+                    <Row>
+                        <SideMenue />
+                        <AllowedRoutes />
+                    </Row>
                 </div>
 
             </Provider>

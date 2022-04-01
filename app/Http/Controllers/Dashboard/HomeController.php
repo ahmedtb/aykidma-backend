@@ -9,15 +9,11 @@ use App\Models\Report;
 use App\Models\Review;
 use App\Models\Service;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
 use App\Models\UserNotification;
 use App\Http\Controllers\Controller;
 use App\Models\ProviderNotification;
 use App\Models\ProviderEnrollmentRequest;
-use Illuminate\Support\Facades\Validator;
-use App\Notifications\MessageNotification;
-use Illuminate\Validation\ValidationException;
 
 class HomeController extends Controller
 {

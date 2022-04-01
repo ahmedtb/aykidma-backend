@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notification;
 
 class ExpoDatabaseChannel
 {
-    public function forServiceProvider($notifiable, Notification $notification)
+    public function forServiceProvider($notifiable, $notification)
     {
 
         $data = $notification->toProvider($notifiable);
@@ -42,7 +42,7 @@ class ExpoDatabaseChannel
         }
     }
 
-    public function forUser($notifiable, Notification $notification)
+    public function forUser($notifiable, $notification)
     {
         $data = $notification->toUser($notifiable);
 

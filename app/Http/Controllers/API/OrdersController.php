@@ -26,12 +26,12 @@ class OrdersController extends Controller
     public function getServiceOrders(Request $request, $service_id)
     {
         // could be provider or a user...does not matter since both has orders() function
-        return Auth::user()->orders()->where('service_id', $service_id)->with(['service', 'service.ServiceProvider'])->get();
+        return $request->user()->orders()->where('service_id', $service_id)->with(['service', 'service.ServiceProvider'])->get();
     }
 
-    public function userOrders()
+    public function userOrders(Request $request)
     {
-        $orders = Auth::user('user')->orders()->with(['service', 'service.ServiceProvider'])->get();
+        $orders = $request->user('user')->orders()->with(['service', 'service.ServiceProvider'])->get();
         foreach ($orders as $order) {
             if ($order->status == 'resumed') {
                 $order->service->makeVisible(['phone_number']);
@@ -40,9 +40,9 @@ class OrdersController extends Controller
         return $orders;
     }
 
-    public function providerOrders()
+    public function providerOrders(Request $request)
     {
-        return Auth::user()->orders('provider')->with(['service'])->get();
+        return $request->user()->orders('provider')->with(['service'])->get();
     }
 
     public function create(Request $request)
